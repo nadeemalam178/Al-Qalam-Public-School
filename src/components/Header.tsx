@@ -107,7 +107,7 @@ export default function Header() {
                   <Link
                     key={link.href}
                     href={link.href}
-                    className={`px-3 py-2 rounded-lg text-sm font-semibold transition-all duration-150 ${
+                    className={`nav-link-animated px-3 py-2 rounded-lg text-sm font-semibold transition-all duration-200 ${
                       isActive
                         ? "text-[#14532D] bg-[#E8F3EA] border-b-2 border-[#166534] font-bold"
                         : "text-stone-700 hover:text-[#14532D] hover:bg-stone-100/70"
@@ -123,7 +123,7 @@ export default function Header() {
             <div className="hidden sm:flex items-center gap-3">
               <Link
                 href="/admissions"
-                className="relative inline-flex items-center gap-2 px-4 py-2 text-sm font-bold text-white bg-[#166534] hover:bg-[#14532D] rounded-lg shadow-xs hover:shadow-sm active:scale-98 transition-all duration-150 border border-[#14532D]"
+                className="btn-interactive relative inline-flex items-center gap-2 px-4 py-2 text-sm font-bold text-white bg-[#166534] hover:bg-[#14532D] rounded-lg shadow-xs hover:shadow-sm active:scale-98 transition-all duration-150 border border-[#14532D]"
               >
                 <GraduationCap className="w-4 h-4 text-[#EDE2D3]" />
                 <span>Admission Enquiry</span>

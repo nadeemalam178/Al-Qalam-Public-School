@@ -26,7 +26,7 @@ export default function ContactSection() {
   return (
     <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
       {/* Confirmed Address & Details */}
-      <div className="lg:col-span-6 bg-white rounded-3xl border border-stone-200 p-6 sm:p-10 shadow-xs space-y-6">
+      <div className="card-interactive lg:col-span-6 bg-white rounded-3xl border border-stone-200 p-6 sm:p-10 shadow-xs space-y-6">
         <div>
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#E8F3EA] text-[#14532D] border border-[#2F7D4A]/25 text-xs font-bold uppercase tracking-wider mb-3">
             <span className="w-1.5 h-1.5 rounded-full bg-[#6B4226]" />
@@ -61,7 +61,7 @@ export default function ContactSection() {
               href={SCHOOL_DATA.address.googleMapsUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold text-white bg-[#166534] hover:bg-[#14532D] shadow-xs hover:shadow-sm active:scale-98 transition cursor-pointer"
+              className="btn-interactive inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold text-white bg-[#166534] hover:bg-[#14532D] shadow-xs cursor-pointer"
             >
               <Navigation className="w-3.5 h-3.5 text-[#EDE2D3]" />
               <span>Get Directions</span>
@@ -101,7 +101,7 @@ export default function ContactSection() {
       </div>
 
       {/* Quick Message / Query Form */}
-      <div className="lg:col-span-6 bg-white rounded-3xl border border-stone-200 p-6 sm:p-10 shadow-xs">
+      <div className="card-interactive lg:col-span-6 bg-white rounded-3xl border border-stone-200 p-6 sm:p-10 shadow-xs">
         <h3 className="text-xl sm:text-2xl font-black text-[#14532D] tracking-tight mb-2">
           Send a Message to Campus Desk
         </h3>
@@ -121,7 +121,7 @@ export default function ContactSection() {
                 setSubmitted(false);
                 setForm({ name: "", phone: "", message: "" });
               }}
-              className="mt-3 px-4 py-2 rounded-xl text-xs font-bold text-stone-700 bg-white border border-stone-200 hover:bg-stone-50 cursor-pointer"
+              className="btn-interactive mt-3 px-4 py-2 rounded-xl text-xs font-bold text-stone-700 bg-white border border-stone-200 hover:bg-stone-50 cursor-pointer"
             >
               Send Another Query
             </button>
@@ -177,9 +177,9 @@ export default function ContactSection() {
 
             <button
               type="submit"
-              className="w-full py-3 px-6 rounded-xl font-bold text-white bg-[#166534] hover:bg-[#14532D] shadow-xs active:scale-98 transition flex items-center justify-center gap-2 cursor-pointer"
+              className="btn-interactive w-full py-3 px-6 rounded-xl font-bold text-white bg-[#166534] hover:bg-[#14532D] shadow-xs flex items-center justify-center gap-2 cursor-pointer"
             >
-              <Send className="w-4 h-4 text-[#EDE2D3]" />
+              <Send className="w-4 h-4 text-[#EDE2D3] btn-icon-nudge" />
               <span>Send Message</span>
             </button>
           </form>

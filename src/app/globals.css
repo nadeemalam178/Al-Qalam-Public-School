@@ -88,3 +88,167 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background: #885532;
 }
+
+/* ==========================================================
+   AL-QALAM PREMIUM ANIMATION & MICRO-INTERACTION SYSTEM
+   ========================================================== */
+
+/* Ken Burns Subtle Background Zoom for Hero */
+@keyframes kenBurnsSubtle {
+  0% {
+    transform: scale(1.0);
+  }
+  50% {
+    transform: scale(1.04);
+  }
+  100% {
+    transform: scale(1.0);
+  }
+}
+
+.animate-ken-burns {
+  animation: kenBurnsSubtle 22s ease-in-out infinite alternate;
+  will-change: transform;
+}
+
+/* Smooth Page Load Entrance Keyframes */
+@keyframes heroFadeUp {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes heroScaleFade {
+  0% {
+    opacity: 0;
+    transform: scale(0.92);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.hero-animate-scale {
+  animation: heroScaleFade 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.hero-animate-text-1 {
+  animation: heroFadeUp 0.75s cubic-bezier(0.16, 1, 0.3, 1) 0.15s both;
+}
+
+.hero-animate-text-2 {
+  animation: heroFadeUp 0.75s cubic-bezier(0.16, 1, 0.3, 1) 0.3s both;
+}
+
+.hero-animate-cta {
+  animation: heroFadeUp 0.75s cubic-bezier(0.16, 1, 0.3, 1) 0.45s both;
+}
+
+/* Card Hover Micro-Interactions */
+.card-interactive {
+  transition: transform 320ms cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 320ms cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 320ms ease;
+}
+
+.card-interactive:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 36px -8px rgba(20, 83, 45, 0.09), 0 4px 12px -2px rgba(0, 0, 0, 0.04);
+  border-color: rgba(47, 125, 74, 0.4);
+}
+
+/* Button Micro-Interactions */
+.btn-interactive {
+  transition: transform 200ms cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 200ms cubic-bezier(0.16, 1, 0.3, 1),
+              background-color 200ms ease;
+}
+
+.btn-interactive:hover {
+  transform: translateY(-1.5px);
+}
+
+.btn-interactive:active {
+  transform: translateY(0.5px) scale(0.99);
+}
+
+.btn-interactive:hover .btn-icon-nudge {
+  transform: translateX(3px);
+  transition: transform 200ms ease;
+}
+
+.btn-icon-nudge {
+  transition: transform 200ms ease;
+}
+
+/* Image Zoom on Card Hover */
+.img-zoom-parent {
+  overflow: hidden;
+}
+
+.img-zoom-child {
+  transition: transform 600ms cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
+}
+
+.img-zoom-parent:hover .img-zoom-child {
+  transform: scale(1.05);
+}
+
+/* Navigation Links Smooth Animated Underline */
+.nav-link-animated {
+  position: relative;
+  transition: color 200ms ease;
+}
+
+.nav-link-animated::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background-color: var(--color-forest-800);
+  border-radius: 9999px;
+  transition: width 240ms cubic-bezier(0.16, 1, 0.3, 1), left 240ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.nav-link-animated:hover::after {
+  width: 75%;
+  left: 12.5%;
+}
+
+/* Reduced Motion Accessibility Overrides */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .animate-ken-burns,
+  .hero-animate-scale,
+  .hero-animate-text-1,
+  .hero-animate-text-2,
+  .hero-animate-cta {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .card-interactive:hover,
+  .btn-interactive:hover,
+  .img-zoom-parent:hover .img-zoom-child,
+  .btn-interactive:hover .btn-icon-nudge {
+    transform: none !important;
+  }
+}

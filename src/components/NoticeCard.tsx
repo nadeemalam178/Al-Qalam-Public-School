@@ -26,7 +26,7 @@ export default function NoticeCard({ notice }: NoticeCardProps) {
 
   return (
     <>
-      <div className="bg-white rounded-2xl border border-stone-200 p-5 sm:p-6 shadow-xs hover:shadow-md transition-all duration-150 flex flex-col justify-between group">
+      <div className="card-interactive bg-white rounded-2xl border border-stone-200 p-5 sm:p-6 shadow-xs flex flex-col justify-between group">
         <div>
           <div className="flex items-center justify-between gap-3 mb-3">
             <span

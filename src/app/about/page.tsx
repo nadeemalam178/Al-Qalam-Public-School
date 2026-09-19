@@ -14,7 +14,9 @@ import {
 import SectionHeading from "@/components/SectionHeading";
 import DirectorCard from "@/components/DirectorCard";
 import CTA from "@/components/CTA";
+import ScrollReveal from "@/components/ScrollReveal";
 import { SCHOOL_DATA } from "@/data/schoolData";
+import { schoolImages } from "@/data/schoolImages";
 
 export const metadata: Metadata = {
   title: "About Us",
@@ -51,23 +53,25 @@ export default function AboutPage() {
   ];
 
   return (
-    <div className="bg-white">
+    <div className="bg-white overflow-x-hidden">
       {/* Page Header Banner */}
       <section className="bg-forest-hero text-white py-16 sm:py-20 border-b border-[#0d3b1f]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#0d3b1f]/60 border border-[#2F7D4A]/40 text-[#EDE2D3] text-xs font-bold uppercase tracking-wider mb-4">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#E8F3EA]" />
-            <span>Institutional Philosophy</span>
-          </div>
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-white">
-            About Al-Qalam Public School
-          </h1>
-          <p className="mt-3 text-base sm:text-lg text-[#EDE2D3] max-w-2xl mx-auto italic font-medium">
-            &ldquo;{SCHOOL_DATA.tagline}&rdquo;
-          </p>
-          <p className="mt-1 text-xs text-[#FAF8F2] font-serif">
-            {SCHOOL_DATA.mottoArabic} • {SCHOOL_DATA.mottoTranslation}
-          </p>
+          <ScrollReveal variant="scale-in">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#0d3b1f]/60 border border-[#2F7D4A]/40 text-[#EDE2D3] text-xs font-bold uppercase tracking-wider mb-4">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#E8F3EA]" />
+              <span>Institutional Philosophy</span>
+            </div>
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-white">
+              About Al-Qalam Public School
+            </h1>
+            <p className="mt-3 text-base sm:text-lg text-[#EDE2D3] max-w-2xl mx-auto italic font-medium">
+              &ldquo;{SCHOOL_DATA.tagline}&rdquo;
+            </p>
+            <p className="mt-1 text-xs text-[#FAF8F2] font-serif">
+              {SCHOOL_DATA.mottoArabic} • {SCHOOL_DATA.mottoTranslation}
+            </p>
+          </ScrollReveal>
         </div>
       </section>
 
@@ -75,8 +79,9 @@ export default function AboutPage() {
       <section className="py-16 sm:py-20 bg-white border-b border-stone-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-            <div className="lg:col-span-7 space-y-6">
-              <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#E8F3EA] text-[#14532D] border border-[#2F7D4A]/25 text-xs font-bold uppercase tracking-wider">
+            <ScrollReveal variant="fade-right" className="lg:col-span-7 space-y-5">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#E8F3EA] text-[#14532D] border border-[#2F7D4A]/25 text-xs font-bold uppercase tracking-wider">
+                <Compass className="w-3.5 h-3.5 text-[#166534]" />
                 <span>Our Heritage of Learning</span>
               </div>
               <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-[#14532D] tracking-tight leading-tight">
@@ -97,16 +102,33 @@ export default function AboutPage() {
                   Opposite Jashn Palace Marriage Hall, Agarwal Tola, Loharwa Ghat, Ashok Rajpath Rd, Gulzarbagh, Alamganj, Patna, Bihar 800007.
                 </p>
               </div>
-            </div>
+            </ScrollReveal>
 
-            <div className="lg:col-span-5 flex justify-center">
-              <div className="relative w-full max-w-sm rounded-3xl bg-gradient-to-br from-[#0d3b1f] via-[#14532D] to-[#166534] p-8 text-white shadow-lg border border-[#2F7D4A]/40 text-center space-y-6">
-                <div className="w-36 h-36 mx-auto rounded-full bg-white p-2 shadow-md ring-4 ring-[#EDE2D3]/40">
+            <ScrollReveal variant="fade-left" className="lg:col-span-5 flex justify-center">
+              <div className="card-interactive relative w-full max-w-sm rounded-3xl bg-gradient-to-br from-[#0d3b1f] via-[#14532D] to-[#166534] p-6 sm:p-8 text-white shadow-lg border border-[#2F7D4A]/40 text-center space-y-6">
+                {/* Classroom Sample Photo with Zoom */}
+                <div className="img-zoom-parent relative h-40 w-full rounded-2xl overflow-hidden bg-stone-900 border border-white/20">
                   <Image
-                    src="/branding/al-qalam-logo.svg"
+                    src={schoolImages.about.src}
+                    alt={schoolImages.about.alt}
+                    fill
+                    sizes="(max-width: 640px) 100vw, 380px"
+                    className="img-zoom-child object-cover object-center"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+                  <div className="absolute bottom-2 left-2 right-2 text-center">
+                    <span className="text-[11px] font-bold text-white bg-black/60 px-2 py-0.5 rounded backdrop-blur-xs">
+                      Al-Qalam Classroom Atmosphere
+                    </span>
+                  </div>
+                </div>
+
+                <div className="w-24 h-24 mx-auto rounded-full bg-white p-1.5 shadow-md ring-4 ring-[#EDE2D3]/40">
+                  <Image
+                    src={schoolImages.branding.primarySvg}
                     alt="Al-Qalam Emblem"
-                    width={140}
-                    height={140}
+                    width={90}
+                    height={90}
                     className="w-full h-full object-contain"
                   />
                 </div>
@@ -118,13 +140,13 @@ export default function AboutPage() {
                     Patna, Bihar
                   </p>
                 </div>
-                <div className="pt-4 border-t border-[#2F7D4A]/40 text-xs text-[#EDE2D3] space-y-2">
+                <div className="pt-4 border-t border-[#2F7D4A]/40 text-xs text-[#EDE2D3] space-y-2 text-left">
                   <p>• Foundational & Primary Education</p>
                   <p>• Smart Classroom Technology</p>
                   <p>• Comprehensive CCTV Campus Security</p>
                 </div>
               </div>
-            </div>
+            </ScrollReveal>
           </div>
         </div>
       </section>
@@ -132,94 +154,119 @@ export default function AboutPage() {
       {/* Vision & Mission Cards - Light Cream (#FAF8F2) */}
       <section className="py-16 sm:py-20 bg-[#FAF8F2] border-b border-[#EDE2D3]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <SectionHeading
-            badge="Guiding Principles"
-            title="Vision & Mission"
-            subtitle="Guiding our daily mentorship to ensure every child thrives in a secure and supportive school environment."
-            center
-          />
+          <ScrollReveal variant="fade-up">
+            <SectionHeading
+              badge="Guiding Principles"
+              title="Vision & Mission"
+              subtitle="Guiding our daily mentorship to ensure every child thrives in a secure and supportive school environment."
+              center
+            />
+          </ScrollReveal>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
             {/* Vision */}
-            <div className="bg-white rounded-3xl p-8 border border-stone-200 shadow-xs flex flex-col justify-between">
-              <div>
-                <div className="w-12 h-12 rounded-xl bg-[#E8F3EA] text-[#166534] flex items-center justify-center mb-5 border border-[#2F7D4A]/20">
-                  <Eye className="w-6 h-6" />
+            <ScrollReveal variant="fade-right">
+              <div className="card-interactive bg-white rounded-3xl p-8 border border-stone-200 shadow-xs flex flex-col justify-between h-full">
+                <div>
+                  <div className="w-12 h-12 rounded-xl flex items-center justify-center bg-[#E8F3EA] text-[#166534] border border-[#2F7D4A]/20 mb-5">
+                    <Eye className="w-6 h-6" />
+                  </div>
+                  <h3 className="text-2xl font-bold text-[#14532D] tracking-tight mb-3">
+                    Our Vision
+                  </h3>
+                  <p className="text-stone-600 text-sm leading-relaxed mb-4">
+                    To be a respected center of primary educational excellence where children develop deep academic foundations, moral discipline, and intellectual confidence, preparing them to excel in higher schooling and community life.
+                  </p>
                 </div>
-                <h3 className="text-xl font-bold text-[#14532D] mb-3">Our Vision</h3>
-                <p className="text-sm text-stone-600 leading-relaxed">
-                  To be a premier primary learning institution recognized for cultivating foundational literacy, intellectual curiosity, and grounded moral values in young learners, preparing them confidently for advanced academic pursuits.
-                </p>
+                <div className="pt-4 border-t border-stone-100 flex items-center gap-2 text-xs font-bold text-[#14532D]">
+                  <CheckCircle2 className="w-4 h-4 text-[#166534]" />
+                  <span>Foundational Clarity & Moral Uprightness</span>
+                </div>
               </div>
-              <div className="mt-6 pt-4 border-t border-stone-100 text-xs font-semibold text-[#6B4226]">
-                Al-Qalam Public School Vision
-              </div>
-            </div>
+            </ScrollReveal>
 
             {/* Mission */}
-            <div className="bg-white rounded-3xl p-8 border border-stone-200 shadow-xs flex flex-col justify-between">
-              <div>
-                <div className="w-12 h-12 rounded-xl bg-[#E8F3EA] text-[#166534] flex items-center justify-center mb-5 border border-[#2F7D4A]/20">
-                  <Target className="w-6 h-6" />
+            <ScrollReveal variant="fade-left">
+              <div className="card-interactive bg-white rounded-3xl p-8 border border-stone-200 shadow-xs flex flex-col justify-between h-full">
+                <div>
+                  <div className="w-12 h-12 rounded-xl flex items-center justify-center bg-[#FAF8F2] text-[#6B4226] border border-[#EDE2D3] mb-5">
+                    <Target className="w-6 h-6" />
+                  </div>
+                  <h3 className="text-2xl font-bold text-[#14532D] tracking-tight mb-3">
+                    Our Mission
+                  </h3>
+                  <p className="text-stone-600 text-sm leading-relaxed mb-4">
+                    To deliver dedicated, individualized mentorship in small batches; to utilize interactive Smart Class audio-visual tools; and to ensure an impeccably safe learning environment monitored by CCTV surveillance across the campus.
+                  </p>
                 </div>
-                <h3 className="text-xl font-bold text-[#14532D] mb-3">Our Mission</h3>
-                <p className="text-sm text-stone-600 leading-relaxed">
-                  To provide a safe, disciplined, and nurturing educational sanctuary where qualified mentors employ concept-based and technology-supported instruction (Smart Classes) while prioritizing student well-being, character building, and individual attention.
-                </p>
+                <div className="pt-4 border-t border-stone-100 flex items-center gap-2 text-xs font-bold text-[#6B4226]">
+                  <CheckCircle2 className="w-4 h-4 text-[#6B4226]" />
+                  <span>Smart Classrooms & Monitored Campus Safety</span>
+                </div>
               </div>
-              <div className="mt-6 pt-4 border-t border-stone-100 text-xs font-semibold text-[#14532D]">
-                Al-Qalam Public School Mission
-              </div>
-            </div>
+            </ScrollReveal>
           </div>
         </div>
       </section>
 
-      {/* Core Values Section - White */}
+      {/* Core Values Grid - White */}
       <section className="py-16 sm:py-20 bg-white border-b border-stone-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <SectionHeading
-            badge="Pillars of Excellence"
-            title="Our Core Values"
-            subtitle="The enduring principles that define the atmosphere of Al-Qalam Public School."
-            center
-          />
+          <ScrollReveal variant="fade-up">
+            <SectionHeading
+              badge="Character & Culture"
+              title="Our Four Pillars of Character"
+              subtitle="The values we cultivate every single day across classrooms, hallways, and morning assemblies."
+              center
+            />
+          </ScrollReveal>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {coreValues.map((val, i) => {
-              const Icon = val.icon;
+            {coreValues.map((val, idx) => {
+              const IconComp = val.icon;
               return (
-                <div
-                  key={i}
-                  className="bg-[#FAF8F2] rounded-2xl p-6 border border-[#EDE2D3] shadow-xs hover:shadow-md transition"
-                >
-                  <div
-                    className={`w-12 h-12 rounded-xl flex items-center justify-center border mb-4 ${val.color}`}
-                  >
-                    <Icon className="w-6 h-6" />
+                <ScrollReveal key={idx} variant="fade-up" delay={idx * 80}>
+                  <div className="card-interactive p-6 rounded-2xl bg-white border border-stone-200 shadow-xs flex flex-col justify-between h-full group">
+                    <div>
+                      <div
+                        className={`w-12 h-12 rounded-xl flex items-center justify-center mb-4 border transition-transform duration-300 group-hover:scale-105 ${val.color}`}
+                      >
+                        <IconComp className="w-6 h-6" />
+                      </div>
+                      <h4 className="text-lg font-bold text-[#14532D] tracking-tight mb-2 group-hover:text-[#166534] transition-colors">
+                        {val.title}
+                      </h4>
+                      <p className="text-xs sm:text-sm text-stone-600 leading-relaxed">
+                        {val.desc}
+                      </p>
+                    </div>
                   </div>
-                  <h4 className="text-base font-bold text-[#14532D] mb-2">{val.title}</h4>
-                  <p className="text-xs sm:text-sm text-stone-600 leading-relaxed">{val.desc}</p>
-                </div>
+                </ScrollReveal>
               );
             })}
           </div>
         </div>
       </section>
 
-      {/* Director's Desk Section */}
+      {/* Director Card Feature Section - Light Cream (#FAF8F2) */}
       <section className="py-16 sm:py-20 bg-[#FAF8F2] border-b border-[#EDE2D3]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <DirectorCard />
+          <ScrollReveal variant="fade-up">
+            <DirectorCard />
+          </ScrollReveal>
         </div>
       </section>
 
-      {/* Admission CTA */}
+      {/* Admission Call to Action */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <CTA
-          title="Join Our School Community in Patna"
-          subtitle="Explore admissions for your child or visit our campus desk at Ashok Rajpath Rd, Gulzarbagh."
-        />
+        <ScrollReveal variant="scale-in">
+          <CTA
+            title="Begin Your Child's Journey at Al-Qalam Public School"
+            subtitle="Admissions enquiries are welcomed for foundational and primary classes. Visit our Gulzarbagh campus or submit your online enquiry today."
+            primaryBtnText="Submit Admission Enquiry"
+            primaryBtnHref="/admissions"
+          />
+        </ScrollReveal>
       </section>
     </div>
   );
