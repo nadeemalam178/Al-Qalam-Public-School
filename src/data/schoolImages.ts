@@ -33,13 +33,13 @@ export const schoolImages = {
     height: 768,
   },
 
-  // About page & overview features
+  // About page & overview features (Real classroom photo)
   about: {
-    src: "/images/about-sample.jpg",
-    alt: "Classroom learning atmosphere at Al-Qalam Public School",
-    caption: "Attentive student mentoring and foundational literacy",
-    width: 1200,
-    height: 896,
+    src: "/images/real/students-classroom.jpg",
+    alt: "Al-Qalam Public School students learning inside classroom in Gulzarbagh",
+    caption: "Real classroom learning atmosphere and attentive student mentoring",
+    width: 2048,
+    height: 1536,
   },
 
   // Smart Classes confirmed facility
@@ -60,116 +60,130 @@ export const schoolImages = {
     height: 896,
   },
 
-  // Academics page & curriculum feature
+  // Academics page & curriculum feature (Real classroom photo)
   academics: {
-    src: "/images/academics-sample.jpg",
-    alt: "Students studying foundational mathematics and language in class",
-    caption: "Structured foundational learning with dedicated mentorship",
-    width: 1200,
-    height: 896,
+    src: "/images/real/students-classroom.jpg",
+    alt: "Foundational primary students of Al-Qalam Public School",
+    caption: "Structured foundational learning with dedicated teacher guidance",
+    width: 2048,
+    height: 1536,
   },
 
   // Admission enquiry & counseling desk
   admission: {
     src: "/images/admission-sample.jpg",
     alt: "Al-Qalam Public School admission enquiry and counseling desk",
-    caption: "Welcoming parent-teacher dialogue and admission desk",
+    caption: "Admission guidance desk for parents in Gulzarbagh",
     width: 1200,
     height: 896,
   },
 
-  // Director's desk placeholder (Dignified leadership office placeholder - NO fake human face!)
+  // Director Rahat Jahan message section
   director: {
     src: "/images/director-placeholder.jpg",
-    alt: "Director's office desk and leadership at Al-Qalam Public School",
+    alt: "Director Rahat Jahan - Al-Qalam Public School",
     caption: "Office of Director Rahat Jahan",
     width: 1200,
     height: 896,
     isPlaceholder: true,
   },
 
-  // Official school logo & crest suite
-  branding: {
-    primarySvg: "/branding/al-qalam-logo.svg",
-    masterPng: "/branding/al-qalam-logo.png",
-    lightSvg: "/branding/al-qalam-logo-light.svg",
-    iconSvg: "/branding/al-qalam-icon.svg",
-    faviconIco: "/branding/favicon.ico",
+  // Digitally Rebuilt Official School Banner
+  rebuiltBanner: {
+    src: "/images/rebuilt-school-banner.png",
+    alt: "Al-Qalam Public School Rebuilt Official Banner",
+    caption: "Official Al-Qalam Public School Banner with Urdu calligraphy and Arabic verse",
+    width: 1920,
+    height: 800,
   },
 
-  // Gallery collection of sample images
+  // Official school logo & crest suite (Original authentic badge)
+  branding: {
+    primarySvg: "/logo.png",
+    masterPng: "/logo.png",
+    lightSvg: "/logo.png",
+    iconSvg: "/icon.png",
+    faviconIco: "/icon.png",
+  },
+
+  // Real School Photos & Gallery collection
   gallery: [
+    {
+      id: "real-1",
+      src: "/images/real/drawing-competition.jpg",
+      alt: "Drawing Competition 2023-24 at Al-Qalam Public School",
+      title: "Annual Drawing Competition 2023-24",
+      category: "Activities" as const,
+      description: "Students proudly presenting their creative art entries in the school's annual drawing event.",
+      tag: "School Event",
+      isReal: true,
+    },
+    {
+      id: "real-2",
+      src: "/images/real/students-classroom.jpg",
+      alt: "Students attending class in Al-Qalam Public School uniform",
+      title: "Classroom Learning in Session",
+      category: "Classroom" as const,
+      description: "Disciplined and engaged primary learners in their green plaid school uniform.",
+      tag: "Classroom Life",
+      isReal: true,
+    },
+    {
+      id: "real-3",
+      src: "/images/real/educational-trip.jpg",
+      alt: "Al-Qalam students on an educational field trip",
+      title: "Educational Excursion & Field Trip",
+      category: "Activities" as const,
+      description: "Experiential learning beyond textbooks as students explore historical and cultural heritage.",
+      tag: "Field Trip",
+      isReal: true,
+    },
+    {
+      id: "real-4",
+      src: "/images/real/star-student-certificate.jpg",
+      alt: "Student receiving Star of the Al-Qalam Certificate and Achievement Folder",
+      title: "Star of the Al-Qalam Award",
+      category: "Academics" as const,
+      description: "Recognizing academic diligence, good conduct, and foundational excellence with medals and certificates.",
+      tag: "Student Merit",
+      isReal: true,
+    },
+    {
+      id: "real-5",
+      src: "/images/real/class-topper-certificate.jpg",
+      alt: "Class Topper Annual Award with School Medal and Lanyard",
+      title: "Annual Examination Class Topper",
+      category: "Academics" as const,
+      description: "Celebrating top performance in annual foundational examinations with official school honor medals.",
+      tag: "Academic Topper",
+      isReal: true,
+    },
     {
       id: "gal-1",
       src: "/images/gallery-01.jpg",
       alt: "Al-Qalam Public School Campus Facade",
-      title: "School Campus & Architecture",
+      title: "School Campus Environment",
       category: "Campus" as const,
       description: "Clean, secure, and disciplined educational campus located in Gulzarbagh, Patna.",
       tag: "Campus Architecture",
     },
     {
-      id: "gal-2",
-      src: "/images/gallery-02.jpg",
-      alt: "Active Classroom Mentoring",
-      title: "Interactive Classroom Learning",
-      category: "Classroom" as const,
-      description: "Encouraging curiosity, active participation, and conceptual clarity in primary grades.",
-      tag: "Foundational Learning",
-    },
-    {
       id: "gal-3",
-      src: "/images/gallery-03.jpg",
+      src: "/images/smart-class-sample.jpg",
       alt: "Interactive Smart Board Session",
-      title: "Smart Class Technology",
+      title: "Interactive Smart Class Technology",
       category: "Facilities" as const,
       description: "Digital audio-visual interactive smart boards bringing textbook concepts to life.",
       tag: "Smart Classes",
     },
     {
-      id: "gal-4",
-      src: "/images/gallery-04.jpg",
-      alt: "Creative Art & Craft Session",
-      title: "Creative Art & Expression",
-      category: "Activities" as const,
-      description: "Nurturing motor skills, imagination, and artistic expression through painting and crafts.",
-      tag: "Creative Arts",
-    },
-    {
-      id: "gal-5",
-      src: "/images/gallery-05.jpg",
-      alt: "Reading Corner & Library",
-      title: "Student Reading Corner",
-      category: "Academics" as const,
-      description: "Developing early reading habits with diverse illustrated storybooks and reference readers.",
-      tag: "Reading Corner",
-    },
-    {
       id: "gal-6",
-      src: "/images/gallery-06.jpg",
+      src: "/images/cctv-sample.jpg",
       alt: "Monitored School Hallway & Corridors",
       title: "CCTV Campus Surveillance",
       category: "Safety" as const,
       description: "Continuous monitored cameras safeguarding corridors, gates, and school common areas.",
       tag: "Safety & Security",
-    },
-    {
-      id: "gal-7",
-      src: "/images/gallery-07.jpg",
-      alt: "Campus Courtyard & Green Garden",
-      title: "School Courtyard & Garden",
-      category: "Campus" as const,
-      description: "Fresh air, green surroundings, and safe outdoor circulation during break times.",
-      tag: "Outdoor Courtyard",
-    },
-    {
-      id: "gal-8",
-      src: "/images/gallery-08.jpg",
-      alt: "Digital Literacy & Computer Basics",
-      title: "Digital Literacy Foundation",
-      category: "Academics" as const,
-      description: "Introducing foundational digital literacy, typing basics, and educational software.",
-      tag: "Computer Basics",
     },
   ],
 };

@@ -75,9 +75,9 @@ export default function Header() {
               className="flex items-center gap-3 group focus:outline-none focus:ring-2 focus:ring-[#166534] rounded-lg p-1 transition"
               aria-label="Al-Qalam Public School Home"
             >
-              <div className="relative w-11 h-11 sm:w-12 sm:h-12 shrink-0 rounded-full ring-2 ring-[#166534]/20 p-0.5 bg-white shadow-xs transition-transform duration-200 group-hover:scale-105">
+              <div className="relative w-11 h-11 sm:w-12 sm:h-12 shrink-0 transition-transform duration-200 group-hover:scale-105 drop-shadow-xs">
                 <Image
-                  src="/branding/al-qalam-logo.svg"
+                  src="/logo.png"
                   alt="Al-Qalam Public School Crest"
                   width={48}
                   height={48}
@@ -162,7 +162,7 @@ export default function Header() {
         <div className="p-4 border-b border-[#EDE2D3] flex items-center justify-between bg-[#FAF8F2]">
           <div className="flex items-center gap-2.5">
             <Image
-              src="/branding/al-qalam-logo.svg"
+              src="/logo.png"
               alt="Al-Qalam Crest"
               width={36}
               height={36}

@@ -56,9 +56,9 @@ export default function GalleryGrid() {
   const currentItem = selectedItemIndex !== null ? filteredItems[selectedItemIndex] : null;
 
   // Find image corresponding to the item or fallback cyclically
-  const getItemImage = (index: number) => {
-    const galImages = schoolImages.gallery;
-    return galImages[index % galImages.length];
+  const getItemImage = (item: { id: string }) => {
+    const found = schoolImages.gallery.find((g) => g.id === item.id);
+    return found || schoolImages.gallery[0];
   };
 
   return (
@@ -89,7 +89,7 @@ export default function GalleryGrid() {
       {/* Gallery Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {filteredItems.map((item, index) => {
-          const imageObj = getItemImage(index);
+          const imageObj = getItemImage(item);
           return (
             <div
               key={item.id}
@@ -191,7 +191,7 @@ export default function GalleryGrid() {
             {/* Center Visual - High Quality Photograph Display */}
             <div className="relative h-72 sm:h-96 w-full bg-stone-900">
               <Image
-                src={getItemImage(selectedItemIndex).src}
+                src={getItemImage(currentItem).src}
                 alt={currentItem.title}
                 fill
                 sizes="(max-width: 768px) 100vw, 768px"
@@ -200,9 +200,9 @@ export default function GalleryGrid() {
               <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/20" />
 
               {/* Corner School Crest Badge */}
-              <div className="absolute top-4 left-4 z-10 w-12 h-12 rounded-full bg-white/95 p-1 shadow-md border border-white/40">
+              <div className="absolute top-4 left-4 z-10 w-12 h-12 shrink-0 drop-shadow-md">
                 <Image
-                  src={schoolImages.branding.primarySvg}
+                  src="/logo.png"
                   alt="Al-Qalam Crest"
                   width={40}
                   height={40}

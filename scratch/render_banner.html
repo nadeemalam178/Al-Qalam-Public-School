@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Al-Qalam Public School - Rebuilt Official Banner</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,700;1,700&family=Cinzel:wght@700;900&family=Montserrat:wght@800;900&family=Noto+Nastaliq+Urdu:wght@700&family=Outfit:wght@600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      width: 1920px;
+      height: 800px;
+      overflow: hidden;
+      background: #062312;
+      font-family: 'Outfit', sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .banner-container {
+      position: relative;
+      width: 1920px;
+      height: 800px;
+      background: radial-gradient(circle at 50% 30%, #1e5e38 0%, #0e3d20 45%, #082614 85%, #051a0d 100%);
+      border: 8px solid #c89d52;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 28px 54px 22px;
+      box-shadow: inset 0 0 100px rgba(0,0,0,0.6);
+    }
+    /* Gold inner border */
+    .banner-container::after {
+      content: '';
+      position: absolute;
+      inset: 10px;
+      border: 2px solid rgba(240, 209, 137, 0.4);
+      pointer-events: none;
+      border-radius: 4px;
+    }
+
+    /* Subtle sunburst effect */
+    .sunburst {
+      position: absolute;
+      top: -200px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 1600px;
+      height: 900px;
+      background: radial-gradient(ellipse at 50% 20%, rgba(245, 218, 148, 0.16) 0%, transparent 65%);
+      pointer-events: none;
+    }
+
+    /* Top Row */
+    .top-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: relative;
+      z-index: 5;
+    }
+    .emblem-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .logo-img {
+      width: 84px;
+      height: 84px;
+      filter: drop-shadow(0 6px 14px rgba(0,0,0,0.55));
+    }
+    .school-code {
+      color: #ede2d3;
+      font-size: 15px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      font-weight: 700;
+      opacity: 0.95;
+    }
+    .slogan-box {
+      text-align: center;
+      background: rgba(10, 41, 22, 0.75);
+      padding: 8px 30px;
+      border-radius: 999px;
+      border: 1.5px solid rgba(212, 175, 55, 0.6);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    }
+    .slogan-text {
+      color: #f7d58b;
+      font-family: 'Cinzel', serif;
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: 3.5px;
+      text-transform: uppercase;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.6);
+    }
+    .facilities-badge {
+      background: rgba(232, 243, 234, 0.12);
+      border: 1px solid rgba(232, 243, 234, 0.35);
+      padding: 8px 22px;
+      border-radius: 999px;
+      color: #ede2d3;
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+    }
+
+    /* Center Content */
+    .center-content {
+      text-align: center;
+      position: relative;
+      z-index: 5;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: -6px;
+    }
+
+    /* Quranic Verse */
+    .verse-box {
+      margin-bottom: 6px;
+    }
+    .arabic-verse {
+      font-family: 'Amiri', serif;
+      font-size: 28px;
+      color: #ffd978;
+      direction: rtl;
+      letter-spacing: 2px;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.7);
+    }
+    .verse-meaning {
+      font-size: 12px;
+      color: #d1fae5;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      opacity: 0.85;
+      margin-top: -2px;
+    }
+
+    /* Urdu Calligraphy */
+    .urdu-title {
+      font-family: 'Noto Nastaliq Urdu', 'Amiri', serif;
+      font-size: 72px;
+      line-height: 1.15;
+      color: #ffffff;
+      direction: rtl;
+      margin-bottom: 0px;
+      text-shadow: 
+        0 3px 0 #1b3a60,
+        0 6px 0 #112640,
+        0 8px 20px rgba(0,0,0,0.8),
+        0 0 25px rgba(255, 255, 255, 0.35);
+      letter-spacing: 1px;
+    }
+
+    /* English Main Title */
+    .english-title {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 64px;
+      font-weight: 900;
+      color: #ef4444;
+      letter-spacing: 4px;
+      line-height: 1.05;
+      text-transform: uppercase;
+      text-shadow: 
+        0 3px 0 #991b1b,
+        0 5px 0 #7f1d1d,
+        0 7px 18px rgba(0,0,0,0.7),
+        0 0 35px rgba(239, 68, 68, 0.4);
+      margin-top: 6px;
+    }
+
+    /* Address Subtitle */
+    .address-box {
+      margin-top: 12px;
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      background: rgba(13, 59, 31, 0.9);
+      border: 1.5px solid #2f7d4a;
+      padding: 6px 26px;
+      border-radius: 999px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+    }
+    .address-text {
+      color: #ffffff;
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    /* Bottom Decorative Bar */
+    .bottom-bar {
+      position: relative;
+      z-index: 5;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 1px solid rgba(212, 175, 55, 0.4);
+      padding-top: 14px;
+    }
+    .bottom-feature {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #ede2d3;
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 1px;
+    }
+    .feature-dot {
+      width: 7px;
+      height: 7px;
+      background: #c89d52;
+      border-radius: 50%;
+    }
+    .director-badge {
+      color: #f7d58b;
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+    }
+  </style>
+</head>
+<body>
+  <div class="banner-container">
+    <div class="sunburst"></div>
+
+    <!-- Top Row -->
+    <div class="top-row">
+      <div class="emblem-wrapper">
+        <img class="logo-img" src="../public/logo.png" alt="Al-Qalam Public School Crest">
+        <div>
+          <div class="school-code">Al-Qalam Public School</div>
+          <div style="color: #c89d52; font-size: 12px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase;">
+            Primary & Foundational Education
+          </div>
+        </div>
+      </div>
+
+      <div class="slogan-box">
+        <div class="slogan-text">“ We Shape Your Future ”</div>
+      </div>
+
+      <div class="facilities-badge">
+        CCTV Monitored • Smart Classes
+      </div>
+    </div>
+
+    <!-- Center Content -->
+    <div class="center-content">
+      <div class="verse-box">
+        <div class="arabic-verse">الَّذِي عَلَّمَ بِالْقَلَمِ</div>
+        <div class="verse-meaning">Who Taught By The Pen — Surah Al-Alaq</div>
+      </div>
+
+      <div class="urdu-title">
+        القلم پبلک اسکول
+      </div>
+
+      <div class="english-title">
+        AL-QALAM PUBLIC SCHOOL
+      </div>
+
+      <div class="address-box">
+        <span class="address-text">
+          Opposite Jashn Palace, Loharwa Ghat Lane, Ashok Rajpath Rd, Gulzarbagh, Patna - 800007
+        </span>
+      </div>
+    </div>
+
+    <!-- Bottom Bar -->
+    <div class="bottom-bar">
+      <div class="bottom-feature">
+        <div class="feature-dot"></div>
+        <span>Concept-Based Primary Learning</span>
+      </div>
+      <div class="bottom-feature">
+        <div class="feature-dot"></div>
+        <span>Interactive Smart Classrooms</span>
+      </div>
+      <div class="bottom-feature">
+        <div class="feature-dot"></div>
+        <span>Comprehensive Campus Safety</span>
+      </div>
+      <div class="director-badge">
+        Director: Rahat Jahan
+      </div>
+    </div>
+  </div>
+</body>
+</html>

@@ -112,12 +112,12 @@ export default function Hero() {
               {/* Card Housing the Official Crest with Card Elevation */}
               <div className="card-interactive relative rounded-3xl bg-[#0d3b1f]/85 border border-[#2F7D4A]/50 p-8 sm:p-10 shadow-xl flex flex-col items-center text-center space-y-6">
                 {/* Official Crest */}
-                <div className="relative w-44 h-44 sm:w-52 sm:h-52 rounded-full bg-white p-2.5 shadow-xl ring-4 ring-[#EDE2D3]/40">
+                <div className="relative w-48 h-48 sm:w-56 sm:h-56 shrink-0 filter drop-shadow-[0_16px_32px_rgba(0,0,0,0.45)] transition-transform duration-300 hover:scale-105">
                   <Image
-                    src={schoolImages.branding.primarySvg}
+                    src="/logo.png"
                     alt="Al-Qalam Public School Official Crest"
-                    width={208}
-                    height={208}
+                    width={224}
+                    height={224}
                     className="w-full h-full object-contain"
                     priority
                   />

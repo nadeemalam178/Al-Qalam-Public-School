@@ -37,7 +37,7 @@ export const metadata: Metadata = {
   icons: {
     icon: [
       { url: "/favicon.ico", sizes: "any" },
-      { url: "/branding/al-qalam-logo.svg", type: "image/svg+xml" },
+      { url: "/logo.png", type: "image/png" },
       { url: "/icon.png", sizes: "512x512", type: "image/png" },
     ],
     shortcut: "/favicon.ico",

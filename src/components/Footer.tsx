@@ -39,7 +39,7 @@ export default function Footer() {
         {/* Subtle Decorative Crest Watermark */}
         <div className="absolute -right-12 bottom-0 w-80 h-80 opacity-[0.03] pointer-events-none select-none hidden lg:block">
           <Image
-            src="/branding/al-qalam-logo-light.svg"
+            src="/logo.png"
             alt=""
             width={320}
             height={320}
@@ -51,12 +51,12 @@ export default function Footer() {
           {/* Col 1: School Identity & Crest */}
           <div className="lg:col-span-4 space-y-4">
             <div className="flex items-center gap-3">
-              <div className="w-14 h-14 rounded-full bg-white ring-2 ring-[#EDE2D3]/40 p-1 shadow-md shrink-0">
+              <div className="w-13 h-13 shrink-0 drop-shadow-md">
                 <Image
-                  src="/branding/al-qalam-logo.svg"
+                  src="/logo.png"
                   alt="Al-Qalam Public School Emblem"
-                  width={56}
-                  height={56}
+                  width={52}
+                  height={52}
                   className="w-full h-full object-contain"
                 />
               </div>

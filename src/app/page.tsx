@@ -21,6 +21,7 @@ import DirectorCard from "@/components/DirectorCard";
 import ContactSection from "@/components/ContactSection";
 import CTA from "@/components/CTA";
 import ScrollReveal from "@/components/ScrollReveal";
+import SchoolBanner from "@/components/SchoolBanner";
 import { SCHOOL_DATA } from "@/data/schoolData";
 import { schoolImages } from "@/data/schoolImages";
 
@@ -57,7 +58,12 @@ export default function HomePage() {
       {/* 1. Hero Section - Deep Forest Green with Ken Burns & Entrance Sequence */}
       <Hero />
 
-      {/* 2. Welcome Section - Light Cream (#FAF8F2) */}
+      {/* 2. Rebuilt Official School Banner Section */}
+      <ScrollReveal variant="fade-up">
+        <SchoolBanner />
+      </ScrollReveal>
+
+      {/* 3. Welcome Section - Light Cream (#FAF8F2) */}
       <section className="py-16 sm:py-20 bg-[#FAF8F2] border-b border-[#EDE2D3]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
