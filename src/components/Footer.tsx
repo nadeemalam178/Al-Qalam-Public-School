@@ -35,14 +35,25 @@ export default function Footer() {
       </div>
 
       {/* Main Footer Grid */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10">
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16 overflow-hidden">
+        {/* Subtle Decorative Crest Watermark */}
+        <div className="absolute -right-12 bottom-0 w-80 h-80 opacity-[0.03] pointer-events-none select-none hidden lg:block">
+          <Image
+            src="/branding/al-qalam-logo-light.svg"
+            alt=""
+            width={320}
+            height={320}
+            className="w-full h-full object-contain"
+          />
+        </div>
+
+        <div className="relative z-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10">
           {/* Col 1: School Identity & Crest */}
           <div className="lg:col-span-4 space-y-4">
             <div className="flex items-center gap-3">
               <div className="w-14 h-14 rounded-full bg-white ring-2 ring-[#EDE2D3]/40 p-1 shadow-md shrink-0">
                 <Image
-                  src="/logo.png"
+                  src="/branding/al-qalam-logo.svg"
                   alt="Al-Qalam Public School Emblem"
                   width={56}
                   height={56}

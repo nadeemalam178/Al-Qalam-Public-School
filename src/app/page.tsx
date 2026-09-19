@@ -294,7 +294,7 @@ export default function HomePage() {
                 <div className="h-44 bg-gradient-to-br from-[#0d3b1f] via-[#14532D] to-[#166534] flex flex-col items-center justify-center p-6 text-center text-white relative">
                   <div className="w-12 h-12 rounded-xl bg-white/15 flex items-center justify-center mb-2 border border-white/20">
                     <Image
-                      src="/logo.png"
+                      src="/branding/al-qalam-logo.svg"
                       alt="Badge"
                       width={40}
                       height={40}

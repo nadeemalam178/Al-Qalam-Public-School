@@ -111,7 +111,7 @@ export default function GalleryGrid() {
               {/* Watermark crest */}
               <div className="absolute inset-0 flex items-center justify-center opacity-10 pointer-events-none transform group-hover:scale-105 transition-transform duration-300">
                 <Image
-                  src="/logo.png"
+                  src="/branding/al-qalam-logo-light.svg"
                   alt="Al-Qalam Logo Watermark"
                   width={180}
                   height={180}
@@ -191,7 +191,7 @@ export default function GalleryGrid() {
             >
               <div className="w-20 h-20 rounded-2xl bg-white p-1.5 border border-white/30 flex items-center justify-center mb-4 shadow-lg">
                 <Image
-                  src="/logo.png"
+                  src="/branding/al-qalam-logo.svg"
                   alt="Al-Qalam Badge"
                   width={64}
                   height={64}

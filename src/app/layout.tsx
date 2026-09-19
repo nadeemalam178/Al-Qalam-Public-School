@@ -35,9 +35,13 @@ export const metadata: Metadata = {
     "CCTV Monitored School Patna",
   ],
   icons: {
-    icon: "/logo.png",
-    shortcut: "/logo.png",
-    apple: "/logo.png",
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/branding/al-qalam-logo.svg", type: "image/svg+xml" },
+      { url: "/icon.png", sizes: "512x512", type: "image/png" },
+    ],
+    shortcut: "/favicon.ico",
+    apple: "/icon.png",
   },
   openGraph: {
     title: "Al-Qalam Public School | Gulzarbagh, Patna",
@@ -45,6 +49,14 @@ export const metadata: Metadata = {
       "Official public portal for Al-Qalam Public School, Gulzarbagh, Alamganj, Patna. 'We Shape Your Future' with Smart Classes and CCTV campus safety.",
     url: "https://alqalam-patna.edu.in",
     siteName: "Al-Qalam Public School",
+    images: [
+      {
+        url: "/branding/al-qalam-logo.png",
+        width: 2048,
+        height: 2048,
+        alt: "Al-Qalam Public School Official Emblem",
+      },
+    ],
     locale: "en_IN",
     type: "website",
   },

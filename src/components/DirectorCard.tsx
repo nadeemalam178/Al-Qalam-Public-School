@@ -15,7 +15,7 @@ export default function DirectorCard() {
         <div className="lg:col-span-4 flex flex-col items-center lg:items-start text-center lg:text-left space-y-4 border-b lg:border-b-0 lg:border-r border-[#2F7D4A]/40 pb-6 lg:pb-0 lg:pr-8">
           <div className="relative w-28 h-28 sm:w-32 sm:h-32 rounded-full bg-white p-2 ring-4 ring-[#EDE2D3]/40 shadow-xl flex items-center justify-center">
             <Image
-              src="/logo.png"
+              src="/branding/al-qalam-logo.svg"
               alt="Al-Qalam Crest"
               width={110}
               height={110}

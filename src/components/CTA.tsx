@@ -1,5 +1,6 @@
 import React from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { GraduationCap, ArrowRight } from "lucide-react";
 
 interface CTAProps {
@@ -17,9 +18,26 @@ export default function CTA({
 }: CTAProps) {
   return (
     <section className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-[#0d3b1f] via-[#14532D] to-[#166534] text-white p-8 sm:p-12 shadow-lg border border-[#2F7D4A]/40 my-12">
+      {/* Subtle Brand Crest Watermark Accent */}
+      <div className="absolute -right-12 -bottom-12 w-64 h-64 opacity-[0.04] pointer-events-none select-none hidden sm:block">
+        <Image
+          src="/branding/al-qalam-logo-light.svg"
+          alt=""
+          width={256}
+          height={256}
+          className="w-full h-full object-contain"
+        />
+      </div>
+
       <div className="relative z-10 max-w-3xl mx-auto text-center space-y-6">
-        <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#E8F3EA]/15 border border-[#EDE2D3]/20 text-[#EDE2D3] text-xs font-bold uppercase tracking-wider">
-          <span className="w-1.5 h-1.5 rounded-full bg-[#E8F3EA]" />
+        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#E8F3EA]/15 border border-[#EDE2D3]/20 text-[#EDE2D3] text-xs font-bold uppercase tracking-wider">
+          <Image
+            src="/branding/al-qalam-icon.svg"
+            alt=""
+            width={18}
+            height={18}
+            className="w-4.5 h-4.5 rounded-full object-contain"
+          />
           <span>Admissions Notice</span>
         </div>
 

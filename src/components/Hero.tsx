@@ -7,9 +7,18 @@ import { SCHOOL_DATA } from "@/data/schoolData";
 export default function Hero() {
   return (
     <section className="relative overflow-hidden bg-forest-hero text-white pt-12 sm:pt-16 lg:pt-20 pb-16 sm:pb-24 border-b border-[#0d3b1f]">
-      {/* Subtle Natural Ambient Lighting */}
+      {/* Subtle Natural Ambient Lighting & Brand Watermark */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-80 bg-gradient-to-b from-[#2F7D4A]/15 via-transparent to-transparent blur-3xl pointer-events-none" />
       <div className="absolute bottom-6 -right-16 w-72 h-72 rounded-full bg-[#EDE2D3]/5 blur-3xl pointer-events-none" />
+      <div className="absolute -right-20 top-1/2 -translate-y-1/2 w-[500px] h-[500px] opacity-[0.04] pointer-events-none select-none hidden lg:block">
+        <Image
+          src="/branding/al-qalam-logo-light.svg"
+          alt=""
+          width={500}
+          height={500}
+          className="w-full h-full object-contain"
+        />
+      </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
@@ -43,30 +52,30 @@ export default function Hero() {
 
             {/* Description */}
             <p className="text-[#EDE2D3] text-sm sm:text-base lg:text-lg leading-relaxed max-w-2xl mx-auto lg:mx-0 font-normal">
-              A disciplined, nurturing primary school fostering foundational concepts, character, and curiosity. Providing modern learning through <span className="text-white font-semibold underline decoration-[#EDE2D3]/60 decoration-2 underline-offset-4">Smart Classes</span> and safe campus oversight with <span className="text-white font-semibold underline decoration-[#EDE2D3]/60 decoration-2 underline-offset-4">CCTV Monitoring</span>.
+              Empowering young minds with quality foundational education, strong moral values, and modern digital classrooms in the historic heart of Patna.
             </p>
 
-            {/* Primary & Secondary CTAs */}
-            <div className="pt-2 flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
+            {/* CTAs */}
+            <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-2">
               <Link
                 href="/admissions"
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-7 py-3.5 rounded-xl font-bold text-white bg-[#14532D] hover:bg-[#0d3b1f] border border-[#2F7D4A] shadow-sm hover:shadow-md active:scale-98 transition-all text-sm sm:text-base"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-xl text-base font-bold text-white bg-[#166534] hover:bg-[#14532D] shadow-md hover:shadow-lg transition-all border border-[#2F7D4A]/60 active:scale-98"
               >
                 <GraduationCap className="w-5 h-5 text-[#EDE2D3]" />
                 <span>Admission Enquiry</span>
+                <ArrowRight className="w-4 h-4 ml-0.5 text-[#EDE2D3]" />
               </Link>
 
               <Link
                 href="/about"
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl font-bold text-[#14532D] bg-[#FAF8F2] hover:bg-white shadow-xs active:scale-98 transition-all text-sm sm:text-base"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-xl text-base font-bold text-white bg-[#0d3b1f]/80 hover:bg-[#0d3b1f] border border-[#2F7D4A]/60 shadow-xs hover:shadow-sm transition-all active:scale-98"
               >
-                <span>Explore Our School</span>
-                <ArrowRight className="w-4 h-4 text-[#6B4226]" />
+                <span>Learn About Us</span>
               </Link>
             </div>
 
-            {/* Confirmed Facility Badges */}
-            <div className="pt-4 border-t border-[#1b7a3f]/40 flex flex-wrap items-center justify-center lg:justify-start gap-6 text-xs sm:text-sm text-[#EDE2D3]">
+            {/* Confirmed Facilities Highlights */}
+            <div className="pt-4 border-t border-[#2F7D4A]/40 flex flex-wrap items-center justify-center lg:justify-start gap-6 text-xs sm:text-sm text-[#EDE2D3]">
               <div className="flex items-center gap-2">
                 <div className="w-7 h-7 rounded-lg bg-[#E8F3EA]/15 text-white flex items-center justify-center border border-[#E8F3EA]/30">
                   <ShieldCheck className="w-4 h-4 text-[#E8F3EA]" />
@@ -89,9 +98,9 @@ export default function Hero() {
               {/* Card Housing the Official Crest */}
               <div className="relative rounded-3xl bg-[#0d3b1f]/85 border border-[#2F7D4A]/50 p-8 sm:p-10 shadow-xl flex flex-col items-center text-center space-y-6">
                 {/* Official Crest */}
-                <div className="relative w-44 h-44 sm:w-52 sm:h-52 rounded-full bg-white p-2.5 shadow-lg ring-4 ring-[#EDE2D3]/40">
+                <div className="relative w-44 h-44 sm:w-52 sm:h-52 rounded-full bg-white p-2.5 shadow-xl ring-4 ring-[#EDE2D3]/40">
                   <Image
-                    src="/logo.png"
+                    src="/branding/al-qalam-logo.svg"
                     alt="Al-Qalam Public School Official Crest"
                     width={208}
                     height={208}

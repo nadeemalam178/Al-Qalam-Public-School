@@ -103,7 +103,7 @@ export default function AboutPage() {
               <div className="relative w-full max-w-sm rounded-3xl bg-gradient-to-br from-[#0d3b1f] via-[#14532D] to-[#166534] p-8 text-white shadow-lg border border-[#2F7D4A]/40 text-center space-y-6">
                 <div className="w-36 h-36 mx-auto rounded-full bg-white p-2 shadow-md ring-4 ring-[#EDE2D3]/40">
                   <Image
-                    src="/logo.png"
+                    src="/branding/al-qalam-logo.svg"
                     alt="Al-Qalam Emblem"
                     width={140}
                     height={140}
