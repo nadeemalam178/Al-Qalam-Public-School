@@ -7,14 +7,13 @@ export type AnimationVariant =
   | "fade-down"
   | "fade-left"
   | "fade-right"
-  | "scale-in"
-  | "image-reveal";
+  | "scale-in";
 
 interface ScrollRevealProps {
   children: React.ReactNode;
   variant?: AnimationVariant;
-  delay?: number; // delay in milliseconds
-  duration?: number; // duration in milliseconds
+  delay?: number;
+  duration?: number;
   className?: string;
   threshold?: number;
   once?: boolean;
@@ -24,26 +23,15 @@ export default function ScrollReveal({
   children,
   variant = "fade-up",
   delay = 0,
-  duration = 650,
+  duration = 450,
   className = "",
-  threshold = 0.12,
+  threshold = 0.1,
   once = true,
 }: ScrollRevealProps) {
   const [isVisible, setIsVisible] = useState(false);
-  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
   const elementRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    // Check for prefers-reduced-motion
-    if (typeof window !== "undefined") {
-      const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
-      if (mediaQuery.matches) {
-        setPrefersReducedMotion(true);
-        setIsVisible(true);
-        return;
-      }
-    }
-
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
@@ -57,7 +45,7 @@ export default function ScrollReveal({
       },
       {
         threshold,
-        rootMargin: "0px 0px -40px 0px",
+        rootMargin: "0px 0px -20px 0px",
       }
     );
 
@@ -73,42 +61,32 @@ export default function ScrollReveal({
     };
   }, [once, threshold]);
 
-  if (prefersReducedMotion) {
-    return <div className={className}>{children}</div>;
-  }
-
-  // Base and active CSS classes by variant
   const getVariantStyles = (): { init: string; active: string } => {
     switch (variant) {
       case "fade-down":
         return {
-          init: "opacity-0 -translate-y-6",
+          init: "opacity-0 -translate-y-4",
           active: "opacity-100 translate-y-0",
         };
       case "fade-left":
         return {
-          init: "opacity-0 -translate-x-8",
+          init: "opacity-0 -translate-x-4",
           active: "opacity-100 translate-x-0",
         };
       case "fade-right":
         return {
-          init: "opacity-0 translate-x-8",
+          init: "opacity-0 translate-x-4",
           active: "opacity-100 translate-x-0",
         };
       case "scale-in":
         return {
-          init: "opacity-0 scale-95",
+          init: "opacity-0 scale-98",
           active: "opacity-100 scale-100",
-        };
-      case "image-reveal":
-        return {
-          init: "opacity-0 scale-102 filter blur-[1px]",
-          active: "opacity-100 scale-100 filter blur-0",
         };
       case "fade-up":
       default:
         return {
-          init: "opacity-0 translate-y-7",
+          init: "opacity-0 translate-y-4",
           active: "opacity-100 translate-y-0",
         };
     }
@@ -119,13 +97,12 @@ export default function ScrollReveal({
   return (
     <div
       ref={elementRef}
-      className={`transition-all ease-[cubic-bezier(0.16,1,0.3,1)] ${
+      className={`transition-all ease-out ${
         isVisible ? active : init
       } ${className}`}
       style={{
         transitionDuration: `${duration}ms`,
         transitionDelay: `${delay}ms`,
-        willChange: isVisible ? "auto" : "transform, opacity",
       }}
     >
       {children}

@@ -1,154 +1,125 @@
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { GraduationCap, ArrowRight, ShieldCheck, MonitorPlay, MapPin } from "lucide-react";
+import { ArrowRight, MonitorPlay, ShieldCheck, HeartHandshake, BookOpen } from "lucide-react";
 import { SCHOOL_DATA } from "@/data/schoolData";
 import { schoolImages } from "@/data/schoolImages";
 
 export default function Hero() {
+  const trustPoints = [
+    {
+      label: "Smart Classes",
+      icon: MonitorPlay,
+    },
+    {
+      label: "Safe Campus",
+      icon: ShieldCheck,
+    },
+    {
+      label: "Caring Learning Environment",
+      icon: HeartHandshake,
+    },
+    {
+      label: "Foundational & Primary Education",
+      icon: BookOpen,
+    },
+  ];
+
   return (
-    <section className="relative overflow-hidden bg-forest-hero text-white pt-12 sm:pt-16 lg:pt-20 pb-16 sm:pb-24 border-b border-[#0d3b1f]">
-      {/* Real/Sample School Photo Layer with Subtle Ken Burns Motion & Natural Forest Overlay */}
-      <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
-        <Image
-          src={schoolImages.hero.src}
-          alt={schoolImages.hero.alt}
-          fill
-          priority
-          sizes="100vw"
-          className="object-cover object-center animate-ken-burns opacity-15 mix-blend-luminosity"
-        />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#0a2916]/95 via-[#0d3b1f]/90 to-[#14532d]/85" />
-      </div>
-
-      {/* Subtle Natural Ambient Lighting & Brand Watermark */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-80 bg-gradient-to-b from-[#2F7D4A]/15 via-transparent to-transparent blur-3xl pointer-events-none" />
-      <div className="absolute bottom-6 -right-16 w-72 h-72 rounded-full bg-[#EDE2D3]/5 blur-3xl pointer-events-none" />
-      <div className="absolute -right-20 top-1/2 -translate-y-1/2 w-[500px] h-[500px] opacity-[0.035] pointer-events-none select-none hidden lg:block">
-        <Image
-          src={schoolImages.branding.lightSvg}
-          alt=""
-          width={500}
-          height={500}
-          className="w-full h-full object-contain"
-        />
-      </div>
-
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-          {/* Left Column: Heading, Subtitle, CTAs & Value Bullets */}
-          <div className="lg:col-span-7 text-center lg:text-left space-y-6">
-            {/* Campus Tag Pill */}
-            <div className="hero-animate-text-1 inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#0d3b1f]/70 border border-[#2F7D4A]/50 text-[#EDE2D3] text-xs sm:text-sm font-semibold shadow-xs">
-              <span className="w-2 h-2 rounded-full bg-[#E8F3EA] animate-pulse" />
-              <span>Gulzarbagh, Alamganj, Patna, Bihar</span>
+    <section className="relative bg-[#FAF8F2] border-b border-[#EDE2D3] pt-10 sm:pt-14 lg:pt-16 pb-12 sm:pb-16 overflow-hidden">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
+          {/* Left Column: Eyebrow, Main Heading, Copy, Actions */}
+          <div className="lg:col-span-6 space-y-6 text-center lg:text-left">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-[#E8F3EA] border border-[#2F7D4A]/25 text-[#14532D] text-xs font-semibold tracking-wider uppercase">
+              <span>{SCHOOL_DATA.name}</span>
             </div>
 
-            {/* School Title & Tagline */}
-            <div className="hero-animate-text-1 space-y-2">
-              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-tight text-white leading-tight">
-                {SCHOOL_DATA.name}
-              </h1>
-              <p className="text-xl sm:text-2xl md:text-3xl font-bold text-[#FAF8F2] italic">
-                &ldquo;{SCHOOL_DATA.tagline}&rdquo;
-              </p>
-            </div>
+            <h1 className="font-heading font-black text-3xl sm:text-4xl md:text-5xl lg:text-[2.75rem] text-[#14532D] tracking-tight leading-[1.15]">
+              Where Learning Builds Character
+            </h1>
 
-            {/* Quranic Verse Motto */}
-            <div className="hero-animate-text-2 inline-block bg-[#0d3b1f]/60 px-4 py-2 rounded-xl border border-[#2F7D4A]/40">
-              <p className="text-sm font-serif text-[#EDE2D3] tracking-wide font-medium">
-                {SCHOOL_DATA.mottoArabic}
-              </p>
-              <p className="text-[11px] text-stone-300 italic">
-                {SCHOOL_DATA.mottoTranslation}
-              </p>
-            </div>
-
-            {/* Description */}
-            <p className="hero-animate-text-2 text-[#EDE2D3] text-sm sm:text-base lg:text-lg leading-relaxed max-w-2xl mx-auto lg:mx-0 font-normal">
-              Empowering young minds with quality foundational education, strong moral values, and modern digital classrooms in the historic heart of Patna.
+            <p className="text-stone-700 text-base sm:text-lg leading-relaxed max-w-xl mx-auto lg:mx-0">
+              Located in Gulzarbagh, Patna, Al-Qalam Public School offers young learners disciplined foundational schooling, caring teacher guidance, and modern Smart Class instruction in a secure, nurturing campus.
             </p>
 
-            {/* CTAs with Micro-Interactions */}
-            <div className="hero-animate-cta flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-2">
-              <Link
-                href="/admissions"
-                className="btn-interactive w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-xl text-base font-bold text-white bg-[#166534] hover:bg-[#14532D] shadow-md hover:shadow-lg border border-[#2F7D4A]/60 active:scale-98"
-              >
-                <GraduationCap className="w-5 h-5 text-[#EDE2D3]" />
-                <span>Admission Enquiry</span>
-                <ArrowRight className="btn-icon-nudge w-4 h-4 ml-0.5 text-[#EDE2D3]" />
-              </Link>
-
-              <Link
-                href="/about"
-                className="btn-interactive w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-xl text-base font-bold text-white bg-[#0d3b1f]/80 hover:bg-[#0d3b1f] border border-[#2F7D4A]/60 shadow-xs hover:shadow-sm active:scale-98"
-              >
-                <span>Learn About Us</span>
-              </Link>
+            {/* Arabic Motto Line */}
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white border border-[#E7E5E4] text-stone-600 text-xs shadow-2xs">
+              <span className="font-serif font-medium text-[#14532D] text-sm">
+                {SCHOOL_DATA.mottoArabic}
+              </span>
+              <span className="text-stone-300">•</span>
+              <span className="italic text-stone-500">
+                &ldquo;{SCHOOL_DATA.mottoTranslation}&rdquo;
+              </span>
             </div>
 
-            {/* Confirmed Facilities Highlights */}
-            <div className="hero-animate-cta pt-4 border-t border-[#2F7D4A]/40 flex flex-wrap items-center justify-center lg:justify-start gap-6 text-xs sm:text-sm text-[#EDE2D3]">
-              <div className="flex items-center gap-2">
-                <div className="w-7 h-7 rounded-lg bg-[#E8F3EA]/15 text-white flex items-center justify-center border border-[#E8F3EA]/30">
-                  <ShieldCheck className="w-4 h-4 text-[#E8F3EA]" />
-                </div>
-                <span className="font-semibold">CCTV Monitored Campus</span>
-              </div>
+            {/* CTAs */}
+            <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3.5 pt-2">
+              <Link
+                href="/admissions"
+                className="btn-primary w-full sm:w-auto px-6 py-3 rounded-lg text-sm font-semibold text-white bg-[#14532D] hover:bg-[#0B3B20] shadow-sm hover:shadow transition-all border border-[#0B3B20] flex items-center justify-center gap-2"
+              >
+                <span>Admission Enquiry</span>
+                <ArrowRight className="w-4 h-4 text-[#EDE2D3]" />
+              </Link>
 
-              <div className="flex items-center gap-2">
-                <div className="w-7 h-7 rounded-lg bg-[#E8F3EA]/15 text-white flex items-center justify-center border border-[#E8F3EA]/30">
-                  <MonitorPlay className="w-4 h-4 text-[#E8F3EA]" />
-                </div>
-                <span className="font-semibold">Interactive Smart Classes</span>
-              </div>
+              <Link
+                href="#school-story"
+                className="btn-primary w-full sm:w-auto px-6 py-3 rounded-lg text-sm font-semibold text-stone-800 bg-white hover:bg-stone-50 border border-[#E7E5E4] shadow-2xs transition-colors flex items-center justify-center"
+              >
+                <span>Explore Our School</span>
+              </Link>
             </div>
           </div>
 
-          {/* Right Column: Authentic Logo Crest Showcase */}
-          <div className="lg:col-span-5 flex justify-center hero-animate-scale">
-            <div className="relative w-full max-w-sm sm:max-w-md">
-              {/* Card Housing the Official Crest with Card Elevation */}
-              <div className="card-interactive relative rounded-3xl bg-[#0d3b1f]/85 border border-[#2F7D4A]/50 p-8 sm:p-10 shadow-xl flex flex-col items-center text-center space-y-6">
-                {/* Official Crest */}
-                <div className="relative w-48 h-48 sm:w-56 sm:h-56 shrink-0 filter drop-shadow-[0_16px_32px_rgba(0,0,0,0.45)] transition-transform duration-300 hover:scale-105">
-                  <Image
-                    src="/logo.png"
-                    alt="Al-Qalam Public School Official Crest"
-                    width={224}
-                    height={224}
-                    className="w-full h-full object-contain"
-                    priority
-                  />
-                </div>
+          {/* Right Column: Authentic Large School Photograph */}
+          <div className="lg:col-span-6 flex justify-center">
+            <div className="relative w-full max-w-lg lg:max-w-none">
+              <div className="relative rounded-2xl overflow-hidden shadow-lg border border-[#EDE2D3] bg-stone-900 aspect-[4/3]">
+                <Image
+                  src={schoolImages.hero.src}
+                  alt={schoolImages.hero.alt}
+                  fill
+                  priority
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                  className="object-cover object-center"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none" />
 
-                <div className="space-y-1">
-                  <h3 className="text-xl font-bold text-white tracking-tight">
-                    {SCHOOL_DATA.name}
-                  </h3>
-                  <p className="text-xs font-semibold text-[#EDE2D3] tracking-wider uppercase">
-                    Official School Crest
-                  </p>
-                </div>
-
-                <div className="w-full grid grid-cols-2 gap-3 pt-2 border-t border-[#2F7D4A]/40 text-left">
-                  <div className="p-3 rounded-xl bg-[#14532D]/80 border border-[#2F7D4A]/40">
-                    <p className="text-[10px] uppercase font-bold text-[#EDE2D3]">Curriculum</p>
-                    <p className="text-xs font-bold text-white mt-0.5">Foundational & Primary</p>
-                  </div>
-                  <div className="p-3 rounded-xl bg-[#14532D]/80 border border-[#2F7D4A]/40">
-                    <p className="text-[10px] uppercase font-bold text-[#EDE2D3]">Environment</p>
-                    <p className="text-xs font-bold text-white mt-0.5">Safe & Disciplined</p>
-                  </div>
-                </div>
-
-                <div className="flex items-center gap-1.5 text-xs text-stone-300">
-                  <MapPin className="w-3.5 h-3.5 text-[#EDE2D3]" />
-                  <span>Opp. Jashn Palace, Ashok Rajpath Rd</span>
+                {/* Subtitle Badge at Base of Image */}
+                <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between text-xs text-white">
+                  <span className="bg-black/65 backdrop-blur-xs px-3 py-1 rounded-md font-medium text-[11px] text-[#FAF8F2] border border-white/15">
+                    Al-Qalam Classroom Learning • Gulzarbagh
+                  </span>
+                  <span className="hidden sm:inline bg-black/65 backdrop-blur-xs px-2.5 py-1 rounded-md text-[10px] text-stone-300 border border-white/15">
+                    Patna, Bihar
+                  </span>
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+
+        {/* Subtle Trust Strip Underneath Hero */}
+        <div className="mt-12 sm:mt-14 pt-8 border-t border-[#EDE2D3]">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
+            {trustPoints.map((point, index) => {
+              const IconComp = point.icon;
+              return (
+                <div
+                  key={index}
+                  className="flex items-center gap-3 p-3 sm:p-3.5 rounded-xl bg-white border border-[#E7E5E4] shadow-2xs"
+                >
+                  <div className="w-8 h-8 rounded-lg bg-[#E8F3EA] text-[#14532D] flex items-center justify-center shrink-0 border border-[#2F7D4A]/20">
+                    <IconComp className="w-4 h-4" />
+                  </div>
+                  <span className="text-xs sm:text-sm font-semibold text-stone-800 leading-snug">
+                    {point.label}
+                  </span>
+                </div>
+              );
+            })}
           </div>
         </div>
       </div>

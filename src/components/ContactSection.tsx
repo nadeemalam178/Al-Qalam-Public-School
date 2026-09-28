@@ -1,49 +1,85 @@
 "use client";
 
 import React, { useState } from "react";
-import { MapPin, Navigation, Phone, Mail, Clock, Send, CheckCircle2, AlertCircle } from "lucide-react";
+import { MapPin, Navigation, Send, CheckCircle2, AlertCircle, RefreshCw } from "lucide-react";
 import { SCHOOL_DATA } from "@/data/schoolData";
 
+const INDIAN_MOBILE_REGEX = /^[6-9]\d{9}$/;
+
 export default function ContactSection() {
-  const [form, setForm] = useState({ name: "", phone: "", message: "" });
+  const [form, setForm] = useState({ name: "", mobile: "", message: "" });
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [referenceId, setReferenceId] = useState("");
   const [error, setError] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!form.name.trim() || !form.phone.trim() || !form.message.trim()) {
-      setError("Please complete all fields before sending.");
+
+    if (!form.name.trim()) {
+      setError("Please enter your name.");
       return;
     }
-    if (form.phone.replace(/\D/g, "").length !== 10) {
-      setError("Please provide a valid 10-digit phone number.");
+    const cleanMobile = form.mobile.replace(/\D/g, "");
+    if (!cleanMobile || !INDIAN_MOBILE_REGEX.test(cleanMobile)) {
+      setError("Please enter a valid 10-digit Indian mobile number.");
       return;
     }
+    if (!form.message.trim() || form.message.trim().length < 5) {
+      setError("Please enter your query or message.");
+      return;
+    }
+
     setError("");
-    setSubmitted(true);
+    setIsSubmitting(true);
+
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: form.name.trim(),
+          mobile: cleanMobile,
+          message: form.message.trim(),
+        }),
+      });
+
+      const data = await response.json();
+      if (!response.ok || !data.success) {
+        setError(data.message || "Failed to submit message. Please try again or visit campus.");
+        setIsSubmitting(false);
+        return;
+      }
+
+      setReferenceId(data.referenceId);
+      setSubmitted(true);
+      setIsSubmitting(false);
+    } catch {
+      setError("Network error occurred. Please check connection or visit campus desk.");
+      setIsSubmitting(false);
+    }
   };
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-      {/* Confirmed Address & Details */}
-      <div className="card-interactive lg:col-span-6 bg-white rounded-3xl border border-stone-200 p-6 sm:p-10 shadow-xs space-y-6">
+      {/* Left Column: Verified Campus Address & Visiting Guidelines */}
+      <div className="lg:col-span-6 bg-white rounded-2xl border border-stone-200 p-6 sm:p-8 shadow-xs space-y-6">
         <div>
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#E8F3EA] text-[#14532D] border border-[#2F7D4A]/25 text-xs font-bold uppercase tracking-wider mb-3">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#6B4226]" />
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-[#E8F3EA] text-[#14532D] border border-[#2F7D4A]/25 text-xs font-semibold uppercase tracking-wider mb-2">
             <span>Campus Location</span>
           </div>
-          <h3 className="text-2xl font-black text-[#14532D] tracking-tight">
+          <h3 className="font-heading font-black text-2xl text-[#14532D] tracking-tight">
             {SCHOOL_DATA.name}
           </h3>
           <p className="text-xs font-semibold text-[#6B4226] mt-0.5">
-            Gulzarbagh, Alamganj, Patna, Bihar
+            Gulzarbagh, Alamganj, Patna, Bihar 800007
           </p>
         </div>
 
         {/* Address Card */}
-        <div className="bg-[#FAF8F2] border border-[#EDE2D3] rounded-2xl p-5 space-y-3">
+        <div className="bg-[#FAF8F2] border border-[#EDE2D3] rounded-xl p-5 space-y-4">
           <div className="flex items-start gap-3.5">
-            <div className="w-10 h-10 rounded-xl bg-[#E8F3EA] text-[#166534] flex items-center justify-center shrink-0 mt-0.5 border border-[#2F7D4A]/20">
+            <div className="w-10 h-10 rounded-lg bg-[#E8F3EA] text-[#14532D] flex items-center justify-center shrink-0 border border-[#2F7D4A]/20">
               <MapPin className="w-5 h-5" />
             </div>
             <div className="text-sm leading-relaxed text-stone-700">
@@ -56,131 +92,136 @@ export default function ContactSection() {
             </div>
           </div>
 
-          <div className="pt-2 border-t border-[#EDE2D3] flex flex-wrap items-center gap-3">
+          <div className="pt-3 border-t border-[#EDE2D3] flex flex-wrap items-center justify-between gap-3">
             <a
               href={SCHOOL_DATA.address.googleMapsUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="btn-interactive inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold text-white bg-[#166534] hover:bg-[#14532D] shadow-xs cursor-pointer"
+              className="btn-primary inline-flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-semibold text-white bg-[#14532D] hover:bg-[#0B3B20] shadow-xs cursor-pointer"
             >
               <Navigation className="w-3.5 h-3.5 text-[#EDE2D3]" />
               <span>Get Directions</span>
             </a>
-            <span className="text-[11px] text-stone-500">
-              Landmark: Opposite Jashn Palace Marriage Hall
+            <span className="text-xs text-stone-500 font-medium">
+              Landmark: {SCHOOL_DATA.address.landmark}
             </span>
           </div>
         </div>
 
-        {/* Contact Placeholders List */}
-        <div className="space-y-3 pt-2">
-          <div className="flex items-center gap-3 p-3 rounded-xl bg-[#FAF8F2] border border-[#EDE2D3] text-xs sm:text-sm text-stone-600">
-            <Phone className="w-4 h-4 text-[#166534] shrink-0" />
-            <div>
-              <span className="font-semibold text-stone-800">Phone Enquiry:</span>{" "}
-              <span className="text-stone-500">{SCHOOL_DATA.contactPlaceholders.phoneDisplay}</span>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-3 p-3 rounded-xl bg-[#FAF8F2] border border-[#EDE2D3] text-xs sm:text-sm text-stone-600">
-            <Mail className="w-4 h-4 text-[#6B4226] shrink-0" />
-            <div>
-              <span className="font-semibold text-stone-800">Email:</span>{" "}
-              <span className="text-stone-500">{SCHOOL_DATA.contactPlaceholders.emailDisplay}</span>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-3 p-3 rounded-xl bg-[#FAF8F2] border border-[#EDE2D3] text-xs sm:text-sm text-stone-600">
-            <Clock className="w-4 h-4 text-[#166534] shrink-0" />
-            <div>
-              <span className="font-semibold text-stone-800">Visiting Hours:</span>{" "}
-              <span className="text-stone-500">{SCHOOL_DATA.contactPlaceholders.officeHoursDisplay}</span>
-            </div>
-          </div>
+        {/* In-Person Campus Desk Instructions */}
+        <div className="p-4 rounded-xl bg-[#FAF8F2] border border-[#EDE2D3] text-xs text-stone-600 leading-relaxed space-y-2">
+          <p className="font-semibold text-[#14532D] text-sm">
+            Campus Visit & Office Desk
+          </p>
+          <p>
+            {SCHOOL_DATA.contact.campusDeskNote}
+          </p>
+          <p className="text-[11px] text-stone-500 pt-1">
+            *Visitors are requested to check in at the campus security gate on Ashok Rajpath Rd.
+          </p>
         </div>
       </div>
 
-      {/* Quick Message / Query Form */}
-      <div className="card-interactive lg:col-span-6 bg-white rounded-3xl border border-stone-200 p-6 sm:p-10 shadow-xs">
-        <h3 className="text-xl sm:text-2xl font-black text-[#14532D] tracking-tight mb-2">
+      {/* Right Column: Quick Query to School Desk */}
+      <div className="lg:col-span-6 bg-white rounded-2xl border border-stone-200 p-6 sm:p-8 shadow-xs">
+        <h3 className="font-heading font-black text-xl sm:text-2xl text-[#14532D] tracking-tight mb-2">
           Send a Message to Campus Desk
         </h3>
         <p className="text-xs sm:text-sm text-stone-500 mb-6">
-          Have a question about admissions, classes, or visiting the school premises? Leave a note.
+          Have a query regarding admissions, syllabus, or visiting the school campus? Leave your details below.
         </p>
 
         {submitted ? (
-          <div className="p-8 rounded-2xl bg-[#E8F3EA] border border-[#2F7D4A]/30 text-center space-y-3 animate-in fade-in duration-200">
-            <CheckCircle2 className="w-10 h-10 text-[#166534] mx-auto" />
-            <h4 className="font-bold text-[#14532D] text-lg">Message Received</h4>
-            <p className="text-xs sm:text-sm text-stone-600">
-              Thank you for reaching out. The school desk at Ashok Rajpath Rd will attend to your query.
+          <div className="p-6 rounded-xl bg-[#E8F3EA] border border-[#2F7D4A]/30 text-center space-y-3">
+            <CheckCircle2 className="w-10 h-10 text-[#14532D] mx-auto" />
+            <h4 className="font-heading font-bold text-[#14532D] text-lg">Message Registered</h4>
+            <p className="text-xs sm:text-sm text-stone-600 max-w-sm mx-auto leading-relaxed">
+              Thank you, {form.name}. Your query (Reference: <span className="font-mono font-bold text-[#14532D]">{referenceId}</span>) has been recorded at the school administrative desk.
             </p>
             <button
               onClick={() => {
                 setSubmitted(false);
-                setForm({ name: "", phone: "", message: "" });
+                setForm({ name: "", mobile: "", message: "" });
               }}
-              className="btn-interactive mt-3 px-4 py-2 rounded-xl text-xs font-bold text-stone-700 bg-white border border-stone-200 hover:bg-stone-50 cursor-pointer"
+              className="mt-3 px-4 py-2 rounded-lg text-xs font-semibold text-stone-700 bg-white border border-stone-300 hover:bg-stone-50 cursor-pointer"
             >
               Send Another Query
             </button>
           </div>
         ) : (
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form onSubmit={handleSubmit} className="space-y-4" noValidate>
             {error && (
-              <div className="p-3 rounded-xl bg-red-50 border border-red-200 text-xs text-red-700 flex items-center gap-2">
+              <div className="p-3 rounded-lg bg-red-50 border border-red-200 text-xs text-red-700 flex items-center gap-2">
                 <AlertCircle className="w-4 h-4 shrink-0" />
                 <span>{error}</span>
               </div>
             )}
 
             <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-stone-700 mb-1">
-                Your Name *
+              <label htmlFor="contact-name" className="block text-xs font-semibold uppercase tracking-wider text-stone-700 mb-1">
+                Your Full Name *
               </label>
               <input
+                id="contact-name"
                 type="text"
+                required
+                disabled={isSubmitting}
                 value={form.name}
                 onChange={(e) => setForm({ ...form, name: e.target.value })}
                 placeholder="Full Name"
-                className="w-full px-4 py-2.5 rounded-xl text-sm bg-[#FAF8F2] border border-stone-300 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#166534] text-stone-900"
+                className="w-full px-3.5 py-2.5 rounded-lg text-sm bg-[#FAF8F2] border border-stone-300 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#14532D] text-stone-900"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-stone-700 mb-1">
+              <label htmlFor="contact-mobile" className="block text-xs font-semibold uppercase tracking-wider text-stone-700 mb-1">
                 Mobile Number *
               </label>
               <input
+                id="contact-mobile"
                 type="tel"
+                required
                 maxLength={10}
-                value={form.phone}
-                onChange={(e) => setForm({ ...form, phone: e.target.value.replace(/\D/g, "") })}
+                disabled={isSubmitting}
+                value={form.mobile}
+                onChange={(e) => setForm({ ...form, mobile: e.target.value.replace(/\D/g, "") })}
                 placeholder="10-digit mobile number"
-                className="w-full px-4 py-2.5 rounded-xl text-sm bg-[#FAF8F2] border border-stone-300 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#166534] text-stone-900"
+                className="w-full px-3.5 py-2.5 rounded-lg text-sm bg-[#FAF8F2] border border-stone-300 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#14532D] text-stone-900"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-stone-700 mb-1">
-                Your Query / Message *
+              <label htmlFor="contact-message" className="block text-xs font-semibold uppercase tracking-wider text-stone-700 mb-1">
+                Your Message / Query *
               </label>
               <textarea
+                id="contact-message"
                 rows={3}
+                required
+                disabled={isSubmitting}
                 value={form.message}
                 onChange={(e) => setForm({ ...form, message: e.target.value })}
-                placeholder="How can we assist you?"
-                className="w-full px-4 py-2.5 rounded-xl text-sm bg-[#FAF8F2] border border-stone-300 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#166534] text-stone-900 resize-none"
+                placeholder="How may our school administration assist you?"
+                className="w-full px-3.5 py-2.5 rounded-lg text-sm bg-[#FAF8F2] border border-stone-300 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#14532D] text-stone-900 resize-none"
               />
             </div>
 
             <button
               type="submit"
-              className="btn-interactive w-full py-3 px-6 rounded-xl font-bold text-white bg-[#166534] hover:bg-[#14532D] shadow-xs flex items-center justify-center gap-2 cursor-pointer"
+              disabled={isSubmitting}
+              className="btn-primary w-full py-2.5 px-5 rounded-lg text-sm font-semibold text-white bg-[#14532D] hover:bg-[#0B3B20] shadow-xs flex items-center justify-center gap-2 cursor-pointer disabled:opacity-60"
             >
-              <Send className="w-4 h-4 text-[#EDE2D3] btn-icon-nudge" />
-              <span>Send Message</span>
+              {isSubmitting ? (
+                <>
+                  <RefreshCw className="w-4 h-4 animate-spin text-[#EDE2D3]" />
+                  <span>Sending Message...</span>
+                </>
+              ) : (
+                <>
+                  <Send className="w-4 h-4 text-[#EDE2D3]" />
+                  <span>Send Message to Desk</span>
+                </>
+              )}
             </button>
           </form>
         )}

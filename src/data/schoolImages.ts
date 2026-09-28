@@ -1,16 +1,8 @@
 /**
  * Centralized Image Configuration for Al-Qalam Public School
  *
- * HOW TO REPLACE TEMPORARY SAMPLE IMAGES WITH REAL PHOTOGRAPHS:
- * -------------------------------------------------------------
- * 1. Drop your authentic school photo into the `/public/images/` directory
- *    using the same filename (e.g. `hero-sample.jpg` or `about-sample.jpg`).
- *    - OR -
- * 2. Add your new photo file (e.g. `my-real-school-exterior.jpg`) into `/public/images/`
- *    and update the corresponding path in the `schoolImages` object below.
- *
- * None of the components, layouts, or animation effects need to be rewritten.
- * All animations, responsive styles, and aspect ratios adapt automatically.
+ * Prioritizes authentic school photographs from `/public/images/real/`
+ * for the hero section, classroom previews, academic overviews, and gallery.
  */
 
 export interface SchoolImageItem {
@@ -18,71 +10,108 @@ export interface SchoolImageItem {
   src: string;
   alt: string;
   title: string;
-  category: "Campus" | "Classroom" | "Facilities" | "Activities" | "Academics" | "Safety";
+  category: "Campus" | "Classroom" | "Facilities" | "Activities" | "Academics" | "Achievements" | "Events";
   description: string;
   tag: string;
+  isReal?: boolean;
 }
 
 export const schoolImages = {
-  // Hero section background & visual highlight
+  // Hero section primary visual - Authentic students in classroom
   hero: {
-    src: "/images/hero-sample.jpg",
-    alt: "Al-Qalam Public School Campus Building in Gulzarbagh, Patna",
-    caption: "Modern educational environment in Patna, Bihar",
-    width: 1376,
-    height: 768,
-  },
-
-  // About page & overview features (Real classroom photo)
-  about: {
     src: "/images/real/students-classroom.jpg",
-    alt: "Al-Qalam Public School students learning inside classroom in Gulzarbagh",
-    caption: "Real classroom learning atmosphere and attentive student mentoring",
+    alt: "Students attending class in uniform at Al-Qalam Public School, Gulzarbagh, Patna",
+    caption: "Authentic classroom atmosphere at Al-Qalam Public School",
     width: 2048,
     height: 1536,
   },
 
-  // Smart Classes confirmed facility
+  // About page & institutional introduction
+  about: {
+    src: "/images/real/students-classroom.jpg",
+    alt: "Students engaged in foundational lessons at Al-Qalam Public School",
+    caption: "Caring classroom instruction and student mentorship in Gulzarbagh",
+    width: 2048,
+    height: 1536,
+  },
+
+  // School story & creative activities
+  drawingCompetition: {
+    src: "/images/real/drawing-competition.jpg",
+    alt: "Students presenting their creative entries in the Annual Drawing Competition at Al-Qalam Public School",
+    caption: "Annual Drawing Competition showcasing student creativity",
+    width: 1200,
+    height: 900,
+  },
+
+  // Educational excursion & field activities
+  educationalTrip: {
+    src: "/images/real/educational-trip.jpg",
+    alt: "Students and teachers of Al-Qalam Public School on an educational field trip",
+    caption: "Experiential learning and field trip excursion outside campus",
+    width: 1600,
+    height: 1200,
+  },
+
+  // Student merit and certificates
+  starStudent: {
+    src: "/images/real/star-student-certificate.jpg",
+    alt: "Student receiving Star of the Al-Qalam merit certificate and medal",
+    caption: "Star of the Al-Qalam recognition for diligence and conduct",
+    width: 1200,
+    height: 900,
+  },
+
+  // Class topper annual examination
+  classTopper: {
+    src: "/images/real/class-topper-certificate.jpg",
+    alt: "Student holding Class Topper Certificate and honor medal at Al-Qalam Public School",
+    caption: "Honoring academic excellence in foundational examinations",
+    width: 1200,
+    height: 900,
+  },
+
+  // Smart Classes verified facility
   smartClass: {
     src: "/images/smart-class-sample.jpg",
-    alt: "Interactive Smart Board in classroom at Al-Qalam Public School",
-    caption: "Smart class digital technology facilitating interactive visual learning",
+    alt: "Interactive Smart Class teaching module display at Al-Qalam Public School",
+    caption: "Interactive audio-visual learning module",
     width: 1200,
     height: 896,
   },
 
-  // CCTV Monitoring confirmed facility
+  // CCTV Monitoring verified facility
   cctv: {
     src: "/images/cctv-sample.jpg",
-    alt: "CCTV security cameras and safety monitoring in school corridors",
-    caption: "Continuous monitored safety surveillance for complete peace of mind",
+    alt: "Campus CCTV security cameras and corridor monitoring at Al-Qalam Public School",
+    caption: "Monitored campus surveillance supporting student safety",
     width: 1200,
     height: 896,
   },
 
-  // Academics page & curriculum feature (Real classroom photo)
+  // Academics page feature
   academics: {
     src: "/images/real/students-classroom.jpg",
-    alt: "Foundational primary students of Al-Qalam Public School",
+    alt: "Foundational primary students learning at Al-Qalam Public School",
     caption: "Structured foundational learning with dedicated teacher guidance",
     width: 2048,
     height: 1536,
   },
 
-  // Admission enquiry & counseling desk
+  // Admission enquiry desk
   admission: {
     src: "/images/admission-sample.jpg",
-    alt: "Al-Qalam Public School admission enquiry and counseling desk",
+    alt: "Al-Qalam Public School campus admission enquiry desk",
     caption: "Admission guidance desk for parents in Gulzarbagh",
     width: 1200,
     height: 896,
   },
 
-  // Director Rahat Jahan message section
+  // Director Rahat Jahan desk presentation
   director: {
     src: "/images/director-placeholder.jpg",
-    alt: "Director Rahat Jahan - Al-Qalam Public School",
-    caption: "Office of Director Rahat Jahan",
+    alt: "Office of the Director, Al-Qalam Public School",
+    caption: "Directorate of Al-Qalam Public School",
     width: 1200,
     height: 896,
     isPlaceholder: true,
@@ -91,13 +120,13 @@ export const schoolImages = {
   // Digitally Rebuilt Official School Banner
   rebuiltBanner: {
     src: "/images/rebuilt-school-banner.png",
-    alt: "Al-Qalam Public School Rebuilt Official Banner",
-    caption: "Official Al-Qalam Public School Banner with Urdu calligraphy and Arabic verse",
+    alt: "Al-Qalam Public School Rebuilt Official Banner with Urdu calligraphy and Arabic motto",
+    caption: "Official Al-Qalam Public School Banner with motto 'الَّذِي عَلَّمَ بِالْقَلَمِ'",
     width: 1920,
     height: 800,
   },
 
-  // Official school logo & crest suite (Original authentic badge)
+  // Official school logo & crest suite
   branding: {
     primarySvg: "/logo.png",
     masterPng: "/logo.png",
@@ -105,85 +134,4 @@ export const schoolImages = {
     iconSvg: "/icon.png",
     faviconIco: "/icon.png",
   },
-
-  // Real School Photos & Gallery collection
-  gallery: [
-    {
-      id: "real-1",
-      src: "/images/real/drawing-competition.jpg",
-      alt: "Drawing Competition 2023-24 at Al-Qalam Public School",
-      title: "Annual Drawing Competition 2023-24",
-      category: "Activities" as const,
-      description: "Students proudly presenting their creative art entries in the school's annual drawing event.",
-      tag: "School Event",
-      isReal: true,
-    },
-    {
-      id: "real-2",
-      src: "/images/real/students-classroom.jpg",
-      alt: "Students attending class in Al-Qalam Public School uniform",
-      title: "Classroom Learning in Session",
-      category: "Classroom" as const,
-      description: "Disciplined and engaged primary learners in their green plaid school uniform.",
-      tag: "Classroom Life",
-      isReal: true,
-    },
-    {
-      id: "real-3",
-      src: "/images/real/educational-trip.jpg",
-      alt: "Al-Qalam students on an educational field trip",
-      title: "Educational Excursion & Field Trip",
-      category: "Activities" as const,
-      description: "Experiential learning beyond textbooks as students explore historical and cultural heritage.",
-      tag: "Field Trip",
-      isReal: true,
-    },
-    {
-      id: "real-4",
-      src: "/images/real/star-student-certificate.jpg",
-      alt: "Student receiving Star of the Al-Qalam Certificate and Achievement Folder",
-      title: "Star of the Al-Qalam Award",
-      category: "Academics" as const,
-      description: "Recognizing academic diligence, good conduct, and foundational excellence with medals and certificates.",
-      tag: "Student Merit",
-      isReal: true,
-    },
-    {
-      id: "real-5",
-      src: "/images/real/class-topper-certificate.jpg",
-      alt: "Class Topper Annual Award with School Medal and Lanyard",
-      title: "Annual Examination Class Topper",
-      category: "Academics" as const,
-      description: "Celebrating top performance in annual foundational examinations with official school honor medals.",
-      tag: "Academic Topper",
-      isReal: true,
-    },
-    {
-      id: "gal-1",
-      src: "/images/gallery-01.jpg",
-      alt: "Al-Qalam Public School Campus Facade",
-      title: "School Campus Environment",
-      category: "Campus" as const,
-      description: "Clean, secure, and disciplined educational campus located in Gulzarbagh, Patna.",
-      tag: "Campus Architecture",
-    },
-    {
-      id: "gal-3",
-      src: "/images/smart-class-sample.jpg",
-      alt: "Interactive Smart Board Session",
-      title: "Interactive Smart Class Technology",
-      category: "Facilities" as const,
-      description: "Digital audio-visual interactive smart boards bringing textbook concepts to life.",
-      tag: "Smart Classes",
-    },
-    {
-      id: "gal-6",
-      src: "/images/cctv-sample.jpg",
-      alt: "Monitored School Hallway & Corridors",
-      title: "CCTV Campus Surveillance",
-      category: "Safety" as const,
-      description: "Continuous monitored cameras safeguarding corridors, gates, and school common areas.",
-      tag: "Safety & Security",
-    },
-  ],
 };

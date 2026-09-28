@@ -1,8 +1,6 @@
 import React from "react";
 import Link from "next/link";
-import Image from "next/image";
-import { GraduationCap, ArrowRight } from "lucide-react";
-import { schoolImages } from "@/data/schoolImages";
+import { ArrowRight } from "lucide-react";
 
 interface CTAProps {
   title?: string;
@@ -18,65 +16,34 @@ export default function CTA({
   primaryBtnHref = "/admissions",
 }: CTAProps) {
   return (
-    <section className="card-interactive relative overflow-hidden rounded-3xl bg-gradient-to-r from-[#0d3b1f] via-[#14532D] to-[#166534] text-white p-8 sm:p-12 shadow-lg border border-[#2F7D4A]/40 my-12">
-      {/* Subtle Admission Desk Background Photo Layer */}
-      <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
-        <Image
-          src={schoolImages.admission.src}
-          alt={schoolImages.admission.alt}
-          fill
-          sizes="(max-width: 1200px) 100vw, 1200px"
-          className="object-cover object-center opacity-10 mix-blend-luminosity"
-        />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#0d3b1f]/95 via-[#14532D]/90 to-[#166534]/95" />
-      </div>
-
-      {/* Subtle Brand Crest Watermark Accent */}
-      <div className="absolute -right-12 -bottom-12 w-64 h-64 opacity-[0.04] pointer-events-none select-none hidden sm:block">
-        <Image
-          src={schoolImages.branding.lightSvg}
-          alt=""
-          width={256}
-          height={256}
-          className="w-full h-full object-contain"
-        />
-      </div>
-
-      <div className="relative z-10 max-w-3xl mx-auto text-center space-y-6">
-        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#E8F3EA]/15 border border-[#EDE2D3]/20 text-[#EDE2D3] text-xs font-bold uppercase tracking-wider">
-          <Image
-            src={schoolImages.branding.iconSvg}
-            alt=""
-            width={18}
-            height={18}
-            className="w-4.5 h-4.5 rounded-full object-contain"
-          />
-          <span>Admissions Notice</span>
+    <section className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-[#0B3B20] via-[#14532D] to-[#166534] text-white p-8 sm:p-12 shadow-md border border-[#14532D] my-12">
+      <div className="relative z-10 max-w-3xl mx-auto text-center space-y-5">
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-[#072413] border border-[#2F7D4A]/40 text-[#EDE2D3] text-xs font-semibold uppercase tracking-wider">
+          <span>Admissions Desk</span>
         </div>
 
-        <h3 className="text-2xl sm:text-3xl lg:text-4xl font-black text-white tracking-tight">
+        <h3 className="font-heading font-black text-2xl sm:text-3xl lg:text-4xl text-white tracking-tight">
           {title}
         </h3>
 
-        <p className="text-sm sm:text-base text-[#EDE2D3] leading-relaxed max-w-2xl mx-auto">
+        <p className="text-sm sm:text-base text-stone-200 leading-relaxed max-w-2xl mx-auto">
           {subtitle}
         </p>
 
-        <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-4">
+        <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-3.5">
           <Link
             href={primaryBtnHref}
-            className="btn-interactive w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 py-3.5 rounded-xl font-bold text-[#14532D] bg-[#FAF8F2] hover:bg-white shadow-md active:scale-98 text-sm sm:text-base"
+            className="btn-primary w-full sm:w-auto px-6 py-3 rounded-lg font-semibold text-[#14532D] bg-[#FAF8F2] hover:bg-white shadow-xs text-sm flex items-center justify-center gap-2"
           >
-            <GraduationCap className="w-5 h-5 text-[#14532D]" />
             <span>{primaryBtnText}</span>
+            <ArrowRight className="w-4 h-4 text-[#14532D]" />
           </Link>
 
           <Link
             href="/contact"
-            className="btn-interactive w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl font-bold text-white bg-[#0d3b1f]/80 hover:bg-[#0d3b1f] border border-[#2F7D4A]/60 backdrop-blur-xs active:scale-98 text-sm sm:text-base"
+            className="btn-primary w-full sm:w-auto px-6 py-3 rounded-lg font-semibold text-white bg-[#072413]/70 hover:bg-[#072413] border border-[#2F7D4A]/60 shadow-2xs text-sm flex items-center justify-center"
           >
             <span>Visit Campus</span>
-            <ArrowRight className="btn-icon-nudge w-4 h-4 text-[#EDE2D3]" />
           </Link>
         </div>
       </div>

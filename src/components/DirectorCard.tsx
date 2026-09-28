@@ -1,93 +1,74 @@
 import React from "react";
 import Image from "next/image";
-import { Quote, UserCheck } from "lucide-react";
+import { UserCheck } from "lucide-react";
 import { SCHOOL_DATA } from "@/data/schoolData";
-import { schoolImages } from "@/data/schoolImages";
 
 export default function DirectorCard() {
   return (
-    <div className="card-interactive relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#0d3b1f] via-[#14532D] to-[#166534] text-white p-8 sm:p-12 shadow-lg border border-[#2F7D4A]/40">
-      {/* Subtle warm earthy ambient glow */}
-      <div className="absolute -top-24 -right-24 w-72 h-72 rounded-full bg-[#EDE2D3]/10 blur-3xl pointer-events-none" />
-      <div className="absolute -bottom-24 -left-24 w-72 h-72 rounded-full bg-[#E8F3EA]/10 blur-3xl pointer-events-none" />
-
-      {/* Decorative Crest Watermark in Corner */}
-      <div className="absolute -right-10 -bottom-10 w-60 h-60 opacity-[0.035] pointer-events-none select-none hidden lg:block">
-        <Image
-          src={schoolImages.branding.lightSvg}
-          alt=""
-          width={240}
-          height={240}
-          className="w-full h-full object-contain"
-        />
-      </div>
-
-      <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-        {/* Left: Director Details & Temporary Leadership Office Placeholder */}
-        <div className="lg:col-span-4 flex flex-col items-center lg:items-start text-center lg:text-left space-y-4 border-b lg:border-b-0 lg:border-r border-[#2F7D4A]/40 pb-6 lg:pb-0 lg:pr-8">
-          <div className="relative w-32 h-32 sm:w-36 sm:h-36 rounded-2xl overflow-hidden ring-4 ring-[#EDE2D3]/35 shadow-xl bg-stone-900 flex items-center justify-center group">
+    <div className="bg-gradient-to-br from-[#0B3B20] via-[#14532D] to-[#166534] text-white rounded-2xl p-7 sm:p-10 lg:p-12 shadow-md border border-[#14532D]">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+        {/* Left: Professional Portrait / Office Representation */}
+        <div className="lg:col-span-4 flex flex-col items-center lg:items-start text-center lg:text-left space-y-4">
+          <div className="relative w-44 h-44 sm:w-48 sm:h-48 rounded-2xl overflow-hidden shadow-lg border-2 border-[#EDE2D3]/30 bg-stone-900">
             <Image
-              src={schoolImages.director.src}
-              alt={schoolImages.director.alt}
+              src="/images/school/achievements/rotary-shiksha-ratna-award.jpg"
+              alt={`Director ${SCHOOL_DATA.director.name} receiving Rotary Shiksha Ratna from CM Nitish Kumar`}
               fill
-              className="object-cover object-center transition-transform duration-500 group-hover:scale-105"
+              sizes="(max-width: 1024px) 200px, 220px"
+              className="object-cover object-top"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-            
-            {/* Embedded Crest Badge */}
-            <div className="absolute bottom-2.5 left-2.5 right-2.5 flex items-center justify-between">
-              <span className="text-[10px] font-bold uppercase tracking-wider text-white bg-black/60 px-2 py-0.5 rounded backdrop-blur-xs">
-                Desk Placeholder
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent pointer-events-none" />
+
+            <div className="absolute bottom-2 left-2 right-2 text-center">
+              <span className="text-[10px] font-semibold uppercase tracking-wider text-[#FAF8F2] bg-[#14532D]/90 px-2 py-0.5 rounded border border-white/20 backdrop-blur-xs">
+                State Honor Awardee
               </span>
-              <div className="w-8 h-8 rounded-full bg-white p-1 shadow-md">
-                <Image
-                  src={schoolImages.branding.primarySvg}
-                  alt="Al-Qalam Crest"
-                  width={24}
-                  height={24}
-                  className="w-full h-full object-contain"
-                />
-              </div>
             </div>
           </div>
 
           <div>
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#E8F3EA]/15 text-[#EDE2D3] text-xs font-bold uppercase tracking-wider mb-2 border border-[#EDE2D3]/20">
-              <UserCheck className="w-3.5 h-3.5 text-[#EDE2D3]" />
-              <span>Leadership Desk</span>
+            <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded bg-[#FAF8F2]/10 text-[#EDE2D3] text-xs font-semibold uppercase tracking-wider mb-1.5 border border-[#EDE2D3]/20">
+              <UserCheck className="w-3.5 h-3.5" />
+              <span>School Leadership</span>
             </div>
-            <h3 className="text-2xl font-black text-white tracking-tight">
+            <h3 className="font-heading font-black text-2xl text-white tracking-tight">
               {SCHOOL_DATA.director.name}
             </h3>
-            <p className="text-sm font-semibold text-[#EDE2D3] mt-0.5">
+            <p className="text-xs sm:text-sm font-medium text-[#EDE2D3] mt-0.5">
               {SCHOOL_DATA.director.title}, {SCHOOL_DATA.name}
             </p>
             <p className="text-xs text-stone-300 mt-1">Gulzarbagh, Patna, Bihar</p>
           </div>
         </div>
 
-        {/* Right: Message Placeholder Block */}
-        <div className="lg:col-span-8 flex flex-col justify-center space-y-4">
-          <div className="flex items-center gap-3 text-[#EDE2D3]">
-            <Quote className="w-8 h-8 opacity-70" />
-            <span className="text-xs font-bold uppercase tracking-widest text-[#FAF8F2]">
-              Message from the Director
-            </span>
+        {/* Right: Institutional Statement (No Fake Quotes) */}
+        <div className="lg:col-span-8 space-y-4 border-t lg:border-t-0 lg:border-l border-[#2F7D4A]/40 pt-6 lg:pt-0 lg:pl-10">
+          <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-[#EDE2D3]">
+            <span>Administrative Stewardship</span>
           </div>
 
-          {/* Strictly placeholder per prompt instructions */}
-          <div className="bg-[#0a2916]/60 rounded-2xl p-6 border border-[#2F7D4A]/40 shadow-inner">
-            <p className="text-[#FAF8F2] text-base sm:text-lg italic leading-relaxed">
-              &ldquo;{SCHOOL_DATA.director.messagePlaceholder}&rdquo;
+          <h4 className="font-heading font-bold text-xl sm:text-2xl text-white">
+            Nurturing Disciplined Growth & Foundational Clarity
+          </h4>
+
+          <div className="bg-[#072413]/70 rounded-xl p-5 sm:p-6 border border-[#2F7D4A]/40 space-y-3">
+            <p className="text-[#FAF8F2] text-sm sm:text-base leading-relaxed">
+              {SCHOOL_DATA.director.institutionalStatement}
             </p>
-            <p className="mt-4 text-xs text-[#EDE2D3]">
-              Note: The official personal address from Director {SCHOOL_DATA.director.name} will be published upon confirmation.
-            </p>
+            <div className="border-t border-[#2F7D4A]/30 pt-3 space-y-1.5 text-xs text-stone-300">
+              <p className="text-[#EDE2D3] font-semibold flex items-center gap-1.5">
+                <span>★</span>
+                <span>Rotary Shiksha Ratna Samman Conferred by Chief Minister Nitish Kumar</span>
+              </p>
+              <p className="leading-relaxed">
+                Director Rahat Jahan was honored with the Rotary Shiksha Ratna Samman by Shri Nitish Kumar, Chief Minister of Bihar, organized by Rotary Club Patna City on Teachers&apos; Day, acknowledging dedicated service to primary schooling in Patna.
+              </p>
+            </div>
           </div>
 
-          <div className="pt-2 flex items-center justify-between text-xs text-[#EDE2D3]">
-            <span>Al-Qalam Public School • Gulzarbagh</span>
-            <span className="font-semibold text-white">&ldquo;{SCHOOL_DATA.tagline}&rdquo;</span>
+          <div className="flex flex-wrap items-center justify-between text-xs text-[#EDE2D3] pt-1">
+            <span>Al-Qalam Public School • Established in Patna</span>
+            <span className="font-semibold italic">&ldquo;{SCHOOL_DATA.tagline}&rdquo;</span>
           </div>
         </div>
       </div>

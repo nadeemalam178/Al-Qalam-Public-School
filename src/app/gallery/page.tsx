@@ -1,76 +1,103 @@
 import React from "react";
 import type { Metadata } from "next";
-import { Image as ImageIcon, Info } from "lucide-react";
-import SectionHeading from "@/components/SectionHeading";
+import Link from "next/link";
+import { Image as ImageIcon, ArrowRight, Sparkles, Layers, Award } from "lucide-react";
 import GalleryGrid from "@/components/GalleryGrid";
-import CTA from "@/components/CTA";
-import ScrollReveal from "@/components/ScrollReveal";
 
 export const metadata: Metadata = {
-  title: "School Gallery",
+  title: "School Life & Photo Gallery (25+ Authentic Photographs)",
   description:
-    "Explore photos and visual highlights of Al-Qalam Public School, Gulzarbagh, Patna. Classrooms, activities, smart learning, and campus environment.",
+    "Explore 25+ authentic photographs of students, classrooms, drawing competitions, educational excursions, and achievement awards at Al-Qalam Public School, Gulzarbagh, Patna.",
 };
 
 export default function GalleryPage() {
   return (
-    <div className="bg-white">
-      {/* Banner */}
-      <section className="bg-forest-hero text-white py-16 sm:py-20 border-b border-[#0d3b1f]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <ScrollReveal variant="fade-up">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#0d3b1f]/60 border border-[#2F7D4A]/40 text-[#EDE2D3] text-xs font-bold uppercase tracking-wider mb-4">
-              <ImageIcon className="w-4 h-4 text-[#E8F3EA]" />
-              <span>Campus Moments</span>
+    <div className="bg-white min-h-screen">
+      {/* Banner with Ambient Glowing Orbs */}
+      <section className="relative bg-forest-hero text-white py-14 sm:py-20 lg:py-24 border-b border-[#0B3B20] overflow-hidden">
+        {/* Ambient background depth blurs */}
+        <div className="absolute -top-20 -left-20 w-96 h-96 rounded-full bg-emerald-400/15 blur-3xl pointer-events-none animate-ambient-orb" />
+        <div className="absolute top-1/2 -right-20 w-96 h-96 rounded-full bg-amber-400/10 blur-3xl pointer-events-none" />
+
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-4 relative z-10">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/10 border border-white/20 text-[#EDE2D3] text-xs font-semibold uppercase tracking-wider backdrop-blur-md">
+            <Sparkles className="w-3.5 h-3.5 text-[#C6E7CE]" />
+            <span>Official Photo Archive</span>
+          </div>
+
+          <h1 className="font-heading font-black text-3xl sm:text-4xl lg:text-6xl text-white tracking-tight leading-tight">
+            School Life &amp; Visual Gallery
+          </h1>
+
+          <p className="text-base sm:text-lg text-stone-200 max-w-2xl mx-auto leading-relaxed">
+            Authentic photographs of classroom learning, creative arts, study excursions, and institutional honors at Al-Qalam Public School, Gulzarbagh, Patna.
+          </p>
+
+          {/* Quick Metrics Bar */}
+          <div className="pt-4 flex flex-wrap items-center justify-center gap-4 sm:gap-6 text-xs text-stone-200">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white/10 backdrop-blur-md border border-white/15">
+              <ImageIcon className="w-4 h-4 text-[#C6E7CE]" />
+              <span className="font-bold text-white">25+ Authentic Photos</span>
             </div>
-            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-white">
-              School Gallery
-            </h1>
-            <p className="mt-3 text-base sm:text-lg text-[#EDE2D3] max-w-2xl mx-auto">
-              A visual overview of student activities, learning spaces, and campus life at Al-Qalam Public School.
-            </p>
-          </ScrollReveal>
+
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white/10 backdrop-blur-md border border-white/15">
+              <Layers className="w-4 h-4 text-[#C6E7CE]" />
+              <span>Dynamic Hover-Cycle Albums</span>
+            </div>
+
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white/10 backdrop-blur-md border border-white/15">
+              <Award className="w-4 h-4 text-[#C6E7CE]" />
+              <span>Rotary Shiksha Ratna Milestone</span>
+            </div>
+          </div>
         </div>
       </section>
 
-      {/* Main Gallery Area */}
-      <section className="py-16 sm:py-20 bg-white border-b border-stone-200">
+      {/* Main Gallery Grid with Depth Backdrops */}
+      <section className="relative py-14 sm:py-20 bg-white border-b border-[#E7E5E4] overflow-hidden">
+        {/* Soft atmospheric depth blurs */}
+        <div className="absolute top-20 left-10 w-96 h-96 rounded-full bg-emerald-500/[0.04] blur-3xl pointer-events-none -z-10" />
+        <div className="absolute bottom-20 right-10 w-96 h-96 rounded-full bg-amber-500/[0.04] blur-3xl pointer-events-none -z-10" />
+
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <ScrollReveal variant="fade-up">
-            <SectionHeading
-              badge="Categories"
-              title="Life & Learning at Al-Qalam"
-              subtitle="Click on any card to view detailed description and preview. Official photo updates are added regularly by the administration."
-              center
-            />
-          </ScrollReveal>
+          <div className="max-w-3xl mx-auto text-center mb-10 space-y-2">
+            <h2 className="font-heading font-black text-2xl sm:text-3xl text-[#14532D] tracking-tight">
+              Life and Learning at Al-Qalam
+            </h2>
+            <p className="text-stone-600 text-sm leading-relaxed">
+              Hover over any card to automatically cycle through album photographs. Toggle the &ldquo;Auto-Cycle&rdquo; mode for continuous playback, or click any card for fullscreen preview.
+            </p>
+          </div>
 
-          <ScrollReveal variant="fade-up" delay={100}>
-            <GalleryGrid />
-          </ScrollReveal>
-
-          {/* Admin Notice on Image Uploads */}
-          <ScrollReveal variant="fade-up" delay={150}>
-            <div className="max-w-3xl mx-auto mt-16 bg-[#FAF8F2] border border-[#EDE2D3] rounded-2xl p-5 flex items-start gap-3 text-xs text-stone-600 shadow-xs">
-              <Info className="w-5 h-5 text-[#6B4226] shrink-0 mt-0.5" />
-              <div className="leading-relaxed">
-                <span className="font-bold text-[#14532D]">Photography Notice:</span> Authentic photographs of campus activities, events, and classrooms are being compiled for publication. In accordance with student privacy guidelines, event photo albums will be updated sequentially.
-              </div>
-            </div>
-          </ScrollReveal>
+          <GalleryGrid />
         </div>
       </section>
 
-      {/* CTA */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <ScrollReveal variant="fade-up">
-          <CTA
-            title="Experience Al-Qalam in Person"
-            subtitle="We warmly welcome parents to visit our campus at Ashok Rajpath Rd, Gulzarbagh, Alamganj, Patna."
-            primaryBtnText="Plan a Campus Visit"
-            primaryBtnHref="/contact"
-          />
-        </ScrollReveal>
+      {/* Campus Visit Invitation */}
+      <section className="relative py-16 sm:py-20 bg-[#FAF8F2] overflow-hidden">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-5">
+          <h2 className="font-heading font-black text-2xl sm:text-3xl text-[#14532D] tracking-tight">
+            Experience Al-Qalam in Person
+          </h2>
+          <p className="text-stone-600 text-sm sm:text-base leading-relaxed max-w-2xl mx-auto">
+            We warmly invite parents to visit our campus at Ashok Rajpath Rd, Gulzarbagh to witness our classrooms, smart learning systems, and educational atmosphere firsthand.
+          </p>
+          <div className="pt-2 flex flex-wrap items-center justify-center gap-4">
+            <Link
+              href="/admissions"
+              className="btn-primary px-6 py-3 rounded-xl text-sm font-semibold text-white bg-[#14532D] hover:bg-[#0B3B20] shadow-md transition-all hover:scale-105 active:scale-95 flex items-center gap-2"
+            >
+              <span>Submit Admission Enquiry</span>
+              <ArrowRight className="w-4 h-4 text-[#EDE2D3]" />
+            </Link>
+            <Link
+              href="/contact"
+              className="btn-primary px-6 py-3 rounded-xl text-sm font-semibold text-stone-700 bg-white hover:bg-stone-50 border border-[#EDE2D3] transition-all hover:scale-105 active:scale-95 shadow-xs"
+            >
+              <span>Campus Visit Directions</span>
+            </Link>
+          </div>
+        </div>
       </section>
     </div>
   );

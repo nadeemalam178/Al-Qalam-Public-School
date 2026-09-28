@@ -1,7 +1,7 @@
 import { MetadataRoute } from "next";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = "https://alqalam-patna.edu.in";
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://alqalam-patna.edu.in";
   const routes = [
     "",
     "/about",

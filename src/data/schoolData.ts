@@ -19,14 +19,8 @@ export interface NoticeItem {
   isImportant?: boolean;
 }
 
-export interface GalleryItem {
-  id: string;
-  title: string;
-  category: 'School' | 'Classroom' | 'Activities' | 'Events' | 'Facilities';
-  description: string;
-  tag: string;
-  colorScheme: 'forest' | 'earth' | 'mediumGreen' | 'warmBrown' | 'navy' | 'gold' | 'crimson' | 'emerald';
-}
+import { GALLERY_ITEMS, GalleryItem } from "./galleryData";
+export type { GalleryItem };
 
 export interface AcademicStage {
   id: string;
@@ -35,18 +29,35 @@ export interface AcademicStage {
   focus: string;
   highlights: string[];
   description: string;
+  curriculumPoints: string[];
+}
+
+export interface AdmissionStep {
+  step: string;
+  title: string;
+  subtitle: string;
+  description: string;
 }
 
 export const SCHOOL_DATA = {
   name: "Al-Qalam Public School",
+  shortName: "Al-Qalam",
   tagline: "We Shape Your Future",
   mottoArabic: "الَّذِي عَلَّمَ بِالْقَلَمِ",
   mottoTranslation: "Who taught by the pen (Surah Al-Alaq)",
+  institutionType: "Foundational & Primary School",
+  affiliationStatus: "Independent Primary Institution",
+
   director: {
     name: "Rahat Jahan",
     title: "Director",
-    messagePlaceholder: "[Director's message will be added here.]",
+    roleDescription: "Executive leadership and administrative stewardship.",
+    // Note: No personal quote is fabricated. Component uses institutional description.
+    hasPersonalQuote: false,
+    institutionalStatement:
+      "Al-Qalam Public School was founded to offer children in Gulzarbagh and Patna a disciplined, caring, and values-centered start to formal schooling. Our objective is to develop sound foundational literacy, arithmetic comprehension, and moral character in every student.",
   },
+
   address: {
     line1: "Opposite Jashn Palace Marriage Hall",
     line2: "Agarwal Tola, Loharwa Ghat",
@@ -55,100 +66,196 @@ export const SCHOOL_DATA = {
     city: "Patna",
     state: "Bihar",
     pincode: "800007",
-    fullAddress: "Opposite Jashn Palace Marriage Hall, Agarwal Tola, Loharwa Ghat, Ashok Rajpath Rd, Gulzarbagh, Alamganj, Patna, Bihar 800007",
-    googleMapsUrl: "https://www.google.com/maps/search/?api=1&query=Opposite+Jashn+Palace+Marriage+Hall+Agarwal+Tola+Loharwa+Ghat+Ashok+Rajpath+Rd+Gulzarbagh+Alamganj+Patna+Bihar+800007",
+    landmark: "Opposite Jashn Palace Marriage Hall",
+    fullAddress:
+      "Opposite Jashn Palace Marriage Hall, Agarwal Tola, Loharwa Ghat, Ashok Rajpath Rd, Gulzarbagh, Alamganj, Patna, Bihar 800007",
+    googleMapsUrl:
+      "https://www.google.com/maps/search/?api=1&query=Opposite+Jashn+Palace+Marriage+Hall+Agarwal+Tola+Loharwa+Ghat+Ashok+Rajpath+Rd+Gulzarbagh+Alamganj+Patna+Bihar+800007",
+    coordinates: {
+      lat: 25.6025,
+      lng: 85.1912,
+    },
   },
-  contactPlaceholders: {
-    phone: "[Phone number will be updated by administration]",
-    phoneDisplay: "+91 ••••• ••••• (Enquire at campus)",
-    email: "[Email address will be updated by administration]",
-    emailDisplay: "info@alqalam.placeholder (Campus desk)",
-    officeHours: "[Office hours will be updated by administration]",
-    officeHoursDisplay: "Monday – Saturday: Standard School Office Hours",
+
+  // Contact visibility policy: Only verified contact modes are rendered publicly.
+  // Unverified placeholders like [Phone will be updated...] or fake emails are hidden.
+  contact: {
+    hasVerifiedPhone: false,
+    phone: null as string | null,
+    hasVerifiedEmail: false,
+    email: null as string | null,
+    hasVerifiedOfficeHours: false,
+    officeHours: null as string | null,
+    campusDeskNote:
+      "Admissions, circulars, and general enquiries are received in person at the school administrative desk on Ashok Rajpath Rd during school operation hours.",
   },
-  brand: {
-    primaryDarkGreen: "#14532D",
-    primaryGreen: "#166534",
+
+  social: {
+    facebook: "https://www.facebook.com/p/Al-Qalam-Public-School-100066841958743/",
+    facebookPageId: "100066841958743",
+  },
+
+  brandColors: {
+    deepForest: "#14532D",
+    darkForest: "#0B3B20",
     mediumGreen: "#2F7D4A",
-    lightGreen: "#E8F3EA",
-    creamBg: "#FAF8F2",
+    softGreen: "#E8F3EA",
+    cream: "#FAF8F2",
+    warmBeige: "#EDE2D3",
     earthBrown: "#6B4226",
-    darkBrown: "#4A2C1A",
-    lightBrown: "#EDE2D3",
+    charcoal: "#292524",
+    slate: "#57534E",
+    lightBorder: "#E7E5E4",
+    white: "#FFFFFF",
   },
-  socialPlaceholders: {
-    note: "Official social media channels will be connected when verified links are published.",
-  },
-  confirmedFacilities: [
+
+  // 4 concise principles per prompt specifications
+  whyAlQalam: [
     {
-      id: "cctv-monitoring",
-      title: "CCTV Monitoring",
-      badge: "Campus Safety",
-      shortDesc: "Continuous security surveillance across key learning spaces and corridors.",
-      fullDesc: "Student safety is an indispensable pillar of our educational environment. Our campus is equipped with closed-circuit television (CCTV) cameras covering school corridors, entrance gateways, and communal activity zones, ensuring monitored security and peace of mind for parents.",
-      features: [
-        "Monitored surveillance covering entry points & corridors",
-        "Assists in maintaining disciplined school environment",
-        "Supports child safety and campus oversight",
-        "Proactive monitoring during school operation hours",
-      ],
-      isConfirmed: true,
-      iconName: "Camera" as const,
+      id: "strong-foundations",
+      title: "Strong Foundations",
+      desc: "Systematic mastery of early literacy, phonics, number sense, and conceptual reasoning built step-by-step.",
+      icon: "BookOpen" as const,
     },
     {
+      id: "caring-mentorship",
+      title: "Caring Mentorship",
+      desc: "Patient, attentive teachers who understand young children and foster positive learning habits with respect.",
+      icon: "Sparkles" as const,
+    },
+    {
+      id: "smart-learning",
+      title: "Smart Learning",
+      desc: "Audio-visual smart classroom modules that illustrate core concepts with clarity and keep children engaged.",
+      icon: "MonitorPlay" as const,
+    },
+    {
+      id: "safe-disciplined-campus",
+      title: "Safe & Disciplined Campus",
+      desc: "A calm, structured learning sanctuary backed by monitored CCTV cameras across school corridors and entry gates.",
+      icon: "ShieldCheck" as const,
+    },
+  ],
+
+  confirmedFacilities: [
+    {
       id: "smart-classes",
-      title: "Smart Classes",
+      title: "Interactive Smart Classes",
       badge: "Modern Learning",
-      shortDesc: "Technology-supported classrooms designed to make concepts intuitive and interactive.",
-      fullDesc: "We incorporate modern audio-visual technology and smart teaching aids to make classroom lessons engaging, visual, and participatory. Technology-enabled instruction helps young primary learners grasp complex concepts through animations, educational media, and interactive dialogue.",
+      shortDesc: "Multimedia audio-visual teaching aids that make lessons clear, engaging, and memorable.",
+      fullDesc:
+        "Students learn through regular classroom practice, guided activities, and technology-supported lessons. Smart class modules allow teachers to demonstrate scientific concepts, mathematical patterns, and language stories visually.",
       features: [
         "Audio-visual multimedia learning modules",
-        "Visual storytelling for foundational concepts",
-        "High-engagement interactive classroom sessions",
-        "Fosters early curiosity and digital familiarity",
+        "Visual storytelling for foundational subjects",
+        "Interactive diagrams reinforcing textbook lessons",
+        "Encourages active student participation",
       ],
       isConfirmed: true,
       iconName: "MonitorPlay" as const,
+    },
+    {
+      id: "cctv-monitoring",
+      title: "Campus CCTV & Safety Oversight",
+      badge: "Campus Safety",
+      shortDesc: "Monitored security cameras safeguarding school entry points, gates, and corridors.",
+      fullDesc:
+        "Campus safety is an essential aspect of daily school management. Closed-circuit cameras monitor main entrance gates and primary hallways, supporting a secure, disciplined, and well-supervised school environment.",
+      features: [
+        "Monitored cameras covering campus gates and corridors",
+        "Assists in maintaining disciplined school operations",
+        "Supports child safety and structured campus movement",
+        "Continuous supervision during school hours",
+      ],
+      isConfirmed: true,
+      iconName: "Camera" as const,
     },
   ] as FacilityItem[],
 
   academicStages: [
     {
-      id: "foundational-years",
+      id: "foundational-learning",
       stageName: "Foundational Learning",
-      grades: "Early Childhood (Pre-Primary / Kindergarten Levels)",
-      focus: "Curiosity, Language Readiness, & Motor Development",
-      description: "A nurturing, playful atmosphere where young learners develop listening, speaking, early phonics, number recognition, and social empathy in a comfortable setting.",
+      grades: "Pre-Primary / Kindergarten Levels",
+      focus: "Language Readiness, Early Numeracy & Motor Skills",
+      description:
+        "A warm and encouraging introductory stage where young learners build curiosity, learn to communicate with confidence, and develop social and physical coordination through guided play and phonics.",
       highlights: [
-        "Playful phonics and sensory alphabet activities",
-        "Basic numeracy through visual and tactile objects",
-        "Encouraging social bonding, sharing, and self-expression",
-        "Supportive, attentive guidance from compassionate mentors",
+        "Phonetic sound recognition and sensory letter writing",
+        "Hands-on number counting and shape identification",
+        "Social habits: sharing, listening, and polite expression",
+        "Attentive supervision from caring early-childhood educators",
+      ],
+      curriculumPoints: [
+        "Early English & Urdu phonetic awareness",
+        "Pre-math tactile exercises & sorting games",
+        "Gross & fine motor development activities",
+        "Story listening & vocabulary enrichment",
       ],
     },
     {
       id: "primary-education",
       stageName: "Primary Education",
-      grades: "Primary Classes (Foundational to Primary Standard)",
-      focus: "Concept Clarity, Literacy, & Disciplined Habits",
-      description: "Structured academic inquiry combining core subject learning—Languages, Mathematics, Environmental Studies, and Moral Values—with Smart Class visual reinforcement.",
+      grades: "Class 1 through Class 5",
+      focus: "Conceptual Clarity, Core Literacy & Disciplined Habits",
+      description:
+        "Structured primary schooling combining language fluency, mathematics, environmental studies, and moral values. Lessons are reinforced with audio-visual Smart Class sessions to ensure deep conceptual grasp.",
       highlights: [
-        "Smart-class visual lessons to solidify core fundamentals",
-        "Reading comprehension, vocabulary, and neat penmanship",
-        "Inquiry-based thinking and everyday problem solving",
-        "Character building, respect, and collaborative classroom habits",
+        "Smart Class visual demonstrations for science and arithmetic",
+        "Grammar, vocabulary, and legible penmanship practice",
+        "Environmental awareness and everyday problem-solving",
+        "Character building, respect, honesty, and civic awareness",
+      ],
+      curriculumPoints: [
+        "Languages: Reading comprehension, spelling, and oral expression",
+        "Mathematics: Arithmetic operations, word problems, and logic",
+        "Environmental Studies (EVS): Nature, community, and health",
+        "Moral Science & General Knowledge: Values and awareness",
       ],
     },
   ] as AcademicStage[],
+
+  admissionProcess: [
+    {
+      step: "01",
+      title: "Enquiry",
+      subtitle: "Submit enquiry form or visit campus",
+      description:
+        "Parents submit an online Admission Enquiry form or collect the enquiry prospectus from the school office at Ashok Rajpath Rd.",
+    },
+    {
+      step: "02",
+      title: "Interaction",
+      subtitle: "Friendly parent & child dialogue",
+      description:
+        "A pleasant, informal interaction with our teachers to understand the child's developmental readiness and class placement.",
+    },
+    {
+      step: "03",
+      title: "Document Verification",
+      subtitle: "Review of foundational documents",
+      description:
+        "Submission of the child's birth certificate, photographs, and parent address verification documents at the school desk.",
+    },
+    {
+      step: "04",
+      title: "Admission Confirmation",
+      subtitle: "Registration & session start",
+      description:
+        "Formal enrollment completion, issuance of admission receipt, class section allocation, and syllabus orientation.",
+    },
+  ] as AdmissionStep[],
 
   notices: [
     {
       id: "notice-01",
       title: "Admission Enquiry Open for Upcoming Academic Session",
-      date: "Current Session",
+      date: "Active Session",
       category: "Admissions",
-      summary: "Parents seeking admission for Foundational and Primary classes may submit an admission enquiry online or visit the school office.",
-      details: "Al-Qalam Public School welcomes enquiries from parents for upcoming admissions. Please fill out the online Admission Enquiry form or visit the school premises at Ashok Rajpath Rd, Gulzarbagh, Alamganj, Patna. Exact seat availability and documentation checklists are accessible at the campus desk.",
+      summary:
+        "Parents seeking admission for Foundational (Pre-Primary/KG) and Primary (Class 1-5) grades may submit an admission enquiry online or visit the campus desk.",
+      details:
+        "Al-Qalam Public School welcomes enquiries for the upcoming academic year. Parents can fill out the online Admission Enquiry form or visit our school premises opposite Jashn Palace Marriage Hall on Ashok Rajpath Rd, Gulzarbagh, Patna. Documentation checklists and seat availability are provided at the campus desk.",
       isImportant: true,
     },
     {
@@ -156,8 +263,10 @@ export const SCHOOL_DATA = {
       title: "Smart Class Integration in Primary Learning Modules",
       date: "Academic Notice",
       category: "Academic",
-      summary: "Technology-enabled Smart Class sessions are scheduled throughout the week to reinforce conceptual topics in science, mathematics, and language.",
-      details: "Our audio-visual interactive modules are actively utilized across classes to enhance student comprehension. Parents are invited to discuss their child's engagement during regular parent-school interactions.",
+      summary:
+        "Interactive audio-visual sessions are scheduled weekly across foundational and primary classes to reinforce core science, mathematics, and language concepts.",
+      details:
+        "Smart teaching modules are systematically used to illustrate complex ideas with animations, diagrams, and educational stories. Parents are encouraged to review their child's engagement during parent-school interactions.",
       isImportant: false,
     },
     {
@@ -165,8 +274,10 @@ export const SCHOOL_DATA = {
       title: "Campus Safety & CCTV Monitoring Protocol",
       date: "Safety Guidelines",
       category: "Safety",
-      summary: "Security protocols and CCTV surveillance remain actively supervised across all campus premises for student safety.",
-      details: "Campus access during school hours is monitored to maintain a secure and peaceful learning sanctuary for every child. Visitors are requested to register at the main gate.",
+      summary:
+        "Security protocols and CCTV camera surveillance remain actively supervised across school corridors and entrance gates for student protection.",
+      details:
+        "Campus access during school hours is monitored to maintain a safe, orderly learning space. All visitors, parents, and vendors must sign the visitor register at the main entrance gate.",
       isImportant: false,
     },
     {
@@ -174,78 +285,15 @@ export const SCHOOL_DATA = {
       title: "Campus Desk & General Information Notice",
       date: "General Circular",
       category: "General",
-      summary: "School circulars, uniform guidelines, and academic schedule details are available for review at the school administrative desk.",
-      details: "For any administrative clarification, parent visits are accommodated during standard school office hours at our Gulzarbagh campus.",
+      summary:
+        "School circulars, uniform guidelines, and academic schedule details are available for review at the school administrative desk.",
+      details:
+        "For any administrative clarification, parent visits are accommodated during standard school hours at our Gulzarbagh campus on Ashok Rajpath Rd.",
       isImportant: false,
     },
   ] as NoticeItem[],
 
-  galleryItems: [
-    {
-      id: "real-1",
-      title: "Annual Drawing Competition 2023-24",
-      category: "Events",
-      tag: "School Event",
-      description: "Al-Qalam students proudly presenting their artwork and creative drawings during the annual school competition.",
-      colorScheme: "forest",
-    },
-    {
-      id: "real-2",
-      title: "Classroom Learning in Session",
-      category: "Classroom",
-      tag: "Classroom Life",
-      description: "Disciplined primary learners engaged in foundational lessons in their official green plaid school uniforms.",
-      colorScheme: "earth",
-    },
-    {
-      id: "real-3",
-      title: "Educational Excursion & Field Trip",
-      category: "Activities",
-      tag: "Field Trip",
-      description: "Students and faculty discovering culture, science, and history during an exciting guided educational excursion.",
-      colorScheme: "mediumGreen",
-    },
-    {
-      id: "real-4",
-      title: "Star of the Al-Qalam Award",
-      category: "Events",
-      tag: "Student Merit",
-      description: "Honoring outstanding young learners with the Star of the Al-Qalam Certificate and official achievement medal.",
-      colorScheme: "warmBrown",
-    },
-    {
-      id: "real-5",
-      title: "Annual Examination Class Topper",
-      category: "Events",
-      tag: "Academic Topper",
-      description: "Celebrating top rank holders with the Class Topper honor certificate, school lanyard, and prestigious academic medal.",
-      colorScheme: "forest",
-    },
-    {
-      id: "gal-1",
-      title: "School Campus & Learning Spaces",
-      category: "School",
-      tag: "Campus",
-      description: "Safe, disciplined, and nurturing environment located in Gulzarbagh, Patna.",
-      colorScheme: "earth",
-    },
-    {
-      id: "gal-3",
-      title: "Interactive Smart Class Technology",
-      category: "Facilities",
-      tag: "Smart Classes",
-      description: "Digital audio-visual interactive smart boards bringing textbook concepts to life.",
-      colorScheme: "forest",
-    },
-    {
-      id: "gal-6",
-      title: "Campus CCTV & Safety Oversight",
-      category: "Facilities",
-      tag: "CCTV Monitoring",
-      description: "Proactive safety monitoring across all school corridors and entrance zones.",
-      colorScheme: "mediumGreen",
-    },
-  ] as GalleryItem[],
+  galleryItems: GALLERY_ITEMS,
 
   navLinks: [
     { label: "Home", href: "/" },
