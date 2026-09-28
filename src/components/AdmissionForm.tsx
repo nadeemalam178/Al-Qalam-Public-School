@@ -254,6 +254,7 @@ export default function AdmissionForm() {
             </div>
             <input
               id="studentName"
+              name="studentName"
               type="text"
               required
               disabled={isSubmitting}
@@ -294,6 +295,7 @@ export default function AdmissionForm() {
             </div>
             <input
               id="parentName"
+              name="parentName"
               type="text"
               required
               disabled={isSubmitting}
@@ -335,6 +337,7 @@ export default function AdmissionForm() {
               </div>
               <input
                 id="mobile"
+                name="mobile"
                 type="tel"
                 required
                 maxLength={10}
@@ -376,6 +379,7 @@ export default function AdmissionForm() {
               </div>
               <select
                 id="grade"
+                name="grade"
                 required
                 disabled={isSubmitting}
                 value={formData.grade}
@@ -421,6 +425,7 @@ export default function AdmissionForm() {
             </div>
             <textarea
               id="message"
+              name="message"
               rows={3}
               maxLength={500}
               disabled={isSubmitting}

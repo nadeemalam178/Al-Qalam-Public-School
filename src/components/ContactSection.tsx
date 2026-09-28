@@ -163,6 +163,7 @@ export default function ContactSection() {
               </label>
               <input
                 id="contact-name"
+                name="name"
                 type="text"
                 required
                 disabled={isSubmitting}
@@ -179,6 +180,7 @@ export default function ContactSection() {
               </label>
               <input
                 id="contact-mobile"
+                name="mobile"
                 type="tel"
                 required
                 maxLength={10}
@@ -196,6 +198,7 @@ export default function ContactSection() {
               </label>
               <textarea
                 id="contact-message"
+                name="message"
                 rows={3}
                 required
                 disabled={isSubmitting}

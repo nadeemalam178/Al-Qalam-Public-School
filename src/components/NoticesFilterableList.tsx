@@ -55,6 +55,8 @@ export default function NoticesFilterableList() {
             <Search className="w-4 h-4" />
           </div>
           <input
+            id="notice-search"
+            name="notice-search"
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
