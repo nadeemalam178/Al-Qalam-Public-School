@@ -184,10 +184,24 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
     return Scaffold(
       appBar: CustomSchoolAppBar(
         title: screenTitle,
-        showRoleSwitcher: true,
+        showProfileBadge: true,
       ),
       drawer: _buildAppDrawer(context, auth),
-      body: screens[_currentIndex],
+      body: AnimatedSwitcher(
+        duration: const Duration(milliseconds: 250),
+        switchInCurve: Curves.easeOutCubic,
+        switchOutCurve: Curves.easeInCubic,
+        transitionBuilder: (child, animation) {
+          return FadeTransition(
+            opacity: animation,
+            child: child,
+          );
+        },
+        child: KeyedSubtree(
+          key: ValueKey('${role.name}_$_currentIndex'),
+          child: screens[_currentIndex],
+        ),
+      ),
       bottomNavigationBar: NavigationBar(
         selectedIndex: _currentIndex,
         onDestinationSelected: (index) {
@@ -196,7 +210,8 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
           });
         },
         backgroundColor: Colors.white,
-        elevation: 4,
+        elevation: 6,
+        shadowColor: AppTheme.forestDeep.withValues(alpha: 0.1),
         indicatorColor: AppTheme.forestTint,
         destinations: destinations,
       ),
@@ -401,48 +416,48 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
                 Padding(
                   padding: const EdgeInsets.symmetric(
                       horizontal: 16.0, vertical: 8.0),
-                  child: Text(
-                    'PORTAL ROLE SWITCH',
-                    style: GoogleFonts.inter(
-                      fontSize: 11,
-                      fontWeight: FontWeight.bold,
-                      color: AppTheme.textMuted,
-                      letterSpacing: 0.8,
+                  child: Container(
+                    padding: const EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      color: AppTheme.forestTint,
+                      borderRadius: BorderRadius.circular(12),
+                      border: Border.all(
+                        color: AppTheme.forestPrimary.withValues(alpha: 0.15),
+                      ),
+                    ),
+                    child: Row(
+                      children: [
+                        const Icon(
+                          Icons.lock_rounded,
+                          size: 16,
+                          color: AppTheme.forestPrimary,
+                        ),
+                        const SizedBox(width: 8),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Role: ${auth.currentUser.roleDisplayName}',
+                                style: GoogleFonts.inter(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.bold,
+                                  color: AppTheme.forestDeep,
+                                ),
+                              ),
+                              Text(
+                                'Locked in for security. Sign out to switch.',
+                                style: GoogleFonts.inter(
+                                  fontSize: 10,
+                                  color: AppTheme.textMuted,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                ),
-                ListTile(
-                  leading: const Icon(Icons.family_restroom,
-                      color: AppTheme.forestPrimary),
-                  title: Text('Parent / Student View',
-                      style: GoogleFonts.inter(fontSize: 13)),
-                  selected: auth.isParent,
-                  onTap: () {
-                    auth.switchRole(UserRole.parent);
-                    Navigator.pop(context);
-                  },
-                ),
-                ListTile(
-                  leading:
-                      const Icon(Icons.school, color: AppTheme.forestPrimary),
-                  title: Text('Class Teacher View',
-                      style: GoogleFonts.inter(fontSize: 13)),
-                  selected: auth.isTeacher,
-                  onTap: () {
-                    auth.switchRole(UserRole.teacher);
-                    Navigator.pop(context);
-                  },
-                ),
-                ListTile(
-                  leading: const Icon(Icons.admin_panel_settings,
-                      color: AppTheme.forestPrimary),
-                  title: Text('Administrator View',
-                      style: GoogleFonts.inter(fontSize: 13)),
-                  selected: auth.isAdmin,
-                  onTap: () {
-                    auth.switchRole(UserRole.admin);
-                    Navigator.pop(context);
-                  },
                 ),
                 const Divider(),
                 ListTile(

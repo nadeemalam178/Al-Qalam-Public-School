@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../providers/school_provider.dart';
 import '../../theme/app_theme.dart';
 import '../../widgets/section_header.dart';
+import '../../widgets/animated_entry.dart';
 import 'attendance_screen.dart';
 import 'fees_screen.dart';
 import 'homework_screen.dart';
@@ -32,377 +33,429 @@ class ParentDashboardScreen extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // Student ID Profile Card
-          Container(
-            padding: const EdgeInsets.all(18),
-            decoration: BoxDecoration(
-              gradient: const LinearGradient(
-                colors: [AppTheme.forestDeep, AppTheme.forestPrimary],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
+          AnimatedEntry(
+            delay: const Duration(milliseconds: 40),
+            child: Container(
+              padding: const EdgeInsets.all(18),
+              decoration: BoxDecoration(
+                gradient: const LinearGradient(
+                  colors: [AppTheme.forestDeep, AppTheme.forestPrimary],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                ),
+                borderRadius: BorderRadius.circular(20),
+                boxShadow: [
+                  BoxShadow(
+                    color: AppTheme.forestDeep.withValues(alpha: 0.25),
+                    blurRadius: 16,
+                    offset: const Offset(0, 8),
+                  ),
+                ],
               ),
-              borderRadius: BorderRadius.circular(20),
-              boxShadow: [
-                BoxShadow(
-                  color: AppTheme.forestDeep.withValues(alpha: 0.25),
-                  blurRadius: 16,
-                  offset: const Offset(0, 8),
-                ),
-              ],
-            ),
-            child: Column(
-              children: [
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Container(
-                      width: 58,
-                      height: 58,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Colors.white,
-                        border: Border.all(
-                          color: AppTheme.goldPrimary,
-                          width: 2.5,
+              child: Column(
+                children: [
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Container(
+                        width: 58,
+                        height: 58,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Colors.white,
+                          border: Border.all(
+                            color: AppTheme.goldPrimary,
+                            width: 2.5,
+                          ),
+                        ),
+                        child: const Center(
+                          child: Icon(
+                            Icons.face_rounded,
+                            size: 38,
+                            color: AppTheme.forestPrimary,
+                          ),
                         ),
                       ),
-                      child: const Center(
-                        child: Icon(
-                          Icons.face_rounded,
-                          size: 38,
-                          color: AppTheme.forestPrimary,
+                      const SizedBox(width: 14),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                Flexible(
+                                  child: Text(
+                                    student.name,
+                                    style: GoogleFonts.outfit(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white,
+                                    ),
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ),
+                                const SizedBox(width: 8),
+                                Container(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 8, vertical: 2),
+                                  decoration: BoxDecoration(
+                                    color: AppTheme.goldPrimary,
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  child: Text(
+                                    'Roll #${student.rollNo}',
+                                    style: GoogleFonts.inter(
+                                      fontSize: 10,
+                                      fontWeight: FontWeight.bold,
+                                      color: AppTheme.forestDeep,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 4),
+                            Text(
+                              student.fullClass,
+                              style: GoogleFonts.inter(
+                                fontSize: 13,
+                                color: AppTheme.forestSoft,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                            const SizedBox(height: 2),
+                            Text(
+                              'Adm: ${student.admissionNo}',
+                              style: GoogleFonts.inter(
+                                fontSize: 11,
+                                color: Colors.white60,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
-                    ),
-                    const SizedBox(width: 14),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            children: [
-                              Flexible(
-                                child: Text(
-                                  student.name,
-                                  style: GoogleFonts.outfit(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white,
-                                  ),
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ),
-                              const SizedBox(width: 8),
-                              Container(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 8, vertical: 2),
-                                decoration: BoxDecoration(
-                                  color: AppTheme.goldPrimary,
-                                  borderRadius: BorderRadius.circular(12),
-                                ),
-                                child: Text(
-                                  'Roll #${student.rollNo}',
-                                  style: GoogleFonts.inter(
-                                    fontSize: 10,
-                                    fontWeight: FontWeight.bold,
-                                    color: AppTheme.forestDeep,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(height: 4),
-                          Text(
-                            student.fullClass,
-                            style: GoogleFonts.inter(
-                              fontSize: 13,
-                              color: AppTheme.forestSoft,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                          const SizedBox(height: 2),
-                          Text(
-                            'Adm: ${student.admissionNo}',
-                            style: GoogleFonts.inter(
-                              fontSize: 11,
-                              color: Colors.white60,
-                            ),
-                          ),
-                        ],
+                    ],
+                  ),
+                  const SizedBox(height: 16),
+                  const Divider(color: Colors.white12, height: 1),
+                  const SizedBox(height: 12),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      _buildStudentMiniStat(
+                        'Attendance',
+                        '${student.attendanceRate.toStringAsFixed(1)}%',
+                        Icons.check_circle_outline,
+                        Colors.greenAccent,
                       ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 16),
-                const Divider(color: Colors.white12, height: 1),
-                const SizedBox(height: 12),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    _buildStudentMiniStat(
-                      'Attendance',
-                      '${student.attendanceRate.toStringAsFixed(1)}%',
-                      Icons.check_circle_outline,
-                      Colors.greenAccent,
-                    ),
-                    _buildStudentMiniStat(
-                      'Blood Group',
-                      student.bloodGroup,
-                      Icons.favorite_outline,
-                      Colors.pinkAccent,
-                    ),
-                    _buildStudentMiniStat(
-                      'Pending Fees',
-                      student.pendingFees > 0
-                          ? '₹${student.pendingFees.toInt()}'
-                          : 'Clear',
-                      Icons.receipt_outlined,
-                      student.pendingFees > 0
-                          ? AppTheme.goldPrimary
-                          : Colors.greenAccent,
-                    ),
-                  ],
-                ),
-              ],
+                      _buildStudentMiniStat(
+                        'Blood Group',
+                        student.bloodGroup,
+                        Icons.favorite_outline,
+                        Colors.pinkAccent,
+                      ),
+                      _buildStudentMiniStat(
+                        'Pending Fees',
+                        student.pendingFees > 0
+                            ? '₹${student.pendingFees.toInt()}'
+                            : 'Clear',
+                        Icons.receipt_outlined,
+                        student.pendingFees > 0
+                            ? AppTheme.goldPrimary
+                            : Colors.greenAccent,
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
           const SizedBox(height: 20),
 
           // Quick Action Navigation Grid
-          const SectionHeader(
-            title: 'School Services',
-            subtitle: 'Key modules for parent monitoring',
-            icon: Icons.grid_view_rounded,
-          ),
-          const SizedBox(height: 6),
-          GridView.count(
-            crossAxisCount: 3,
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            mainAxisSpacing: 10,
-            crossAxisSpacing: 10,
-            childAspectRatio: 0.88,
-            children: [
-              _buildServiceButton(
-                context,
-                title: 'Attendance',
-                icon: Icons.calendar_month_rounded,
-                color: const Color(0xFF10B981),
-                badge: '${student.attendanceRate.toInt()}%',
-                onTap: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (_) => const ParentAttendanceScreen(),
-                  ),
+          AnimatedEntry(
+            delay: const Duration(milliseconds: 140),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SectionHeader(
+                  title: 'School Services',
+                  subtitle: 'Key modules for parent monitoring',
+                  icon: Icons.grid_view_rounded,
                 ),
-              ),
-              _buildServiceButton(
-                context,
-                title: 'Fee Dues',
-                icon: Icons.receipt_long_rounded,
-                color: const Color(0xFFD4AF37),
-                badge: student.pendingFees > 0
-                    ? '₹${student.pendingFees.toInt()}'
-                    : null,
-                onTap: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (_) => const ParentFeesScreen()),
+                const SizedBox(height: 6),
+                GridView.count(
+                  crossAxisCount: 3,
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  mainAxisSpacing: 10,
+                  crossAxisSpacing: 10,
+                  childAspectRatio: 0.88,
+                  children: [
+                    _buildServiceButton(
+                      context,
+                      title: 'Attendance',
+                      icon: Icons.calendar_month_rounded,
+                      color: const Color(0xFF10B981),
+                      badge: '${student.attendanceRate.toInt()}%',
+                      onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => const ParentAttendanceScreen(),
+                        ),
+                      ),
+                    ),
+                    _buildServiceButton(
+                      context,
+                      title: 'Fee Dues',
+                      icon: Icons.receipt_long_rounded,
+                      color: const Color(0xFFD4AF37),
+                      badge: student.pendingFees > 0
+                          ? '₹${student.pendingFees.toInt()}'
+                          : null,
+                      onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (_) => const ParentFeesScreen()),
+                      ),
+                    ),
+                    _buildServiceButton(
+                      context,
+                      title: 'Diary/HW',
+                      icon: Icons.menu_book_rounded,
+                      color: const Color(0xFF3B82F6),
+                      badge: activeHwCount > 0 ? '$activeHwCount Tasks' : null,
+                      onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => const ParentHomeworkScreen(),
+                        ),
+                      ),
+                    ),
+                    _buildServiceButton(
+                      context,
+                      title: 'Report Card',
+                      icon: Icons.military_tech_rounded,
+                      color: const Color(0xFF8B5CF6),
+                      badge: 'Rank #3',
+                      onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => const ReportCardScreen(),
+                        ),
+                      ),
+                    ),
+                    _buildServiceButton(
+                      context,
+                      title: 'Timetable',
+                      icon: Icons.schedule_rounded,
+                      color: const Color(0xFFEC4899),
+                      onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => const TimetableScreen(),
+                        ),
+                      ),
+                    ),
+                    _buildServiceButton(
+                      context,
+                      title: 'Campus Info',
+                      icon: Icons.info_outline_rounded,
+                      color: AppTheme.forestPrimary,
+                      onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => const AboutSchoolScreen(),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-              ),
-              _buildServiceButton(
-                context,
-                title: 'Diary/HW',
-                icon: Icons.menu_book_rounded,
-                color: const Color(0xFF3B82F6),
-                badge: activeHwCount > 0 ? '$activeHwCount Tasks' : null,
-                onTap: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (_) => const ParentHomeworkScreen(),
-                  ),
-                ),
-              ),
-              _buildServiceButton(
-                context,
-                title: 'Report Card',
-                icon: Icons.military_tech_rounded,
-                color: const Color(0xFF8B5CF6),
-                badge: 'Rank #3',
-                onTap: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (_) => const ReportCardScreen(),
-                  ),
-                ),
-              ),
-              _buildServiceButton(
-                context,
-                title: 'Timetable',
-                icon: Icons.schedule_rounded,
-                color: const Color(0xFFEC4899),
-                onTap: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (_) => const TimetableScreen(),
-                  ),
-                ),
-              ),
-              _buildServiceButton(
-                context,
-                title: 'Campus Info',
-                icon: Icons.info_outline_rounded,
-                color: AppTheme.forestPrimary,
-                onTap: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (_) => const AboutSchoolScreen(),
-                  ),
-                ),
-              ),
-            ],
+              ],
+            ),
           ),
           const SizedBox(height: 20),
 
           // Daily Diary Highlight
-          SectionHeader(
-            title: 'Active Homework Tasks',
-            actionText: 'View All',
-            onActionTap: () => Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (_) => const ParentHomeworkScreen(),
-              ),
+          AnimatedEntry(
+            delay: const Duration(milliseconds: 220),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SectionHeader(
+                  title: 'Active Homework Tasks',
+                  actionText: 'View All',
+                  onActionTap: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => const ParentHomeworkScreen(),
+                    ),
+                  ),
+                  icon: Icons.assignment_outlined,
+                ),
+                const SizedBox(height: 6),
+                ...studentHomework.take(2).map((hw) {
+                  return BounceTap(
+                    onTap: () {
+                      school.toggleHomeworkCompletion(hw.id);
+                    },
+                    child: Card(
+                      margin: const EdgeInsets.only(bottom: 10),
+                      elevation: 0.5,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(14),
+                        side: BorderSide(
+                          color: hw.isCompleted
+                              ? AppTheme.forestPrimary.withValues(alpha: 0.2)
+                              : Colors.grey.shade200,
+                        ),
+                      ),
+                      child: ListTile(
+                        leading: Container(
+                          padding: const EdgeInsets.all(10),
+                          decoration: BoxDecoration(
+                            color: hw.isCompleted
+                                ? AppTheme.forestTint
+                                : const Color(0xFFFFF7DC),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: Icon(
+                            hw.isCompleted
+                                ? Icons.check_circle_outline
+                                : Icons.pending_actions_rounded,
+                            color: hw.isCompleted
+                                ? AppTheme.forestPrimary
+                                : AppTheme.goldDark,
+                          ),
+                        ),
+                        title: Text(
+                          hw.title,
+                          style: GoogleFonts.inter(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 14,
+                          ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        subtitle: Text(
+                          '${hw.subject} • Due: ${hw.dueDate}',
+                          style: GoogleFonts.inter(
+                            fontSize: 12,
+                            color: AppTheme.textMuted,
+                          ),
+                        ),
+                        trailing: Checkbox(
+                          value: hw.isCompleted,
+                          activeColor: AppTheme.forestPrimary,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(4),
+                          ),
+                          onChanged: (_) {
+                            school.toggleHomeworkCompletion(hw.id);
+                          },
+                        ),
+                      ),
+                    ),
+                  );
+                }),
+              ],
             ),
-            icon: Icons.assignment_outlined,
           ),
-          const SizedBox(height: 6),
-          ...studentHomework.take(2).map((hw) {
-            return Card(
-              margin: const EdgeInsets.only(bottom: 10),
-              child: ListTile(
-                leading: Container(
-                  padding: const EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    color: hw.isCompleted
-                        ? AppTheme.forestTint
-                        : const Color(0xFFFFF7DC),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Icon(
-                    hw.isCompleted
-                        ? Icons.check_circle_outline
-                        : Icons.pending_actions_rounded,
-                    color: hw.isCompleted
-                        ? AppTheme.forestPrimary
-                        : AppTheme.goldDark,
-                  ),
-                ),
-                title: Text(
-                  hw.title,
-                  style: GoogleFonts.inter(
-                    fontWeight: FontWeight.w600,
-                    fontSize: 14,
-                  ),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
-                subtitle: Text(
-                  '${hw.subject} • Due: ${hw.dueDate}',
-                  style: GoogleFonts.inter(
-                    fontSize: 12,
-                    color: AppTheme.textMuted,
-                  ),
-                ),
-                trailing: Checkbox(
-                  value: hw.isCompleted,
-                  activeColor: AppTheme.forestPrimary,
-                  onChanged: (_) {
-                    school.toggleHomeworkCompletion(hw.id);
-                  },
-                ),
-              ),
-            );
-          }),
           const SizedBox(height: 16),
 
           // Recent Notice Card
           if (latestNotice != null) ...[
-            SectionHeader(
-              title: 'Important School Circular',
-              actionText: 'All Notices',
-              onActionTap: () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (_) => const NoticesScreen(),
-                ),
-              ),
-              icon: Icons.campaign_outlined,
-            ),
-            const SizedBox(height: 6),
-            Container(
-              padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(16),
-                border: Border.all(
-                  color: latestNotice.isImportant
-                      ? AppTheme.goldPrimary.withValues(alpha: 0.5)
-                      : const Color(0xFFECEFF1),
-                ),
-                boxShadow: [
-                  BoxShadow(
-                    color: AppTheme.forestDeep.withValues(alpha: 0.04),
-                    blurRadius: 10,
-                    offset: const Offset(0, 4),
-                  ),
-                ],
-              ),
+            AnimatedEntry(
+              delay: const Duration(milliseconds: 300),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 10, vertical: 4),
-                        decoration: BoxDecoration(
-                          color: AppTheme.forestTint,
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: Text(
-                          latestNotice.category,
-                          style: GoogleFonts.inter(
-                            fontSize: 11,
-                            fontWeight: FontWeight.bold,
-                            color: AppTheme.forestDeep,
-                          ),
-                        ),
+                  SectionHeader(
+                    title: 'Important School Circular',
+                    actionText: 'All Notices',
+                    onActionTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => const NoticesScreen(),
                       ),
-                      Text(
-                        latestNotice.date,
-                        style: GoogleFonts.inter(
-                          fontSize: 12,
-                          color: AppTheme.textMuted,
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 10),
-                  Text(
-                    latestNotice.title,
-                    style: GoogleFonts.outfit(
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold,
-                      color: AppTheme.forestDeep,
                     ),
+                    icon: Icons.campaign_outlined,
                   ),
                   const SizedBox(height: 6),
-                  Text(
-                    latestNotice.summary,
-                    style: GoogleFonts.inter(
-                      fontSize: 13,
-                      color: AppTheme.textDark,
-                      height: 1.4,
+                  BounceTap(
+                    onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => const NoticesScreen(),
+                      ),
+                    ),
+                    child: Container(
+                      padding: const EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(16),
+                        border: Border.all(
+                          color: latestNotice.isImportant
+                              ? AppTheme.goldPrimary.withValues(alpha: 0.5)
+                              : const Color(0xFFECEFF1),
+                        ),
+                        boxShadow: [
+                          BoxShadow(
+                            color: AppTheme.forestDeep.withValues(alpha: 0.04),
+                            blurRadius: 10,
+                            offset: const Offset(0, 4),
+                          ),
+                        ],
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Container(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 10, vertical: 4),
+                                decoration: BoxDecoration(
+                                  color: AppTheme.forestTint,
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                child: Text(
+                                  latestNotice.category,
+                                  style: GoogleFonts.inter(
+                                    fontSize: 11,
+                                    fontWeight: FontWeight.bold,
+                                    color: AppTheme.forestDeep,
+                                  ),
+                                ),
+                              ),
+                              Text(
+                                latestNotice.date,
+                                style: GoogleFonts.inter(
+                                  fontSize: 12,
+                                  color: AppTheme.textMuted,
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 10),
+                          Text(
+                            latestNotice.title,
+                            style: GoogleFonts.outfit(
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                              color: AppTheme.forestDeep,
+                            ),
+                          ),
+                          const SizedBox(height: 6),
+                          Text(
+                            latestNotice.summary,
+                            style: GoogleFonts.inter(
+                              fontSize: 13,
+                              color: AppTheme.textDark,
+                              height: 1.4,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ],
@@ -453,69 +506,87 @@ class ParentDashboardScreen extends StatelessWidget {
     String? badge,
     required VoidCallback onTap,
   }) {
-    return Material(
-      color: Colors.white,
-      borderRadius: BorderRadius.circular(16),
-      child: InkWell(
-        onTap: onTap,
-        borderRadius: BorderRadius.circular(16),
-        child: Container(
-          padding: const EdgeInsets.all(10),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(16),
-            border: Border.all(color: const Color(0xFFECEFF1)),
+    return BounceTap(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 10),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(color: color.withValues(alpha: 0.16)),
+          gradient: LinearGradient(
+            colors: [
+              Colors.white,
+              color.withValues(alpha: 0.035),
+            ],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
           ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Stack(
-                clipBehavior: Clip.none,
-                children: [
-                  Container(
-                    padding: const EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                      color: color.withValues(alpha: 0.12),
-                      shape: BoxShape.circle,
-                    ),
-                    child: Icon(icon, color: color, size: 22),
+          boxShadow: [
+            BoxShadow(
+              color: color.withValues(alpha: 0.06),
+              blurRadius: 10,
+              offset: const Offset(0, 3),
+            ),
+          ],
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Stack(
+              clipBehavior: Clip.none,
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    color: color.withValues(alpha: 0.12),
+                    shape: BoxShape.circle,
                   ),
-                  if (badge != null)
-                    Positioned(
-                      top: -4,
-                      right: -8,
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 6, vertical: 2),
-                        decoration: BoxDecoration(
-                          color: AppTheme.goldPrimary,
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: Text(
-                          badge,
-                          style: GoogleFonts.inter(
-                            fontSize: 9,
-                            fontWeight: FontWeight.bold,
-                            color: AppTheme.forestDeep,
+                  child: Icon(icon, color: color, size: 22),
+                ),
+                if (badge != null)
+                  Positioned(
+                    top: -4,
+                    right: -8,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 6, vertical: 2),
+                      decoration: BoxDecoration(
+                        color: AppTheme.goldPrimary,
+                        borderRadius: BorderRadius.circular(10),
+                        boxShadow: [
+                          BoxShadow(
+                            color: AppTheme.goldPrimary.withValues(alpha: 0.3),
+                            blurRadius: 6,
+                            offset: const Offset(0, 2),
                           ),
+                        ],
+                      ),
+                      child: Text(
+                        badge,
+                        style: GoogleFonts.inter(
+                          fontSize: 9,
+                          fontWeight: FontWeight.bold,
+                          color: AppTheme.forestDeep,
                         ),
                       ),
                     ),
-                ],
+                  ),
+              ],
+            ),
+            const SizedBox(height: 8),
+            Text(
+              title,
+              style: GoogleFonts.inter(
+                fontSize: 12,
+                fontWeight: FontWeight.bold,
+                color: AppTheme.textDark,
               ),
-              const SizedBox(height: 8),
-              Text(
-                title,
-                style: GoogleFonts.inter(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w600,
-                  color: AppTheme.textDark,
-                ),
-                textAlign: TextAlign.center,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-              ),
-            ],
-          ),
+              textAlign: TextAlign.center,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ],
         ),
       ),
     );
