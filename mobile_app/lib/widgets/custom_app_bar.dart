@@ -160,12 +160,16 @@ class CustomSchoolAppBar extends StatelessWidget implements PreferredSizeWidget 
             ),
             child: ClipOval(
               child: Image.asset(
-                'assets/images/logo.png',
-                fit: BoxFit.cover,
-                errorBuilder: (_, __, ___) => const Icon(
-                  Icons.school,
-                  size: 20,
-                  color: AppTheme.forestPrimary,
+                'assets/images/clean_logo.png',
+                fit: BoxFit.contain,
+                errorBuilder: (_, __, ___) => Image.asset(
+                  'assets/images/logo.png',
+                  fit: BoxFit.cover,
+                  errorBuilder: (_, __, ___) => const Icon(
+                    Icons.school,
+                    size: 20,
+                    color: AppTheme.forestPrimary,
+                  ),
                 ),
               ),
             ),

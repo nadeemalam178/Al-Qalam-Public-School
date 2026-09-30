@@ -1,0 +1,26 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Al-Qalam Mobile (Debug)",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/main.dart",
+      "args": [
+        "--dart-define", "SUPABASE_URL=https://zarvozaaexpblrhjsfzq.supabase.co",
+        "--dart-define", "SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InphcnZvemFhZXhwYmxyaGpzZnpxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTA3MzUyNDUsImV4cCI6MjEwNjMxMTI0NX0.wKeHy1cUddFjeoVIZc4uUioFFImicSjL3-TuaRJl8oc"
+      ]
+    },
+    {
+      "name": "Al-Qalam Mobile (Release)",
+      "request": "launch",
+      "type": "dart",
+      "flutterMode": "release",
+      "program": "lib/main.dart",
+      "args": [
+        "--dart-define", "SUPABASE_URL=https://zarvozaaexpblrhjsfzq.supabase.co",
+        "--dart-define", "SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InphcnZvemFhZXhwYmxyaGpzZnpxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTA3MzUyNDUsImV4cCI6MjEwNjMxMTI0NX0.wKeHy1cUddFjeoVIZc4uUioFFImicSjL3-TuaRJl8oc"
+      ]
+    }
+  ]
+}

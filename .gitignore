@@ -49,3 +49,4 @@ next-env.d.ts
 /mobile_app/.flutter-plugins-dependencies
 /mobile_app/build/
 /mobile_app/windows/flutter/ephemeral/
+*.apk

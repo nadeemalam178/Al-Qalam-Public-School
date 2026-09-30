@@ -1,7 +1,35 @@
 enum UserRole {
   parent,
   teacher,
-  admin,
+  admin;
+
+  /// Resolves database string (e.g. 'guardian', 'admin', 'teacher') to [UserRole].
+  static UserRole fromDatabaseRole(String dbRole) {
+    switch (dbRole.toLowerCase().trim()) {
+      case 'admin':
+      case 'administrator':
+        return UserRole.admin;
+      case 'teacher':
+        return UserRole.teacher;
+      case 'guardian':
+      case 'parent':
+        return UserRole.parent;
+      default:
+        return UserRole.parent;
+    }
+  }
+
+  /// Internal database role representation for Supabase PostgreSQL RLS.
+  String get databaseRole {
+    switch (this) {
+      case UserRole.admin:
+        return 'admin';
+      case UserRole.teacher:
+        return 'teacher';
+      case UserRole.parent:
+        return 'guardian';
+    }
+  }
 }
 
 class AppUser {
@@ -11,7 +39,7 @@ class AppUser {
   final String phone;
   final UserRole role;
   final String designation;
-  final String? studentId; // If parent
+  final String? studentId; // If guardian / parent
   final String? classAssigned; // If teacher
 
   const AppUser({
@@ -28,7 +56,7 @@ class AppUser {
   String get roleDisplayName {
     switch (role) {
       case UserRole.parent:
-        return 'Parent / Student';
+        return 'Parent / Guardian';
       case UserRole.teacher:
         return 'Class Teacher';
       case UserRole.admin:

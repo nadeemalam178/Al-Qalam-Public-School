@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../theme/app_theme.dart';
 import '../../services/school_data_repository.dart';
-import 'main_navigation_screen.dart';
+import '../auth/auth_gate.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -40,7 +40,7 @@ class _SplashScreenState extends State<SplashScreen>
       if (mounted) {
         Navigator.of(context).pushReplacement(
           PageRouteBuilder(
-            pageBuilder: (_, __, ___) => const MainNavigationScreen(),
+            pageBuilder: (_, __, ___) => const AuthGate(),
             transitionsBuilder: (_, animation, __, child) =>
                 FadeTransition(opacity: animation, child: child),
             transitionDuration: const Duration(milliseconds: 600),
@@ -119,12 +119,16 @@ class _SplashScreenState extends State<SplashScreen>
                         ),
                         child: ClipOval(
                           child: Image.asset(
-                            'assets/images/logo.png',
+                            'assets/images/clean_logo.png',
                             fit: BoxFit.contain,
-                            errorBuilder: (_, __, ___) => const Icon(
-                              Icons.school_rounded,
-                              size: 56,
-                              color: AppTheme.forestPrimary,
+                            errorBuilder: (_, __, ___) => Image.asset(
+                              'assets/images/logo.png',
+                              fit: BoxFit.contain,
+                              errorBuilder: (_, __, ___) => const Icon(
+                                Icons.school_rounded,
+                                size: 56,
+                                color: AppTheme.forestPrimary,
+                              ),
                             ),
                           ),
                         ),

@@ -5,6 +5,7 @@ import '../../providers/auth_provider.dart';
 import '../../models/user_model.dart';
 import '../../theme/app_theme.dart';
 import '../../widgets/custom_app_bar.dart';
+import '../auth/login_screen.dart';
 
 // Parent Screens
 import '../parent/parent_dashboard.dart';
@@ -441,6 +442,29 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
                   onTap: () {
                     auth.switchRole(UserRole.admin);
                     Navigator.pop(context);
+                  },
+                ),
+                const Divider(),
+                ListTile(
+                  leading: const Icon(Icons.logout_rounded, color: Colors.redAccent),
+                  title: Text(
+                    'Sign Out',
+                    style: GoogleFonts.inter(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.redAccent,
+                    ),
+                  ),
+                  onTap: () async {
+                    Navigator.pop(context);
+                    await auth.signOut();
+                    if (context.mounted) {
+                      Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(builder: (_) => const LoginScreen()),
+                        (route) => false,
+                      );
+                    }
                   },
                 ),
               ],
