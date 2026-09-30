@@ -113,7 +113,7 @@ class AdminDashboardScreen extends StatelessWidget {
             physics: const NeverScrollableScrollPhysics(),
             crossAxisSpacing: 12,
             mainAxisSpacing: 12,
-            childAspectRatio: 1.35,
+            childAspectRatio: 1.16,
             children: [
               StatCard(
                 title: 'Total Students',
@@ -355,6 +355,8 @@ class AdminDashboardScreen extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                   color: AppTheme.textDark,
                 ),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
               ),
               Text(
                 subtitle,
@@ -362,6 +364,8 @@ class AdminDashboardScreen extends StatelessWidget {
                   fontSize: 11,
                   color: AppTheme.textMuted,
                 ),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
               ),
             ],
           ),

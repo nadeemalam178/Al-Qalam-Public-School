@@ -89,18 +89,23 @@ class _LoginScreenState extends State<LoginScreen> {
           children: [
             const Icon(Icons.help_outline_rounded, color: AppTheme.forestPrimary),
             const SizedBox(width: 8),
-            Text(
-              'Forgot Password?',
-              style: GoogleFonts.outfit(fontWeight: FontWeight.bold, fontSize: 18),
+            Expanded(
+              child: Text(
+                'Forgot Password?',
+                style: GoogleFonts.outfit(fontWeight: FontWeight.bold, fontSize: 18),
+                overflow: TextOverflow.ellipsis,
+              ),
             ),
           ],
         ),
-        content: Text(
-          'For security reasons, password resets are handled by the Al-Qalam IT administration desk.\n\n'
-          'Please visit the administrative office or contact:\n'
-          '📞 +91 93084 62418\n'
-          '✉️ info@alqalam.edu.in',
-          style: GoogleFonts.inter(fontSize: 14, height: 1.45),
+        content: SingleChildScrollView(
+          child: Text(
+            'For security reasons, password resets are handled by the Al-Qalam IT administration desk.\n\n'
+            'Please visit the administrative office or contact:\n'
+            '📞 +91 93084 62418\n'
+            '✉️ info@alqalam.edu.in',
+            style: GoogleFonts.inter(fontSize: 14, height: 1.45),
+          ),
         ),
         actions: [
           TextButton(

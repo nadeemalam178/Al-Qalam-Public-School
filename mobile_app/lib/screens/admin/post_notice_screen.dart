@@ -204,21 +204,28 @@ class _PostNoticeScreenState extends State<PostNoticeScreen> {
                             mainAxisAlignment:
                                 MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(
-                                _isImportant ? 'URGENT' : 'Standard',
-                                style: GoogleFonts.inter(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.bold,
-                                  color: _isImportant
-                                      ? AppTheme.danger
-                                      : AppTheme.textDark,
+                              Flexible(
+                                child: Text(
+                                  _isImportant ? 'URGENT' : 'Standard',
+                                  style: GoogleFonts.inter(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.bold,
+                                    color: _isImportant
+                                        ? AppTheme.danger
+                                        : AppTheme.textDark,
+                                  ),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
                                 ),
                               ),
-                              Switch(
-                                value: _isImportant,
-                                activeThumbColor: AppTheme.danger,
-                                onChanged: (val) =>
-                                    setState(() => _isImportant = val),
+                              Transform.scale(
+                                scale: 0.85,
+                                child: Switch(
+                                  value: _isImportant,
+                                  activeThumbColor: AppTheme.danger,
+                                  onChanged: (val) =>
+                                      setState(() => _isImportant = val),
+                                ),
                               ),
                             ],
                           ),

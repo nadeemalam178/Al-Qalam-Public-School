@@ -23,59 +23,70 @@ class AdmissionLeadsScreen extends StatelessWidget {
         return AlertDialog(
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-          title: Text(
-            'Update Lead Status',
-            style: GoogleFonts.outfit(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-              color: AppTheme.forestDeep,
-            ),
-          ),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
+          title: Row(
             children: [
-              Text(
-                'Applicant: ${inquiry.studentName} (${inquiry.grade})',
-                style: GoogleFonts.inter(
-                    fontWeight: FontWeight.bold, fontSize: 13),
-              ),
-              Text(
-                'Parent: ${inquiry.parentName} • ${inquiry.mobile}',
-                style: GoogleFonts.inter(
-                    fontSize: 12, color: AppTheme.textMuted),
-              ),
-              const SizedBox(height: 16),
-              ...statuses.map((status) {
-                final isCurrent = inquiry.status == status;
-                return ListTile(
-                  title: Text(
-                    status,
-                    style: GoogleFonts.inter(
-                      fontSize: 13,
-                      fontWeight:
-                          isCurrent ? FontWeight.bold : FontWeight.normal,
-                    ),
+              Expanded(
+                child: Text(
+                  'Update Lead Status',
+                  style: GoogleFonts.outfit(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: AppTheme.forestDeep,
                   ),
-                  trailing: isCurrent
-                      ? const Icon(Icons.check, color: AppTheme.forestPrimary)
-                      : null,
-                  onTap: () {
-                    school.updateInquiryStatus(inquiry.id, status);
-                    Navigator.pop(ctx);
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text(
-                          'Status updated to "$status" for ${inquiry.studentName}',
-                          style: GoogleFonts.inter(),
-                        ),
-                        backgroundColor: AppTheme.forestPrimary,
-                      ),
-                    );
-                  },
-                );
-              }),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
             ],
+          ),
+          content: SingleChildScrollView(
+            physics: const BouncingScrollPhysics(),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Applicant: ${inquiry.studentName} (${inquiry.grade})',
+                  style: GoogleFonts.inter(
+                      fontWeight: FontWeight.bold, fontSize: 13),
+                ),
+                Text(
+                  'Parent: ${inquiry.parentName} • ${inquiry.mobile}',
+                  style: GoogleFonts.inter(
+                      fontSize: 12, color: AppTheme.textMuted),
+                ),
+                const SizedBox(height: 16),
+                ...statuses.map((status) {
+                  final isCurrent = inquiry.status == status;
+                  return ListTile(
+                    title: Text(
+                      status,
+                      style: GoogleFonts.inter(
+                        fontSize: 13,
+                        fontWeight:
+                            isCurrent ? FontWeight.bold : FontWeight.normal,
+                      ),
+                    ),
+                    trailing: isCurrent
+                        ? const Icon(Icons.check, color: AppTheme.forestPrimary)
+                        : null,
+                    onTap: () {
+                      school.updateInquiryStatus(inquiry.id, status);
+                      Navigator.pop(ctx);
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(
+                            'Status updated to "$status" for ${inquiry.studentName}',
+                            style: GoogleFonts.inter(),
+                          ),
+                          backgroundColor: AppTheme.forestPrimary,
+                        ),
+                      );
+                    },
+                  );
+                }),
+              ],
+            ),
           ),
         );
       },
@@ -97,26 +108,34 @@ class AdmissionLeadsScreen extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      '${inquiries.length} Inbound Applications',
-                      style: GoogleFonts.outfit(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: AppTheme.forestDeep,
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        '${inquiries.length} Inbound Applications',
+                        style: GoogleFonts.outfit(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: AppTheme.forestDeep,
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                       ),
-                    ),
-                    Text(
-                      'Academic Admissions 2026-27 Leads',
-                      style: GoogleFonts.inter(
-                        fontSize: 12,
-                        color: AppTheme.textMuted,
+                      Text(
+                        'Academic Admissions 2026-27 Leads',
+                        style: GoogleFonts.inter(
+                          fontSize: 12,
+                          color: AppTheme.textMuted,
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
+                const SizedBox(width: 8),
                 Container(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 10, vertical: 4),

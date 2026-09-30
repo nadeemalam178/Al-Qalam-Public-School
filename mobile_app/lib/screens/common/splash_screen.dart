@@ -94,10 +94,12 @@ class _SplashScreenState extends State<SplashScreen>
                 scale: _scaleAnimation,
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 32),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      // School Emblem container
+                  child: SingleChildScrollView(
+                    physics: const ClampingScrollPhysics(),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        // School Emblem container
                       Container(
                         width: 120,
                         height: 120,
@@ -216,6 +218,7 @@ class _SplashScreenState extends State<SplashScreen>
                 ),
               ),
             ),
+          ),
           ),
           Positioned(
             bottom: 24,

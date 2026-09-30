@@ -23,115 +23,130 @@ class CustomSchoolAppBar extends StatelessWidget implements PreferredSizeWidget 
   void _showRoleSwitcherModal(BuildContext context) {
     showModalBottomSheet(
       context: context,
+      isScrollControlled: true,
       backgroundColor: Colors.transparent,
       builder: (ctx) {
         return Consumer<AuthProvider>(
           builder: (context, auth, _) {
-            return Container(
-              padding: const EdgeInsets.all(24),
-              decoration: const BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+            return ConstrainedBox(
+              constraints: BoxConstraints(
+                maxHeight: MediaQuery.of(context).size.height * 0.85,
               ),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
+              child: Container(
+                padding: const EdgeInsets.all(24),
+                decoration: const BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+                ),
+                child: SingleChildScrollView(
+                  physics: const BouncingScrollPhysics(),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Container(
-                        padding: const EdgeInsets.all(8),
-                        decoration: BoxDecoration(
-                          color: AppTheme.forestTint,
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: const Icon(
-                          Icons.swap_horiz_rounded,
-                          color: AppTheme.forestPrimary,
-                        ),
-                      ),
-                      const SizedBox(width: 12),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                      Row(
                         children: [
-                          Text(
-                            'Switch Portal Role',
-                            style: GoogleFonts.outfit(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                              color: AppTheme.forestDeep,
+                          Container(
+                            padding: const EdgeInsets.all(8),
+                            decoration: BoxDecoration(
+                              color: AppTheme.forestTint,
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: const Icon(
+                              Icons.swap_horiz_rounded,
+                              color: AppTheme.forestPrimary,
                             ),
                           ),
-                          Text(
-                            'Experience Al-Qalam app as each school persona',
-                            style: GoogleFonts.inter(
-                              fontSize: 12,
-                              color: AppTheme.textMuted,
+                          const SizedBox(width: 12),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Switch Portal Role',
+                                  style: GoogleFonts.outfit(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                    color: AppTheme.forestDeep,
+                                  ),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                                Text(
+                                  'Experience Al-Qalam app as each school persona',
+                                  style: GoogleFonts.inter(
+                                    fontSize: 12,
+                                    color: AppTheme.textMuted,
+                                  ),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ],
                             ),
                           ),
                         ],
                       ),
+                      const SizedBox(height: 20),
+                      ...SchoolDataRepository.demoUsers.map((user) {
+                        final isSelected = auth.currentUser.id == user.id;
+                        return Container(
+                          margin: const EdgeInsets.only(bottom: 10),
+                          decoration: BoxDecoration(
+                            color: isSelected
+                                ? AppTheme.forestTint
+                                : const Color(0xFFF9FAFB),
+                            borderRadius: BorderRadius.circular(14),
+                            border: Border.all(
+                              color: isSelected
+                                  ? AppTheme.forestPrimary
+                                  : AppTheme.borderLight,
+                              width: isSelected ? 1.5 : 1,
+                            ),
+                          ),
+                          child: ListTile(
+                            leading: CircleAvatar(
+                              backgroundColor: isSelected
+                                  ? AppTheme.forestPrimary
+                                  : const Color(0xFFE5E7EB),
+                              foregroundColor:
+                                  isSelected ? Colors.white : AppTheme.forestDeep,
+                              child: Icon(
+                                user.role.name == 'parent'
+                                    ? Icons.family_restroom
+                                    : user.role.name == 'teacher'
+                                        ? Icons.school
+                                        : Icons.admin_panel_settings,
+                                size: 20,
+                              ),
+                            ),
+                            title: Text(
+                              user.name,
+                              style: GoogleFonts.inter(
+                                fontWeight: FontWeight.w600,
+                                color: AppTheme.textDark,
+                              ),
+                            ),
+                            subtitle: Text(
+                              '${user.roleDisplayName} • ${user.designation}',
+                              style: GoogleFonts.inter(fontSize: 12),
+                            ),
+                            trailing: isSelected
+                                ? const Icon(
+                                    Icons.check_circle,
+                                    color: AppTheme.forestPrimary,
+                                  )
+                                : null,
+                            onTap: () {
+                              auth.switchUser(user);
+                              Navigator.pop(ctx);
+                            },
+                          ),
+                        );
+                      }),
+                      const SizedBox(height: 12),
                     ],
                   ),
-                  const SizedBox(height: 20),
-                  ...SchoolDataRepository.demoUsers.map((user) {
-                    final isSelected = auth.currentUser.id == user.id;
-                    return Container(
-                      margin: const EdgeInsets.only(bottom: 10),
-                      decoration: BoxDecoration(
-                        color: isSelected
-                            ? AppTheme.forestTint
-                            : const Color(0xFFF9FAFB),
-                        borderRadius: BorderRadius.circular(14),
-                        border: Border.all(
-                          color: isSelected
-                              ? AppTheme.forestPrimary
-                              : AppTheme.borderLight,
-                          width: isSelected ? 1.5 : 1,
-                        ),
-                      ),
-                      child: ListTile(
-                        leading: CircleAvatar(
-                          backgroundColor: isSelected
-                              ? AppTheme.forestPrimary
-                              : const Color(0xFFE5E7EB),
-                          foregroundColor:
-                              isSelected ? Colors.white : AppTheme.forestDeep,
-                          child: Icon(
-                            user.role.name == 'parent'
-                                ? Icons.family_restroom
-                                : user.role.name == 'teacher'
-                                    ? Icons.school
-                                    : Icons.admin_panel_settings,
-                            size: 20,
-                          ),
-                        ),
-                        title: Text(
-                          user.name,
-                          style: GoogleFonts.inter(
-                            fontWeight: FontWeight.w600,
-                            color: AppTheme.textDark,
-                          ),
-                        ),
-                        subtitle: Text(
-                          '${user.roleDisplayName} • ${user.designation}',
-                          style: GoogleFonts.inter(fontSize: 12),
-                        ),
-                        trailing: isSelected
-                            ? const Icon(
-                                Icons.check_circle,
-                                color: AppTheme.forestPrimary,
-                              )
-                            : null,
-                        onTap: () {
-                          auth.switchUser(user);
-                          Navigator.pop(ctx);
-                        },
-                      ),
-                    );
-                  }),
-                  const SizedBox(height: 12),
-                ],
+                ),
               ),
             );
           },

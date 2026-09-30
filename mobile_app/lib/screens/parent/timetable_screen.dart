@@ -117,22 +117,30 @@ class _TimetableScreenState extends State<TimetableScreen> {
                                   const Icon(Icons.person_outline,
                                       size: 14, color: AppTheme.textMuted),
                                   const SizedBox(width: 4),
-                                  Text(
-                                    slot.teacher,
-                                    style: GoogleFonts.inter(
-                                      fontSize: 12,
-                                      color: AppTheme.textMuted,
+                                  Flexible(
+                                    child: Text(
+                                      slot.teacher,
+                                      style: GoogleFonts.inter(
+                                        fontSize: 12,
+                                        color: AppTheme.textMuted,
+                                      ),
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
                                     ),
                                   ),
-                                  const SizedBox(width: 12),
+                                  const SizedBox(width: 8),
                                   const Icon(Icons.meeting_room_outlined,
                                       size: 14, color: AppTheme.textMuted),
                                   const SizedBox(width: 4),
-                                  Text(
-                                    slot.room,
-                                    style: GoogleFonts.inter(
-                                      fontSize: 12,
-                                      color: AppTheme.textMuted,
+                                  Flexible(
+                                    child: Text(
+                                      slot.room,
+                                      style: GoogleFonts.inter(
+                                        fontSize: 12,
+                                        color: AppTheme.textMuted,
+                                      ),
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
                                     ),
                                   ),
                                 ],

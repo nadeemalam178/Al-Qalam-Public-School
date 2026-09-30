@@ -16,143 +16,155 @@ class ParentFeesScreen extends StatelessWidget {
         return Dialog(
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-          child: Container(
-            padding: const EdgeInsets.all(22),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(20),
+          child: ConstrainedBox(
+            constraints: BoxConstraints(
+              maxHeight: MediaQuery.of(context).size.height * 0.85,
             ),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // School Header
-                Row(
+            child: SingleChildScrollView(
+              physics: const BouncingScrollPhysics(),
+              child: Container(
+                padding: const EdgeInsets.all(22),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Container(
-                      width: 44,
-                      height: 44,
-                      padding: const EdgeInsets.all(4),
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        border:
-                            Border.all(color: AppTheme.goldPrimary, width: 2),
-                      ),
-                      child: ClipOval(
-                        child: Image.asset(
-                          'assets/images/logo.png',
-                          fit: BoxFit.contain,
-                          errorBuilder: (_, __, ___) => const Icon(
-                            Icons.school,
-                            color: AppTheme.forestPrimary,
+                    // School Header
+                    Row(
+                      children: [
+                        Container(
+                          width: 44,
+                          height: 44,
+                          padding: const EdgeInsets.all(4),
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            border:
+                                Border.all(color: AppTheme.goldPrimary, width: 2),
                           ),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            SchoolDataRepository.schoolName,
-                            style: GoogleFonts.outfit(
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold,
-                              color: AppTheme.forestDeep,
+                          child: ClipOval(
+                            child: Image.asset(
+                              'assets/images/logo.png',
+                              fit: BoxFit.contain,
+                              errorBuilder: (_, __, ___) => const Icon(
+                                Icons.school,
+                                color: AppTheme.forestPrimary,
+                              ),
                             ),
                           ),
-                          Text(
-                            'OFFICIAL FEE RECEIPT',
-                            style: GoogleFonts.inter(
-                              fontSize: 10,
-                              fontWeight: FontWeight.bold,
-                              color: AppTheme.goldDark,
-                              letterSpacing: 0.8,
+                        ),
+                        const SizedBox(width: 12),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                SchoolDataRepository.schoolName,
+                                style: GoogleFonts.outfit(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold,
+                                  color: AppTheme.forestDeep,
+                                ),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                              Text(
+                                'OFFICIAL FEE RECEIPT',
+                                style: GoogleFonts.inter(
+                                  fontSize: 10,
+                                  fontWeight: FontWeight.bold,
+                                  color: AppTheme.goldDark,
+                                  letterSpacing: 0.8,
+                                ),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 16),
+                    const Divider(),
+                    const SizedBox(height: 10),
+                    _buildReceiptRow('Receipt No:', receipt.receiptNo),
+                    _buildReceiptRow('Student:', receipt.studentName),
+                    _buildReceiptRow('Class & Sec:', receipt.grade),
+                    _buildReceiptRow('Term / Period:', receipt.term),
+                    _buildReceiptRow('Payment Mode:', receipt.paymentMode),
+                    _buildReceiptRow('Paid Date:', receipt.paidDate ?? 'Pending'),
+                    const Divider(),
+                    _buildReceiptRow(
+                      'Amount Paid:',
+                      '₹${receipt.paidAmount.toInt()}',
+                      isBold: true,
+                      valueColor: AppTheme.forestPrimary,
+                    ),
+                    if (receipt.dueAmount > 0)
+                      _buildReceiptRow(
+                        'Balance Due:',
+                        '₹${receipt.dueAmount.toInt()}',
+                        isBold: true,
+                        valueColor: AppTheme.danger,
+                      ),
+                    const SizedBox(height: 16),
+                    Container(
+                      width: double.infinity,
+                      padding: const EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        color: AppTheme.forestTint,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Row(
+                        children: [
+                          const Icon(Icons.verified,
+                              color: AppTheme.forestPrimary, size: 20),
+                          const SizedBox(width: 8),
+                          Expanded(
+                            child: Text(
+                              'Authorized Digital Receipt • Al-Qalam Accounts Desk',
+                              style: GoogleFonts.inter(
+                                fontSize: 11,
+                                color: AppTheme.forestDeep,
+                                fontWeight: FontWeight.w500,
+                              ),
                             ),
                           ),
                         ],
                       ),
                     ),
-                  ],
-                ),
-                const SizedBox(height: 16),
-                const Divider(),
-                const SizedBox(height: 10),
-                _buildReceiptRow('Receipt No:', receipt.receiptNo),
-                _buildReceiptRow('Student:', receipt.studentName),
-                _buildReceiptRow('Class & Sec:', receipt.grade),
-                _buildReceiptRow('Term / Period:', receipt.term),
-                _buildReceiptRow('Payment Mode:', receipt.paymentMode),
-                _buildReceiptRow('Paid Date:', receipt.paidDate ?? 'Pending'),
-                const Divider(),
-                _buildReceiptRow(
-                  'Amount Paid:',
-                  '₹${receipt.paidAmount.toInt()}',
-                  isBold: true,
-                  valueColor: AppTheme.forestPrimary,
-                ),
-                if (receipt.dueAmount > 0)
-                  _buildReceiptRow(
-                    'Balance Due:',
-                    '₹${receipt.dueAmount.toInt()}',
-                    isBold: true,
-                    valueColor: AppTheme.danger,
-                  ),
-                const SizedBox(height: 16),
-                Container(
-                  width: double.infinity,
-                  padding: const EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    color: AppTheme.forestTint,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Row(
-                    children: [
-                      const Icon(Icons.verified,
-                          color: AppTheme.forestPrimary, size: 20),
-                      const SizedBox(width: 8),
-                      Expanded(
-                        child: Text(
-                          'Authorized Digital Receipt • Al-Qalam Accounts Desk',
-                          style: GoogleFonts.inter(
-                            fontSize: 11,
-                            color: AppTheme.forestDeep,
-                            fontWeight: FontWeight.w500,
+                    const SizedBox(height: 16),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: OutlinedButton(
+                            onPressed: () => Navigator.pop(ctx),
+                            child: const Text('Close'),
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 16),
-                Row(
-                  children: [
-                    Expanded(
-                      child: OutlinedButton(
-                        onPressed: () => Navigator.pop(ctx),
-                        child: const Text('Close'),
-                      ),
-                    ),
-                    const SizedBox(width: 10),
-                    Expanded(
-                      child: ElevatedButton.icon(
-                        onPressed: () {
-                          Navigator.pop(ctx);
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text('Receipt downloaded to documents.'),
-                              backgroundColor: AppTheme.forestPrimary,
-                            ),
-                          );
-                        },
-                        icon: const Icon(Icons.download, size: 16),
-                        label: const Text('Download'),
-                      ),
+                        const SizedBox(width: 10),
+                        Expanded(
+                          child: ElevatedButton.icon(
+                            onPressed: () {
+                              Navigator.pop(ctx);
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text('Receipt downloaded to documents.'),
+                                  backgroundColor: AppTheme.forestPrimary,
+                                ),
+                              );
+                            },
+                            icon: const Icon(Icons.download, size: 16),
+                            label: const Text('Download'),
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),
-              ],
+              ),
             ),
           ),
         );
@@ -173,124 +185,137 @@ class ParentFeesScreen extends StatelessWidget {
       builder: (ctx) {
         return StatefulBuilder(
           builder: (context, setModalState) {
-            return Padding(
-              padding: EdgeInsets.fromLTRB(
-                24,
-                24,
-                24,
-                MediaQuery.of(context).viewInsets.bottom + 24,
+            return ConstrainedBox(
+              constraints: BoxConstraints(
+                maxHeight: MediaQuery.of(context).size.height * 0.85,
               ),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              child: SingleChildScrollView(
+                physics: const BouncingScrollPhysics(),
+                child: Padding(
+                  padding: EdgeInsets.fromLTRB(
+                    24,
+                    24,
+                    24,
+                    MediaQuery.of(context).viewInsets.bottom + 24,
+                  ),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(
+                            child: Text(
+                              'Fee Payment',
+                              style: GoogleFonts.outfit(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                                color: AppTheme.forestDeep,
+                              ),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                          const SizedBox(width: 8),
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 10, vertical: 4),
+                            decoration: BoxDecoration(
+                              color: AppTheme.goldLight,
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: Text(
+                              '₹${fee.dueAmount.toInt()} Due',
+                              style: GoogleFonts.inter(
+                                fontSize: 12,
+                                fontWeight: FontWeight.bold,
+                                color: AppTheme.goldDark,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 6),
                       Text(
-                        'Fee Payment',
-                        style: GoogleFonts.outfit(
-                          fontSize: 20,
+                        '${fee.term} • Zaid Alam',
+                        style: GoogleFonts.inter(
+                            fontSize: 13, color: AppTheme.textMuted),
+                      ),
+                      const SizedBox(height: 20),
+                      Text(
+                        'SELECT PAYMENT METHOD',
+                        style: GoogleFonts.inter(
+                          fontSize: 11,
                           fontWeight: FontWeight.bold,
-                          color: AppTheme.forestDeep,
+                          color: AppTheme.textMuted,
+                          letterSpacing: 0.8,
                         ),
                       ),
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 10, vertical: 4),
-                        decoration: BoxDecoration(
-                          color: AppTheme.goldLight,
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: Text(
-                          '₹${fee.dueAmount.toInt()} Due',
-                          style: GoogleFonts.inter(
-                            fontSize: 12,
-                            fontWeight: FontWeight.bold,
-                            color: AppTheme.goldDark,
+                      const SizedBox(height: 10),
+                      _buildPaymentOption(
+                        title: 'UPI (Google Pay / PhonePe / Paytm)',
+                        subtitle: 'Instant confirmation via official school QR',
+                        icon: Icons.qr_code_2_rounded,
+                        isSelected: selectedMode == 'UPI / PhonePe / GPay',
+                        onTap: () {
+                          setModalState(
+                              () => selectedMode = 'UPI / PhonePe / GPay');
+                        },
+                      ),
+                      const SizedBox(height: 8),
+                      _buildPaymentOption(
+                        title: 'School Accounts Counter (Cash)',
+                        subtitle: 'Generate pay-slip for campus accounts desk',
+                        icon: Icons.account_balance_wallet_outlined,
+                        isSelected:
+                            selectedMode == 'School Cash Counter',
+                        onTap: () {
+                          setModalState(
+                              () => selectedMode = 'School Cash Counter');
+                        },
+                      ),
+                      const SizedBox(height: 8),
+                      _buildPaymentOption(
+                        title: 'Net Banking / NEFT',
+                        subtitle: 'Al-Qalam Public School Bank Account',
+                        icon: Icons.account_balance_outlined,
+                        isSelected: selectedMode == 'Net Banking',
+                        onTap: () {
+                          setModalState(() => selectedMode = 'Net Banking');
+                        },
+                      ),
+                      const SizedBox(height: 24),
+                      SizedBox(
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            school.recordFeePayment(
+                              feeId: fee.id,
+                              amountPaidNow: fee.dueAmount,
+                              paymentMode: selectedMode,
+                            );
+                            Navigator.pop(ctx);
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(
+                                  'Payment of ₹${fee.dueAmount.toInt()} processed successfully! Receipt generated.',
+                                  style: GoogleFonts.inter(),
+                                ),
+                                backgroundColor: AppTheme.forestPrimary,
+                                behavior: SnackBarBehavior.floating,
+                              ),
+                            );
+                          },
+                          child: Text(
+                            'Confirm Payment of ₹${fee.dueAmount.toInt()}',
+                            style: GoogleFonts.inter(fontWeight: FontWeight.w600),
                           ),
                         ),
                       ),
                     ],
                   ),
-                  const SizedBox(height: 6),
-                  Text(
-                    '${fee.term} • Zaid Alam',
-                    style: GoogleFonts.inter(
-                        fontSize: 13, color: AppTheme.textMuted),
-                  ),
-                  const SizedBox(height: 20),
-                  Text(
-                    'SELECT PAYMENT METHOD',
-                    style: GoogleFonts.inter(
-                      fontSize: 11,
-                      fontWeight: FontWeight.bold,
-                      color: AppTheme.textMuted,
-                      letterSpacing: 0.8,
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                  _buildPaymentOption(
-                    title: 'UPI (Google Pay / PhonePe / Paytm)',
-                    subtitle: 'Instant confirmation via official school QR',
-                    icon: Icons.qr_code_2_rounded,
-                    isSelected: selectedMode == 'UPI / PhonePe / GPay',
-                    onTap: () {
-                      setModalState(
-                          () => selectedMode = 'UPI / PhonePe / GPay');
-                    },
-                  ),
-                  const SizedBox(height: 8),
-                  _buildPaymentOption(
-                    title: 'School Accounts Counter (Cash)',
-                    subtitle: 'Generate pay-slip for campus accounts desk',
-                    icon: Icons.account_balance_wallet_outlined,
-                    isSelected:
-                        selectedMode == 'School Cash Counter',
-                    onTap: () {
-                      setModalState(
-                          () => selectedMode = 'School Cash Counter');
-                    },
-                  ),
-                  const SizedBox(height: 8),
-                  _buildPaymentOption(
-                    title: 'Net Banking / NEFT',
-                    subtitle: 'Al-Qalam Public School Bank Account',
-                    icon: Icons.account_balance_outlined,
-                    isSelected: selectedMode == 'Net Banking',
-                    onTap: () {
-                      setModalState(() => selectedMode = 'Net Banking');
-                    },
-                  ),
-                  const SizedBox(height: 24),
-                  SizedBox(
-                    width: double.infinity,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        school.recordFeePayment(
-                          feeId: fee.id,
-                          amountPaidNow: fee.dueAmount,
-                          paymentMode: selectedMode,
-                        );
-                        Navigator.pop(ctx);
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text(
-                              'Payment of ₹${fee.dueAmount.toInt()} processed successfully! Receipt generated.',
-                              style: GoogleFonts.inter(),
-                            ),
-                            backgroundColor: AppTheme.forestPrimary,
-                            behavior: SnackBarBehavior.floating,
-                          ),
-                        );
-                      },
-                      child: Text(
-                        'Confirm Payment of ₹${fee.dueAmount.toInt()}',
-                        style: GoogleFonts.inter(fontWeight: FontWeight.w600),
-                      ),
-                    ),
-                  ),
-                ],
+                ),
               ),
             );
           },

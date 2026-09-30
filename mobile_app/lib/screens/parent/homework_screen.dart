@@ -184,20 +184,27 @@ class _ParentHomeworkScreenState extends State<ParentHomeworkScreen>
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Row(
-                      children: [
-                        const Icon(Icons.person_outline,
-                            size: 14, color: AppTheme.textMuted),
-                        const SizedBox(width: 4),
-                        Text(
-                          'Teacher: ${hw.teacherName}',
-                          style: GoogleFonts.inter(
-                            fontSize: 11,
-                            color: AppTheme.textMuted,
+                    Expanded(
+                      child: Row(
+                        children: [
+                          const Icon(Icons.person_outline,
+                              size: 14, color: AppTheme.textMuted),
+                          const SizedBox(width: 4),
+                          Expanded(
+                            child: Text(
+                              'Teacher: ${hw.teacherName}',
+                              style: GoogleFonts.inter(
+                                fontSize: 11,
+                                color: AppTheme.textMuted,
+                              ),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
+                    const SizedBox(width: 8),
                     InkWell(
                       onTap: () {
                         school.toggleHomeworkCompletion(hw.id);

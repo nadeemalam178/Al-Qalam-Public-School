@@ -24,96 +24,101 @@ class _StudentRosterScreenState extends State<StudentRosterScreen> {
         borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
       ),
       builder: (ctx) {
-        return Padding(
-          padding: const EdgeInsets.all(24),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  CircleAvatar(
-                    radius: 28,
-                    backgroundColor: AppTheme.forestTint,
-                    child: Text(
-                      '#${student.rollNo}',
-                      style: GoogleFonts.outfit(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        color: AppTheme.forestDeep,
+        return ConstrainedBox(
+          constraints: BoxConstraints(
+            maxHeight: MediaQuery.of(context).size.height * 0.85,
+          ),
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.all(24),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    CircleAvatar(
+                      radius: 28,
+                      backgroundColor: AppTheme.forestTint,
+                      child: Text(
+                        '#${student.rollNo}',
+                        style: GoogleFonts.outfit(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: AppTheme.forestDeep,
+                        ),
                       ),
                     ),
-                  ),
-                  const SizedBox(width: 16),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          student.name,
-                          style: GoogleFonts.outfit(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                            color: AppTheme.forestDeep,
-                          ),
-                        ),
-                        Text(
-                          '${student.fullClass} • Adm: ${student.admissionNo}',
-                          style: GoogleFonts.inter(
-                            fontSize: 12,
-                            color: AppTheme.textMuted,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 20),
-              const Divider(),
-              const SizedBox(height: 10),
-              _buildDetailRow('Father / Guardian:', student.fatherName),
-              _buildDetailRow('Mother Name:', student.motherName),
-              _buildDetailRow('Contact Phone:', student.phone),
-              _buildDetailRow('Residential Address:', student.address),
-              _buildDetailRow('Date of Birth:', student.dob),
-              _buildDetailRow('Blood Group:', student.bloodGroup),
-              _buildDetailRow(
-                  'Regularity Rate:', '${student.attendanceRate}%'),
-              _buildDetailRow(
-                'Fee Due Status:',
-                student.pendingFees > 0
-                    ? '₹${student.pendingFees.toInt()} Pending'
-                    : 'Clear (No Dues)',
-                valueColor: student.pendingFees > 0
-                    ? AppTheme.danger
-                    : AppTheme.forestPrimary,
-              ),
-              const SizedBox(height: 20),
-              Row(
-                children: [
-                  Expanded(
-                    child: ElevatedButton.icon(
-                      onPressed: () {
-                        Navigator.pop(ctx);
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text(
-                              'Dialing guardian ${student.fatherName} at ${student.phone}...',
-                              style: GoogleFonts.inter(),
+                    const SizedBox(width: 16),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            student.name,
+                            style: GoogleFonts.outfit(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              color: AppTheme.forestDeep,
                             ),
-                            backgroundColor: AppTheme.forestPrimary,
                           ),
-                        );
-                      },
-                      icon: const Icon(Icons.call, size: 18),
-                      label: const Text('Call Parent'),
+                          Text(
+                            '${student.fullClass} • Adm: ${student.admissionNo}',
+                            style: GoogleFonts.inter(
+                              fontSize: 12,
+                              color: AppTheme.textMuted,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 12),
-            ],
+                  ],
+                ),
+                const SizedBox(height: 20),
+                const Divider(),
+                const SizedBox(height: 10),
+                _buildDetailRow('Father / Guardian:', student.fatherName),
+                _buildDetailRow('Mother Name:', student.motherName),
+                _buildDetailRow('Contact Phone:', student.phone),
+                _buildDetailRow('Residential Address:', student.address),
+                _buildDetailRow('Date of Birth:', student.dob),
+                _buildDetailRow('Blood Group:', student.bloodGroup),
+                _buildDetailRow(
+                    'Regularity Rate:', '${student.attendanceRate}%'),
+                _buildDetailRow(
+                  'Fee Due Status:',
+                  student.pendingFees > 0
+                      ? '₹${student.pendingFees.toInt()} Pending'
+                      : 'Clear (No Dues)',
+                  valueColor: student.pendingFees > 0
+                      ? AppTheme.danger
+                      : AppTheme.forestPrimary,
+                ),
+                const SizedBox(height: 20),
+                Row(
+                  children: [
+                    Expanded(
+                      child: ElevatedButton.icon(
+                        onPressed: () {
+                          Navigator.pop(ctx);
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(
+                                'Dialing guardian ${student.fatherName} at ${student.phone}...',
+                                style: GoogleFonts.inter(),
+                              ),
+                              backgroundColor: AppTheme.forestPrimary,
+                            ),
+                          );
+                        },
+                        icon: const Icon(Icons.call, size: 18),
+                        label: const Text('Call Parent'),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 12),
+              ],
+            ),
           ),
         );
       },
@@ -131,10 +136,13 @@ class _StudentRosterScreenState extends State<StudentRosterScreen> {
             label,
             style: GoogleFonts.inter(fontSize: 12, color: AppTheme.textMuted),
           ),
+          const SizedBox(width: 8),
           Expanded(
             child: Text(
               value,
               textAlign: TextAlign.right,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
               style: GoogleFonts.inter(
                 fontSize: 12,
                 fontWeight: FontWeight.w600,
@@ -189,14 +197,19 @@ class _StudentRosterScreenState extends State<StudentRosterScreen> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  'Showing ${students.length} Students in Class 3-A',
-                  style: GoogleFonts.inter(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w600,
-                    color: AppTheme.textMuted,
+                Expanded(
+                  child: Text(
+                    'Showing ${students.length} Students in Class 3-A',
+                    style: GoogleFonts.inter(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w600,
+                      color: AppTheme.textMuted,
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                   ),
                 ),
+                const SizedBox(width: 8),
                 Text(
                   'Academic Session 2026-27',
                   style: GoogleFonts.inter(

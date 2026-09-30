@@ -35,42 +35,47 @@ class _ParentAttendanceScreenState extends State<ParentAttendanceScreen> {
                 child: const Icon(Icons.event_note, color: AppTheme.forestPrimary),
               ),
               const SizedBox(width: 12),
-              Text(
-                'Apply Leave',
-                style: GoogleFonts.outfit(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: AppTheme.forestDeep,
+              Expanded(
+                child: Text(
+                  'Apply Leave',
+                  style: GoogleFonts.outfit(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: AppTheme.forestDeep,
+                  ),
+                  overflow: TextOverflow.ellipsis,
                 ),
               ),
             ],
           ),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Submit leave application for Zaid Alam (Class 3-A) directly to Class Teacher Farzana Begum.',
-                style: GoogleFonts.inter(fontSize: 12, color: AppTheme.textMuted),
-              ),
-              const SizedBox(height: 16),
-              TextField(
-                controller: dateController,
-                decoration: const InputDecoration(
-                  labelText: 'Leave Dates',
-                  prefixIcon: Icon(Icons.calendar_today, size: 18),
+          content: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Submit leave application for Zaid Alam (Class 3-A) directly to Class Teacher Farzana Begum.',
+                  style: GoogleFonts.inter(fontSize: 12, color: AppTheme.textMuted),
                 ),
-              ),
-              const SizedBox(height: 12),
-              TextField(
-                controller: reasonController,
-                maxLines: 3,
-                decoration: const InputDecoration(
-                  labelText: 'Reason for Leave',
-                  hintText: 'e.g. Mild fever, family event, out of town',
+                const SizedBox(height: 16),
+                TextField(
+                  controller: dateController,
+                  decoration: const InputDecoration(
+                    labelText: 'Leave Dates',
+                    prefixIcon: Icon(Icons.calendar_today, size: 18),
+                  ),
                 ),
-              ),
-            ],
+                const SizedBox(height: 12),
+                TextField(
+                  controller: reasonController,
+                  maxLines: 3,
+                  decoration: const InputDecoration(
+                    labelText: 'Reason for Leave',
+                    hintText: 'e.g. Mild fever, family event, out of town',
+                  ),
+                ),
+              ],
+            ),
           ),
           actions: [
             TextButton(
@@ -149,26 +154,29 @@ class _ParentAttendanceScreenState extends State<ParentAttendanceScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'September 2026',
-                            style: GoogleFonts.outfit(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                              color: AppTheme.forestDeep,
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'September 2026',
+                              style: GoogleFonts.outfit(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                color: AppTheme.forestDeep,
+                              ),
                             ),
-                          ),
-                          Text(
-                            'Academic Year 2026-27',
-                            style: GoogleFonts.inter(
-                              fontSize: 12,
-                              color: AppTheme.textMuted,
+                            Text(
+                              'Academic Year 2026-27',
+                              style: GoogleFonts.inter(
+                                fontSize: 12,
+                                color: AppTheme.textMuted,
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
+                      const SizedBox(width: 8),
                       Container(
                         padding: const EdgeInsets.symmetric(
                             horizontal: 12, vertical: 6),
@@ -232,16 +240,19 @@ class _ParentAttendanceScreenState extends State<ParentAttendanceScreen> {
             const SizedBox(height: 18),
 
             // Filter Chips
-            Row(
-              children: [
-                _buildFilterChip('All'),
-                const SizedBox(width: 8),
-                _buildFilterChip('Present'),
-                const SizedBox(width: 8),
-                _buildFilterChip('Absent'),
-                const SizedBox(width: 8),
-                _buildFilterChip('Late'),
-              ],
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: [
+                  _buildFilterChip('All'),
+                  const SizedBox(width: 8),
+                  _buildFilterChip('Present'),
+                  const SizedBox(width: 8),
+                  _buildFilterChip('Absent'),
+                  const SizedBox(width: 8),
+                  _buildFilterChip('Late'),
+                ],
+              ),
             ),
             const SizedBox(height: 14),
 

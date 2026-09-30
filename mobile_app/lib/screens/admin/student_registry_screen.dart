@@ -24,93 +24,105 @@ class _StudentRegistryScreenState extends State<StudentRegistryScreen> {
         borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
       ),
       builder: (ctx) {
-        return Padding(
-          padding: const EdgeInsets.all(24),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
+        return ConstrainedBox(
+          constraints: BoxConstraints(
+            maxHeight: MediaQuery.of(context).size.height * 0.85,
+          ),
+          child: SingleChildScrollView(
+            physics: const BouncingScrollPhysics(),
+            child: Padding(
+              padding: const EdgeInsets.all(24),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  CircleAvatar(
-                    radius: 28,
-                    backgroundColor: AppTheme.forestTint,
-                    child: Text(
-                      '#${student.rollNo}',
-                      style: GoogleFonts.outfit(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        color: AppTheme.forestDeep,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 16),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          student.name,
+                  Row(
+                    children: [
+                      CircleAvatar(
+                        radius: 28,
+                        backgroundColor: AppTheme.forestTint,
+                        child: Text(
+                          '#${student.rollNo}',
                           style: GoogleFonts.outfit(
-                            fontSize: 18,
+                            fontSize: 20,
                             fontWeight: FontWeight.bold,
                             color: AppTheme.forestDeep,
                           ),
                         ),
-                        Text(
-                          '${student.fullClass} • Adm: ${student.admissionNo}',
-                          style: GoogleFonts.inter(
-                            fontSize: 12,
-                            color: AppTheme.textMuted,
-                          ),
+                      ),
+                      const SizedBox(width: 16),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              student.name,
+                              style: GoogleFonts.outfit(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                color: AppTheme.forestDeep,
+                              ),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            Text(
+                              '${student.fullClass} • Adm: ${student.admissionNo}',
+                              style: GoogleFonts.inter(
+                                fontSize: 12,
+                                color: AppTheme.textMuted,
+                              ),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ],
                         ),
-                      ],
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 16),
+                  const Divider(),
+                  const SizedBox(height: 8),
+                  _buildRow('Father Name:', student.fatherName),
+                  _buildRow('Mother Name:', student.motherName),
+                  _buildRow('Emergency Contact:', student.phone),
+                  _buildRow('Residential Address:', student.address),
+                  _buildRow('Date of Birth:', student.dob),
+                  _buildRow('Blood Group:', student.bloodGroup),
+                  _buildRow(
+                      'Attendance Regularity:', '${student.attendanceRate}%'),
+                  _buildRow(
+                    'Fee Due Status:',
+                    student.pendingFees > 0
+                        ? '₹${student.pendingFees.toInt()} Pending'
+                        : 'All Dues Paid in Full',
+                    valueColor: student.pendingFees > 0
+                        ? AppTheme.danger
+                        : AppTheme.forestPrimary,
+                  ),
+                  const SizedBox(height: 20),
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton.icon(
+                      onPressed: () {
+                        Navigator.pop(ctx);
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(
+                              'Calling parent ${student.fatherName} at ${student.phone}...',
+                              style: GoogleFonts.inter(),
+                            ),
+                            backgroundColor: AppTheme.forestPrimary,
+                          ),
+                        );
+                      },
+                      icon: const Icon(Icons.call, size: 18),
+                      label: const Text('Contact Parent / Guardian'),
                     ),
                   ),
+                  const SizedBox(height: 12),
                 ],
               ),
-              const SizedBox(height: 16),
-              const Divider(),
-              const SizedBox(height: 8),
-              _buildRow('Father Name:', student.fatherName),
-              _buildRow('Mother Name:', student.motherName),
-              _buildRow('Emergency Contact:', student.phone),
-              _buildRow('Residential Address:', student.address),
-              _buildRow('Date of Birth:', student.dob),
-              _buildRow('Blood Group:', student.bloodGroup),
-              _buildRow(
-                  'Attendance Regularity:', '${student.attendanceRate}%'),
-              _buildRow(
-                'Fee Due Status:',
-                student.pendingFees > 0
-                    ? '₹${student.pendingFees.toInt()} Pending'
-                    : 'All Dues Paid in Full',
-                valueColor: student.pendingFees > 0
-                    ? AppTheme.danger
-                    : AppTheme.forestPrimary,
-              ),
-              const SizedBox(height: 20),
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton.icon(
-                  onPressed: () {
-                    Navigator.pop(ctx);
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text(
-                          'Calling parent ${student.fatherName} at ${student.phone}...',
-                          style: GoogleFonts.inter(),
-                        ),
-                        backgroundColor: AppTheme.forestPrimary,
-                      ),
-                    );
-                  },
-                  icon: const Icon(Icons.call, size: 18),
-                  label: const Text('Contact Parent / Guardian'),
-                ),
-              ),
-              const SizedBox(height: 12),
-            ],
+            ),
           ),
         );
       },
@@ -127,6 +139,7 @@ class _StudentRegistryScreenState extends State<StudentRegistryScreen> {
             label,
             style: GoogleFonts.inter(fontSize: 12, color: AppTheme.textMuted),
           ),
+          const SizedBox(width: 8),
           Expanded(
             child: Text(
               value,

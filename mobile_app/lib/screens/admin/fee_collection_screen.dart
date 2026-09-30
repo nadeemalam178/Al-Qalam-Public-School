@@ -41,74 +41,81 @@ class _FeeCollectionScreenState extends State<FeeCollectionScreen> {
                         color: AppTheme.forestPrimary),
                   ),
                   const SizedBox(width: 12),
-                  Text(
-                    'Record Fee Payment',
-                    style: GoogleFonts.outfit(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: AppTheme.forestDeep,
+                  Expanded(
+                    child: Text(
+                      'Record Fee Payment',
+                      style: GoogleFonts.outfit(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: AppTheme.forestDeep,
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                     ),
                   ),
                 ],
               ),
-              content: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Student: ${student.name} (${student.fullClass})',
-                    style: GoogleFonts.inter(
-                        fontSize: 13,
-                        fontWeight: FontWeight.bold,
-                        color: AppTheme.textDark),
-                  ),
-                  Text(
-                    'Total Dues Pending: ₹${student.pendingFees.toInt()}',
-                    style: GoogleFonts.inter(
-                        fontSize: 12, color: AppTheme.danger),
-                  ),
-                  const SizedBox(height: 16),
-                  TextField(
-                    controller: amountController,
-                    keyboardType: TextInputType.number,
-                    decoration: const InputDecoration(
-                      labelText: 'Amount to Collect (₹ INR)',
-                      prefixIcon:
-                          Icon(Icons.currency_rupee_rounded, size: 18),
+              content: SingleChildScrollView(
+                physics: const BouncingScrollPhysics(),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Student: ${student.name} (${student.fullClass})',
+                      style: GoogleFonts.inter(
+                          fontSize: 13,
+                          fontWeight: FontWeight.bold,
+                          color: AppTheme.textDark),
                     ),
-                  ),
-                  const SizedBox(height: 12),
-                  DropdownButtonFormField<String>(
-                    initialValue: selectedMode,
-                    decoration: const InputDecoration(
-                      labelText: 'Payment Method',
-                      prefixIcon: Icon(Icons.payment, size: 18),
+                    Text(
+                      'Total Dues Pending: ₹${student.pendingFees.toInt()}',
+                      style: GoogleFonts.inter(
+                          fontSize: 12, color: AppTheme.danger),
                     ),
-                    items: const [
-                      DropdownMenuItem(
-                        value: 'Cash at School Counter',
-                        child: Text('Cash at School Counter'),
+                    const SizedBox(height: 16),
+                    TextField(
+                      controller: amountController,
+                      keyboardType: TextInputType.number,
+                      decoration: const InputDecoration(
+                        labelText: 'Amount to Collect (₹ INR)',
+                        prefixIcon:
+                            Icon(Icons.currency_rupee_rounded, size: 18),
                       ),
-                      DropdownMenuItem(
-                        value: 'UPI / PhonePe / QR',
-                        child: Text('UPI / PhonePe / QR'),
+                    ),
+                    const SizedBox(height: 12),
+                    DropdownButtonFormField<String>(
+                      initialValue: selectedMode,
+                      decoration: const InputDecoration(
+                        labelText: 'Payment Method',
+                        prefixIcon: Icon(Icons.payment, size: 18),
                       ),
-                      DropdownMenuItem(
-                        value: 'Bank Transfer / NEFT',
-                        child: Text('Bank Transfer / NEFT'),
-                      ),
-                      DropdownMenuItem(
-                        value: 'Cheque / DD',
-                        child: Text('Cheque / DD'),
-                      ),
-                    ],
-                    onChanged: (val) {
-                      if (val != null) {
-                        setDialogState(() => selectedMode = val);
-                      }
-                    },
-                  ),
-                ],
+                      items: const [
+                        DropdownMenuItem(
+                          value: 'Cash at School Counter',
+                          child: Text('Cash at School Counter'),
+                        ),
+                        DropdownMenuItem(
+                          value: 'UPI / PhonePe / QR',
+                          child: Text('UPI / PhonePe / QR'),
+                        ),
+                        DropdownMenuItem(
+                          value: 'Bank Transfer / NEFT',
+                          child: Text('Bank Transfer / NEFT'),
+                        ),
+                        DropdownMenuItem(
+                          value: 'Cheque / DD',
+                          child: Text('Cheque / DD'),
+                        ),
+                      ],
+                      onChanged: (val) {
+                        if (val != null) {
+                          setDialogState(() => selectedMode = val);
+                        }
+                      },
+                    ),
+                  ],
+                ),
               ),
               actions: [
                 TextButton(
@@ -176,27 +183,36 @@ class _FeeCollectionScreenState extends State<FeeCollectionScreen> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Outstanding: ₹${school.totalOutstandingFees.toInt()}',
-                      style: GoogleFonts.outfit(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: AppTheme.danger,
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        'Outstanding: ₹${school.totalOutstandingFees.toInt()}',
+                        style: GoogleFonts.outfit(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: AppTheme.danger,
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                       ),
-                    ),
-                    Text(
-                      'Collected: ₹${school.totalCollectedFees.toInt()} • 6 Total Students',
-                      style: GoogleFonts.inter(
-                        fontSize: 12,
-                        color: AppTheme.textMuted,
+                      Text(
+                        'Collected: ₹${school.totalCollectedFees.toInt()} • 6 Total Students',
+                        style: GoogleFonts.inter(
+                          fontSize: 12,
+                          color: AppTheme.textMuted,
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
+                const SizedBox(width: 8),
                 Row(
+                  mainAxisSize: MainAxisSize.min,
                   children: [
                     ChoiceChip(
                       label: const Text('Pending Dues'),

@@ -268,6 +268,8 @@ class TeacherDashboardScreen extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                   color: AppTheme.textDark,
                 ),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
               ),
               const SizedBox(height: 2),
               Text(
@@ -276,6 +278,8 @@ class TeacherDashboardScreen extends StatelessWidget {
                   fontSize: 11,
                   color: AppTheme.textMuted,
                 ),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
               ),
             ],
           ),

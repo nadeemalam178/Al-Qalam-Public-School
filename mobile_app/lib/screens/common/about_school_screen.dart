@@ -68,60 +68,68 @@ class _AboutSchoolScreenState extends State<AboutSchoolScreen> {
             children: [
               const Icon(Icons.check_circle, color: AppTheme.forestPrimary, size: 28),
               const SizedBox(width: 10),
-              Text(
-                'Enquiry Registered!',
-                style: GoogleFonts.outfit(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: AppTheme.forestDeep,
+              Expanded(
+                child: Text(
+                  'Enquiry Registered!',
+                  style: GoogleFonts.outfit(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: AppTheme.forestDeep,
+                  ),
+                  overflow: TextOverflow.ellipsis,
                 ),
               ),
             ],
           ),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Thank you for your interest in Al-Qalam Public School.',
-                style: GoogleFonts.inter(fontSize: 13),
-              ),
-              const SizedBox(height: 12),
-              Container(
-                padding: const EdgeInsets.all(12),
-                decoration: BoxDecoration(
-                  color: AppTheme.forestTint,
-                  borderRadius: BorderRadius.circular(10),
+          content: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Thank you for your interest in Al-Qalam Public School.',
+                  style: GoogleFonts.inter(fontSize: 13),
                 ),
-                child: Row(
-                  children: [
-                    const Icon(Icons.confirmation_number_outlined,
-                        color: AppTheme.forestPrimary),
-                    const SizedBox(width: 10),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('Reference Tracking ID:',
-                            style: GoogleFonts.inter(fontSize: 11, color: AppTheme.textMuted)),
-                        Text(
-                          refId,
-                          style: GoogleFonts.outfit(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            color: AppTheme.forestDeep,
-                          ),
+                const SizedBox(height: 12),
+                Container(
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: AppTheme.forestTint,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Row(
+                    children: [
+                      const Icon(Icons.confirmation_number_outlined,
+                          color: AppTheme.forestPrimary),
+                      const SizedBox(width: 10),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text('Reference Tracking ID:',
+                                style: GoogleFonts.inter(fontSize: 11, color: AppTheme.textMuted)),
+                            Text(
+                              refId,
+                              style: GoogleFonts.outfit(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                color: AppTheme.forestDeep,
+                              ),
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
-                  ],
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-              const SizedBox(height: 10),
-              Text(
-                'Our admission counselor desk will contact you on ${_mobileController.text.trim()} to schedule an interactive campus visit.',
-                style: GoogleFonts.inter(fontSize: 12, color: AppTheme.textMuted),
-              ),
-            ],
+                const SizedBox(height: 10),
+                Text(
+                  'Our admission counselor desk will contact you on ${_mobileController.text.trim()} to schedule an interactive campus visit.',
+                  style: GoogleFonts.inter(fontSize: 12, color: AppTheme.textMuted),
+                ),
+              ],
+            ),
           ),
           actions: [
             ElevatedButton(
@@ -257,25 +265,29 @@ class _AboutSchoolScreenState extends State<AboutSchoolScreen> {
                             color: AppTheme.forestPrimary),
                       ),
                       const SizedBox(width: 12),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            SchoolDataRepository.directorName,
-                            style: GoogleFonts.outfit(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              color: AppTheme.forestDeep,
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              SchoolDataRepository.directorName,
+                              style: GoogleFonts.outfit(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                color: AppTheme.forestDeep,
+                              ),
+                              overflow: TextOverflow.ellipsis,
                             ),
-                          ),
-                          Text(
-                            SchoolDataRepository.directorTitle,
-                            style: GoogleFonts.inter(
-                              fontSize: 12,
-                              color: AppTheme.textMuted,
+                            Text(
+                              SchoolDataRepository.directorTitle,
+                              style: GoogleFonts.inter(
+                                fontSize: 12,
+                                color: AppTheme.textMuted,
+                              ),
+                              overflow: TextOverflow.ellipsis,
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ],
                   ),
