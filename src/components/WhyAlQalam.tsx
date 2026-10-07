@@ -11,14 +11,14 @@ export default function WhyAlQalam() {
   };
 
   return (
-    <section className="py-16 sm:py-20 bg-[#FAF8F2] border-b border-[#EDE2D3]">
+    <section className="py-16 sm:py-20 bg-stone-50/60 border-b border-stone-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Heading */}
         <div className="max-w-3xl mx-auto text-center mb-12 sm:mb-16 space-y-3">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-[#E8F3EA] text-[#14532D] border border-[#2F7D4A]/25 text-xs font-semibold uppercase tracking-wider">
+          <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-[#E8F3EA] text-[#14532D] text-xs font-bold uppercase tracking-wider">
             <span>Our Educational Principles</span>
           </div>
-          <h2 className="font-heading font-black text-2xl sm:text-3xl lg:text-4xl text-[#14532D] tracking-tight">
+          <h2 className="font-heading font-bold text-2xl sm:text-3xl lg:text-4xl text-stone-900 tracking-tight">
             Why Choose Al-Qalam Public School
           </h2>
           <p className="text-stone-600 text-sm sm:text-base leading-relaxed">
@@ -33,11 +33,11 @@ export default function WhyAlQalam() {
             return (
               <div
                 key={principle.id}
-                className="bg-white p-6 sm:p-7 rounded-xl border border-[#E7E5E4] card-subtle flex flex-col justify-between"
+                className="bg-white p-6 sm:p-7 rounded-xl border border-stone-200/90 shadow-xs hover:shadow-md transition-all flex flex-col justify-between"
               >
                 <div>
                   <div className="flex items-center justify-between mb-4">
-                    <div className="w-10 h-10 rounded-lg bg-[#E8F3EA] text-[#14532D] flex items-center justify-center border border-[#2F7D4A]/20">
+                    <div className="w-10 h-10 rounded-lg bg-[#E8F3EA] text-[#14532D] flex items-center justify-center">
                       <IconComponent className="w-5 h-5" />
                     </div>
                     <span className="font-mono text-xs font-semibold text-stone-400">
@@ -45,7 +45,7 @@ export default function WhyAlQalam() {
                     </span>
                   </div>
 
-                  <h3 className="font-heading font-bold text-lg text-[#14532D] mb-2 leading-snug">
+                  <h3 className="font-heading font-bold text-lg text-stone-900 mb-2 leading-snug">
                     {principle.title}
                   </h3>
 
@@ -54,7 +54,7 @@ export default function WhyAlQalam() {
                   </p>
                 </div>
 
-                <div className="mt-6 pt-3 border-t border-stone-100 text-[11px] font-medium text-[#6B4226]">
+                <div className="mt-6 pt-3 border-t border-stone-100 text-[11px] font-medium text-stone-500">
                   Verified Campus Standard
                 </div>
               </div>

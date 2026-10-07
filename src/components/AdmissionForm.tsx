@@ -164,16 +164,16 @@ export default function AdmissionForm() {
 
   if (submissionResult) {
     return (
-      <div className="bg-white rounded-2xl border border-[#2F7D4A]/40 p-6 sm:p-8 shadow-sm text-center">
+      <div className="bg-white rounded-xl border border-stone-200/90 p-6 sm:p-8 shadow-xs text-center">
         <div className="w-14 h-14 bg-[#E8F3EA] text-[#14532D] rounded-full flex items-center justify-center mx-auto mb-4 border border-[#2F7D4A]/30">
           <CheckCircle2 className="w-8 h-8" />
         </div>
 
-        <span className="inline-block px-3 py-1 bg-[#E8F3EA] text-[#14532D] text-xs font-semibold rounded-md mb-2 border border-[#2F7D4A]/25">
+        <span className="inline-block px-3 py-1 bg-[#E8F3EA] text-[#14532D] text-xs font-bold rounded-md mb-2 border border-[#2F7D4A]/25">
           Enquiry Registered
         </span>
 
-        <h3 className="font-heading font-black text-xl sm:text-2xl text-[#14532D] mb-2">
+        <h3 className="font-heading font-bold text-xl sm:text-2xl text-stone-900 mb-2">
           Thank You, {submissionResult.parentName}
         </h3>
 
@@ -183,8 +183,8 @@ export default function AdmissionForm() {
           {submissionResult.grade}) has been successfully received by the school administrative desk.
         </p>
 
-        <div className="bg-[#FAF8F2] border border-[#EDE2D3] rounded-xl p-4 max-w-sm mx-auto mb-6 text-left text-xs space-y-2">
-          <div className="flex justify-between font-mono text-stone-800 text-sm font-bold border-b border-[#EDE2D3] pb-1.5">
+        <div className="bg-stone-50 border border-stone-200 rounded-xl p-4 max-w-sm mx-auto mb-6 text-left text-xs space-y-2">
+          <div className="flex justify-between font-mono text-stone-800 text-sm font-bold border-b border-stone-200 pb-1.5">
             <span>Enquiry ID:</span>
             <span className="text-[#14532D]">{submissionResult.referenceId}</span>
           </div>
@@ -194,7 +194,7 @@ export default function AdmissionForm() {
           </div>
           <div className="flex justify-between text-stone-600">
             <span>Status:</span>
-            <span className="text-[#166534] font-semibold">Under Administrative Review</span>
+            <span className="text-[#14532D] font-bold">Under Administrative Review</span>
           </div>
           <div className="flex justify-between text-stone-500 text-[11px] pt-1">
             <span>Campus:</span>
@@ -208,9 +208,9 @@ export default function AdmissionForm() {
 
         <button
           onClick={handleReset}
-          className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-xs font-semibold text-stone-700 bg-[#FAF8F2] border border-[#EDE2D3] hover:bg-white transition-colors cursor-pointer"
+          className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-xs font-semibold text-stone-700 bg-white border border-stone-200 hover:bg-stone-50 transition-colors cursor-pointer shadow-2xs"
         >
-          <RefreshCw className="w-3.5 h-3.5 text-[#6B4226]" />
+          <RefreshCw className="w-3.5 h-3.5 text-stone-600" />
           <span>Submit Another Enquiry</span>
         </button>
       </div>
@@ -220,33 +220,33 @@ export default function AdmissionForm() {
   return (
     <form
       onSubmit={handleSubmit}
-      className="bg-white rounded-2xl border border-stone-200 p-6 sm:p-8 shadow-sm"
+      className="bg-white rounded-xl border border-stone-200/90 p-6 sm:p-8 shadow-xs"
       noValidate
     >
       <div className="mb-6">
-        <h3 className="font-heading font-black text-xl sm:text-2xl text-[#14532D] tracking-tight">
+        <h3 className="font-heading font-bold text-xl sm:text-2xl text-stone-900 tracking-tight">
           Admission Enquiry Form
         </h3>
         <p className="text-xs sm:text-sm text-stone-500 mt-1">
-          Complete the form below. Our admissions desk will record your enquiry for the upcoming academic session.
+          Academic Year 2025–26 • Direct submission to school administration
         </p>
       </div>
 
       {errors.general && (
-        <div className="mb-5 p-3 rounded-lg bg-red-50 border border-red-200 text-xs text-red-700 flex items-center gap-2">
-          <AlertCircle className="w-4 h-4 shrink-0" />
+        <div className="mb-6 p-4 rounded-lg bg-red-50 border border-red-200 flex items-start gap-3 text-xs sm:text-sm text-red-800">
+          <AlertCircle className="w-4 h-4 text-red-600 shrink-0 mt-0.5" />
           <span>{errors.general}</span>
         </div>
       )}
 
       <div className="space-y-4">
-        {/* Student Name */}
+        {/* Student Full Name */}
         <div>
           <label
             htmlFor="studentName"
-            className="block text-xs font-semibold uppercase tracking-wider text-stone-700 mb-1.5"
+            className="block text-xs font-bold uppercase tracking-wider text-stone-700 mb-1.5"
           >
-            Student Full Name *
+            Student&apos;s Full Name *
           </label>
           <div className="relative">
             <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-stone-400">
@@ -266,7 +266,7 @@ export default function AdmissionForm() {
               placeholder="e.g., Mohammad Ayaan"
               aria-invalid={Boolean(errors.studentName)}
               aria-describedby={errors.studentName ? "studentName-error" : undefined}
-              className={`w-full pl-10 pr-4 py-2.5 rounded-lg text-sm bg-[#FAF8F2] border transition-colors focus:bg-white focus:outline-none focus:ring-2 ${
+              className={`w-full pl-10 pr-4 py-2.5 rounded-lg text-sm bg-stone-50/60 border transition-colors focus:bg-white focus:outline-none focus:ring-2 ${
                 errors.studentName
                   ? "border-red-400 focus:ring-red-400 text-red-900"
                   : "border-stone-300 focus:ring-[#14532D] text-stone-900"
@@ -285,7 +285,7 @@ export default function AdmissionForm() {
         <div>
           <label
             htmlFor="parentName"
-            className="block text-xs font-semibold uppercase tracking-wider text-stone-700 mb-1.5"
+            className="block text-xs font-bold uppercase tracking-wider text-stone-700 mb-1.5"
           >
             Parent / Guardian Full Name *
           </label>
@@ -307,7 +307,7 @@ export default function AdmissionForm() {
               placeholder="e.g., Tariq Rahman"
               aria-invalid={Boolean(errors.parentName)}
               aria-describedby={errors.parentName ? "parentName-error" : undefined}
-              className={`w-full pl-10 pr-4 py-2.5 rounded-lg text-sm bg-[#FAF8F2] border transition-colors focus:bg-white focus:outline-none focus:ring-2 ${
+              className={`w-full pl-10 pr-4 py-2.5 rounded-lg text-sm bg-stone-50/60 border transition-colors focus:bg-white focus:outline-none focus:ring-2 ${
                 errors.parentName
                   ? "border-red-400 focus:ring-red-400 text-red-900"
                   : "border-stone-300 focus:ring-[#14532D] text-stone-900"
@@ -327,7 +327,7 @@ export default function AdmissionForm() {
           <div>
             <label
               htmlFor="mobile"
-              className="block text-xs font-semibold uppercase tracking-wider text-stone-700 mb-1.5"
+              className="block text-xs font-bold uppercase tracking-wider text-stone-700 mb-1.5"
             >
               Contact Mobile Number *
             </label>
@@ -351,7 +351,7 @@ export default function AdmissionForm() {
                 placeholder="10-digit number"
                 aria-invalid={Boolean(errors.mobile)}
                 aria-describedby={errors.mobile ? "mobile-error" : undefined}
-                className={`w-full pl-10 pr-4 py-2.5 rounded-lg text-sm bg-[#FAF8F2] border transition-colors focus:bg-white focus:outline-none focus:ring-2 ${
+                className={`w-full pl-10 pr-4 py-2.5 rounded-lg text-sm bg-stone-50/60 border transition-colors focus:bg-white focus:outline-none focus:ring-2 ${
                   errors.mobile
                     ? "border-red-400 focus:ring-red-400 text-red-900"
                     : "border-stone-300 focus:ring-[#14532D] text-stone-900"
@@ -369,7 +369,7 @@ export default function AdmissionForm() {
           <div>
             <label
               htmlFor="grade"
-              className="block text-xs font-semibold uppercase tracking-wider text-stone-700 mb-1.5"
+              className="block text-xs font-bold uppercase tracking-wider text-stone-700 mb-1.5"
             >
               Class Applying For *
             </label>
@@ -389,7 +389,7 @@ export default function AdmissionForm() {
                 }}
                 aria-invalid={Boolean(errors.grade)}
                 aria-describedby={errors.grade ? "grade-error" : undefined}
-                className={`w-full pl-10 pr-4 py-2.5 rounded-lg text-sm bg-[#FAF8F2] border transition-colors focus:bg-white focus:outline-none focus:ring-2 appearance-none cursor-pointer ${
+                className={`w-full pl-10 pr-4 py-2.5 rounded-lg text-sm bg-stone-50/60 border transition-colors focus:bg-white focus:outline-none focus:ring-2 appearance-none cursor-pointer ${
                   errors.grade
                     ? "border-red-400 focus:ring-red-400 text-red-900"
                     : "border-stone-300 focus:ring-[#14532D] text-stone-900"
@@ -415,7 +415,7 @@ export default function AdmissionForm() {
         <div>
           <label
             htmlFor="message"
-            className="block text-xs font-semibold uppercase tracking-wider text-stone-700 mb-1.5"
+            className="block text-xs font-bold uppercase tracking-wider text-stone-700 mb-1.5"
           >
             Message or Specific Query (Optional)
           </label>
@@ -432,7 +432,7 @@ export default function AdmissionForm() {
               value={formData.message}
               onChange={(e) => setFormData({ ...formData, message: e.target.value })}
               placeholder="Any query regarding age criteria, campus visit, or class transfer..."
-              className="w-full pl-10 pr-4 py-2 rounded-lg text-sm bg-[#FAF8F2] border border-stone-300 transition-colors focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#14532D] text-stone-900 resize-none"
+              className="w-full pl-10 pr-4 py-2 rounded-lg text-sm bg-stone-50/60 border border-stone-300 transition-colors focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#14532D] text-stone-900 resize-none"
             />
           </div>
         </div>
@@ -446,20 +446,20 @@ export default function AdmissionForm() {
         >
           {isSubmitting ? (
             <>
-              <RefreshCw className="w-4 h-4 animate-spin text-[#EDE2D3]" />
+              <RefreshCw className="w-4 h-4 animate-spin text-white/80" />
               <span>Registering Enquiry...</span>
             </>
           ) : (
             <>
-              <Send className="w-4 h-4 text-[#EDE2D3]" />
+              <Send className="w-4 h-4 text-white/80" />
               <span>Submit Admission Enquiry</span>
             </>
           )}
         </button>
       </div>
 
-      <p className="text-[11px] text-stone-500 text-center mt-3">
-        Enquiries are handled privately by the Al-Qalam Public School admissions desk in Patna.
+      <p className="mt-4 text-center text-xs text-stone-500">
+        By submitting, you agree to receive follow-up communication regarding admission verification at our Gulzarbagh campus.
       </p>
     </form>
   );

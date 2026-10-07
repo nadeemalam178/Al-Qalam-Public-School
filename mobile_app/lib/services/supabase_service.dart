@@ -3,7 +3,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'secure_local_storage.dart';
 
 /// Central Supabase service manager handling client initialization,
-/// secure session persistence, and client access.
+/// secure session persistence, client access, storage, and audit logging.
 class SupabaseService {
   static const String _defaultUrl = String.fromEnvironment(
     'SUPABASE_URL',
@@ -24,6 +24,11 @@ class SupabaseService {
   static SupabaseClient? get client {
     if (!_isInitialized) return null;
     return Supabase.instance.client;
+  }
+
+  /// Get current authenticated user ID if signed in.
+  static String? get currentUserId {
+    return client?.auth.currentUser?.id;
   }
 
   /// Initialize Supabase with secure session storage.
@@ -55,9 +60,59 @@ class SupabaseService {
       }
     } else {
       debugPrint(
-        'Supabase credentials not configured via --dart-define. '
+        'Supabase credentials not configured. '
         'Application will run in demo/offline mode with full role-security validation.',
       );
+    }
+  }
+
+  /// Record an administrative or operational event into Supabase `audit_logs` table.
+  static Future<void> logAudit({
+    required String action,
+    required String entityType,
+    String? entityId,
+    Map<String, dynamic>? metadata,
+  }) async {
+    final c = client;
+    if (c == null || !_isInitialized) return;
+
+    try {
+      final actorId = c.auth.currentUser?.id;
+      await c.from('audit_logs').insert({
+        'actor_id': actorId,
+        'action': action,
+        'entity_type': entityType,
+        'entity_id': entityId,
+        'metadata': metadata ?? {},
+        'created_at': DateTime.now().toIso8601String(),
+      });
+      debugPrint('[AuditLog] $action on $entityType recorded.');
+    } catch (e) {
+      debugPrint('[AuditLog Error] Could not record audit log: $e');
+    }
+  }
+
+  /// Upload file binary to Supabase Storage bucket and return public URL.
+  static Future<String?> uploadStorageFile({
+    required String bucket,
+    required String path,
+    required Uint8List bytes,
+    String contentType = 'image/jpeg',
+  }) async {
+    final c = client;
+    if (c == null || !_isInitialized) return null;
+
+    try {
+      await c.storage.from(bucket).uploadBinary(
+            path,
+            bytes,
+            fileOptions: FileOptions(contentType: contentType, upsert: true),
+          );
+      final publicUrl = c.storage.from(bucket).getPublicUrl(path);
+      return publicUrl;
+    } catch (e) {
+      debugPrint('[Storage Error] Failed to upload to $bucket/$path: $e');
+      return null;
     }
   }
 }

@@ -11,8 +11,10 @@ import GalleryGrid from "@/components/GalleryGrid";
 import SchoolLifeEvents from "@/components/SchoolLifeEvents";
 import DirectorCard from "@/components/DirectorCard";
 import AdmissionForm from "@/components/AdmissionForm";
+import AdmissionCalculator from "@/components/AdmissionCalculator";
 import ContactSection from "@/components/ContactSection";
 import NoticeCard from "@/components/NoticeCard";
+import TrustStatsGrid from "@/components/TrustStatsGrid";
 import { SCHOOL_DATA } from "@/data/schoolData";
 
 export default function HomePage() {
@@ -23,6 +25,9 @@ export default function HomePage() {
 
       {/* Dynamic Announcement & Verification Ticker */}
       <AnnouncementMarquee />
+
+      {/* 1.1 Institutional Trust & Key Metrics Grid */}
+      <TrustStatsGrid />
 
       {/* 2. School Story / Introduction (Editorial layout) */}
       <SchoolStory />
@@ -37,15 +42,15 @@ export default function HomePage() {
       <FacilitiesSection />
 
       {/* 6. School Life & Visual Gallery */}
-      <section className="py-16 sm:py-20 lg:py-24 bg-white border-b border-[#E7E5E4]">
+      <section className="py-16 sm:py-20 lg:py-24 bg-white border-b border-stone-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-12 sm:mb-14">
             <div className="space-y-3">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-[#FAF8F2] border border-[#EDE2D3] text-[#6B4226] text-xs font-semibold uppercase tracking-wider">
+              <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-[#E8F3EA] text-[#14532D] text-xs font-bold uppercase tracking-wider">
                 <Sparkles className="w-3.5 h-3.5 text-[#14532D]" />
                 <span>School Life</span>
               </div>
-              <h2 className="font-heading font-black text-2xl sm:text-3xl lg:text-4xl text-[#14532D] tracking-tight">
+              <h2 className="font-heading font-bold text-2xl sm:text-3xl lg:text-4xl text-stone-900 tracking-tight">
                 Moments & Activities at Al-Qalam
               </h2>
               <p className="text-stone-600 text-sm sm:text-base max-w-2xl leading-relaxed">
@@ -55,10 +60,10 @@ export default function HomePage() {
 
             <Link
               href="/gallery"
-              className="btn-primary inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-xs font-semibold text-[#14532D] bg-[#FAF8F2] hover:bg-[#E8F3EA] border border-[#EDE2D3] transition-colors shrink-0"
+              className="btn-primary inline-flex items-center gap-2 px-4 py-2.5 rounded-lg text-xs font-semibold text-stone-700 bg-white hover:bg-stone-50 border border-stone-300 shadow-xs transition-colors shrink-0"
             >
               <span>View Full Gallery</span>
-              <ArrowRight className="w-3.5 h-3.5 text-[#6B4226]" />
+              <ArrowRight className="w-3.5 h-3.5 text-stone-500" />
             </Link>
           </div>
 
@@ -70,32 +75,32 @@ export default function HomePage() {
       <SchoolLifeEvents />
 
       {/* 8. Institutional Leadership Desk */}
-      <section className="py-16 sm:py-20 bg-white border-b border-[#E7E5E4]">
+      <section className="py-16 sm:py-20 bg-white border-b border-stone-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <DirectorCard />
         </div>
       </section>
 
       {/* 8. Notice Board Announcements Preview */}
-      <section className="py-16 sm:py-20 bg-white border-b border-[#E7E5E4]">
+      <section className="py-16 sm:py-20 bg-white border-b border-stone-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-10">
             <div className="space-y-2">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-[#E8F3EA] text-[#14532D] border border-[#2F7D4A]/25 text-xs font-semibold uppercase tracking-wider">
+              <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-[#E8F3EA] text-[#14532D] text-xs font-bold uppercase tracking-wider">
                 <Calendar className="w-3.5 h-3.5" />
                 <span>Notice Board</span>
               </div>
-              <h2 className="font-heading font-black text-2xl sm:text-3xl text-[#14532D] tracking-tight">
+              <h2 className="font-heading font-bold text-2xl sm:text-3xl text-stone-900 tracking-tight">
                 Latest Announcements & Circulars
               </h2>
             </div>
 
             <Link
               href="/notices"
-              className="btn-primary inline-flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-semibold text-[#14532D] bg-[#FAF8F2] hover:bg-stone-100 border border-[#EDE2D3] transition-colors shrink-0"
+              className="btn-primary inline-flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-semibold text-stone-700 bg-white hover:bg-stone-50 border border-stone-300 shadow-xs transition-colors shrink-0"
             >
               <span>All Notices</span>
-              <ArrowRight className="w-3.5 h-3.5 text-[#6B4226]" />
+              <ArrowRight className="w-3.5 h-3.5 text-stone-500" />
             </Link>
           </div>
 
@@ -108,16 +113,16 @@ export default function HomePage() {
       </section>
 
       {/* 9. Admissions Section (Process Timeline + Real Lead-Gen Form) */}
-      <section id="admissions" className="py-16 sm:py-20 lg:py-24 bg-[#FAF8F2] border-b border-[#EDE2D3]">
+      <section id="admissions" className="py-16 sm:py-20 lg:py-24 bg-stone-50/60 border-b border-stone-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
             {/* Left: Admissions Overview & 4-Step Timeline */}
             <div className="lg:col-span-6 space-y-8">
               <div className="space-y-3">
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-[#E8F3EA] text-[#14532D] border border-[#2F7D4A]/25 text-xs font-semibold uppercase tracking-wider">
+                <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-[#E8F3EA] text-[#14532D] text-xs font-bold uppercase tracking-wider">
                   <span>Admissions Open</span>
                 </div>
-                <h2 className="font-heading font-black text-2xl sm:text-3xl lg:text-4xl text-[#14532D] tracking-tight">
+                <h2 className="font-heading font-bold text-2xl sm:text-3xl lg:text-4xl text-stone-900 tracking-tight">
                   Admissions at Al-Qalam Public School
                 </h2>
                 <p className="text-stone-600 text-sm sm:text-base leading-relaxed">
@@ -125,18 +130,21 @@ export default function HomePage() {
                 </p>
               </div>
 
+              {/* Interactive Age & Grade Eligibility Calculator */}
+              <AdmissionCalculator />
+
               {/* Vertical 4-Step Process Timeline */}
               <div className="space-y-4">
                 {SCHOOL_DATA.admissionProcess.map((step) => (
                   <div
                     key={step.step}
-                    className="p-4 sm:p-5 rounded-xl bg-white border border-[#E7E5E4] flex items-start gap-4 card-subtle"
+                    className="p-4 sm:p-5 rounded-xl bg-white border border-stone-200/90 flex items-start gap-4 shadow-xs"
                   >
                     <div className="w-9 h-9 rounded-lg bg-[#14532D] text-white flex items-center justify-center font-mono font-bold text-xs shrink-0">
                       {step.step}
                     </div>
                     <div className="space-y-1">
-                      <h3 className="font-heading font-bold text-base text-[#14532D]">
+                      <h3 className="font-heading font-bold text-base text-stone-900">
                         {step.title}
                       </h3>
                       <p className="text-xs sm:text-sm text-stone-600 leading-relaxed">
@@ -148,12 +156,12 @@ export default function HomePage() {
               </div>
 
               {/* In-Person Campus Desk Help */}
-              <div className="p-4 sm:p-5 rounded-xl bg-white border border-[#E7E5E4] space-y-2 text-xs text-stone-700">
-                <div className="flex items-center gap-2 font-bold text-[#14532D]">
-                  <MapPin className="w-4 h-4 text-[#166534]" />
+              <div className="p-4 sm:p-5 rounded-xl bg-white border border-stone-200/90 space-y-2 text-xs text-stone-700 shadow-xs">
+                <div className="flex items-center gap-2 font-bold text-stone-900">
+                  <MapPin className="w-4 h-4 text-[#14532D]" />
                   <span>Campus Desk Inquiries</span>
                 </div>
-                <p className="leading-relaxed">
+                <p className="leading-relaxed text-stone-600">
                   Parents may also directly visit the school administrative desk opposite Jashn Palace Marriage Hall, Ashok Rajpath Rd, Gulzarbagh, Patna for physical prospectus collection.
                 </p>
               </div>
@@ -171,10 +179,10 @@ export default function HomePage() {
       <section className="py-16 sm:py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl mx-auto text-center mb-12 space-y-3">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-[#FAF8F2] border border-[#EDE2D3] text-[#6B4226] text-xs font-semibold uppercase tracking-wider">
+            <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-[#E8F3EA] text-[#14532D] text-xs font-bold uppercase tracking-wider">
               <span>Campus Visit</span>
             </div>
-            <h2 className="font-heading font-black text-2xl sm:text-3xl text-[#14532D] tracking-tight">
+            <h2 className="font-heading font-bold text-2xl sm:text-3xl text-stone-900 tracking-tight">
               Visit Al-Qalam Public School
             </h2>
             <p className="text-stone-600 text-sm sm:text-base leading-relaxed">

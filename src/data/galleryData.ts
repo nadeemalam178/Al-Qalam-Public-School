@@ -404,7 +404,7 @@ export const GALLERY_ITEMS: GalleryItem[] = [
   },
   {
     id: "smart-classes",
-    src: "/images/smart-class-sample.jpg",
+    src: "/images/school/classrooms/classroom-learning.jpg",
     altSrcs: [
       "/images/school/classrooms/classroom-learning.jpg",
       "/images/school/classrooms/interactive-classroom-session.jpg",
@@ -414,22 +414,23 @@ export const GALLERY_ITEMS: GalleryItem[] = [
     tag: "Technology",
     description:
       "Digital learning tools and audio-visual instructional methods that make foundational science and mathematics concepts intuitive.",
-    isReal: false,
-    source: "Facility Documentation",
+    isReal: true,
+    source: "Al-Qalam Classroom Session",
   },
   {
     id: "campus-safety-cctv",
-    src: "/images/cctv-sample.jpg",
+    src: "/images/school/campus/school-campus-exterior.jpg",
     altSrcs: [
       "/images/school/campus/school-campus-exterior.jpg",
+      "/images/school/campus/school-gate-entrance-banner.jpg",
     ],
     title: "Monitored Safety & Campus Security",
     category: "Facilities",
     tag: "Security",
     description:
       "24/7 CCTV surveillance across campus gates, common corridors, and activity areas for comprehensive student safety.",
-    isReal: false,
-    source: "Facility Documentation",
+    isReal: true,
+    source: "Al-Qalam Campus",
   },
 ];
 

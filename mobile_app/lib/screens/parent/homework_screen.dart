@@ -31,7 +31,7 @@ class _ParentHomeworkScreenState extends State<ParentHomeworkScreen>
   @override
   Widget build(BuildContext context) {
     final school = Provider.of<SchoolProvider>(context);
-    final student = school.getStudentById('STU-001');
+    final student = school.selectedStudent;
     final allHomework = school.getHomeworkForGrade(student.grade);
 
     final pendingList = allHomework.where((h) => !h.isCompleted).toList();

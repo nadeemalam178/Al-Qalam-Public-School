@@ -59,43 +59,53 @@ export default function Header() {
 
   return (
     <>
-      {/* 1. Top Utility Strip */}
-      <div className="bg-[#0B3B20] text-[#EDE2D3] text-xs py-2 px-4 border-b border-[#14532D]">
-        <div className="max-w-7xl mx-auto flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-[#14532D] text-[#E8F3EA] text-[11px] font-semibold border border-[#2F7D4A]/40">
-              <Sparkles className="w-3 h-3 text-[#E8F3EA]" />
-              <span>Admissions Open</span>
+      {/* 1. Top Utility Authority Strip */}
+      <div className="bg-[#0B3B20] text-stone-200 text-xs py-2 px-4 border-b border-[#14532D]">
+        <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-y-2">
+          {/* Left: Admissions & Timings */}
+          <div className="flex items-center gap-3">
+            <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md text-[11px] font-bold uppercase tracking-wider text-white bg-[#B45309] shadow-xs">
+              <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
+              <span>Admissions 2026-27 Open</span>
             </span>
-            <span className="text-stone-400 hidden sm:inline">•</span>
+            <span className="text-[#2F7D4A] hidden sm:inline">|</span>
             <span className="text-stone-300 hidden sm:inline text-[11px]">
-              Foundational & Primary Classes
+              Campus Timings: Mon – Sat 7:30 AM – 1:30 PM
             </span>
           </div>
 
+          {/* Right: Phone, Location & WhatsApp */}
           <div className="flex items-center gap-4 text-[11px] text-stone-300">
-            <div className="flex items-center gap-1.5">
-              <MapPin className="w-3.5 h-3.5 text-[#EDE2D3] shrink-0" />
-              <span className="hidden md:inline">Opp. Jashn Palace,</span>
-              <span>Ashok Rajpath Rd, Gulzarbagh</span>
-            </div>
-            <span className="text-[#2F7D4A] hidden md:inline">|</span>
-            <Link
-              href="/contact"
-              className="text-[#FAF8F2] hover:text-white underline underline-offset-2 transition-colors font-medium hidden sm:inline"
+            <a
+              href="tel:+919334112345"
+              className="hover:text-white transition-colors flex items-center gap-1 font-semibold text-emerald-200"
             >
-              Campus Visit
-            </Link>
+              <span>📞 +91 93341 12345</span>
+            </a>
+            <span className="text-[#2F7D4A] hidden md:inline">|</span>
+            <div className="flex items-center gap-1.5 hidden md:flex">
+              <MapPin className="w-3.5 h-3.5 text-emerald-300 shrink-0" />
+              <span>Ashok Rajpath Rd, Gulzarbagh, Patna</span>
+            </div>
+            <span className="text-[#2F7D4A] hidden lg:inline">|</span>
+            <a
+              href="https://wa.me/919334112345?text=Hello%20Al-Qalam%20Public%20School%2C%20I%20would%20like%20information%20regarding%20admissions"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-md text-[10px] font-bold text-white bg-[#166534] hover:bg-[#14532D] transition-colors"
+            >
+              <span>WhatsApp Us</span>
+            </a>
           </div>
         </div>
       </div>
 
       {/* 2. Main Sticky Header */}
       <header
-        className={`sticky top-0 z-40 transition-all duration-300 backdrop-blur-xl bg-white/90 border-b ${
+        className={`sticky top-0 z-40 transition-all duration-300 backdrop-blur-xl bg-white/95 border-b ${
           isScrolled
-            ? "py-2.5 shadow-md border-stone-200/90 bg-white/95"
-            : "py-3.5 border-stone-200/60"
+            ? "py-2 shadow-md border-stone-200/90 bg-white"
+            : "py-3 border-stone-200/60"
         }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -122,8 +132,12 @@ export default function Header() {
                   {SCHOOL_DATA.name}
                 </span>
                 <div className="flex items-center gap-1.5 text-xs text-stone-500">
-                  <span className="font-medium text-[#6B4226]">Gulzarbagh, Patna</span>
+                  <span className="font-medium text-stone-600">Gulzarbagh, Patna</span>
                   <span className="text-stone-300">•</span>
+                  <span className="font-serif text-[11px] text-[#14532D] font-medium hidden sm:inline">
+                    اقْرَأْ بِاسْمِ رَبِّكَ
+                  </span>
+                  <span className="text-stone-300 hidden lg:inline">•</span>
                   <span className="italic hidden lg:inline text-stone-600">
                     &ldquo;{SCHOOL_DATA.tagline}&rdquo;
                   </span>
@@ -152,13 +166,13 @@ export default function Header() {
             </nav>
 
             {/* Header Right Action CTA */}
-            <div className="hidden sm:flex items-center gap-3">
+            <div className="hidden sm:flex items-center gap-2.5">
               <Link
                 href="/admissions"
-                className="btn-primary px-4 py-2 text-xs font-semibold text-white bg-[#14532D] hover:bg-[#0B3B20] rounded-lg shadow-xs hover:shadow-sm transition-colors border border-[#0B3B20]"
+                className="btn-primary-school text-xs py-2 px-4 font-semibold shadow-xs hover:shadow-sm transition-all"
               >
                 <span>Admission Enquiry</span>
-                <ArrowRight className="w-3.5 h-3.5 ml-1.5 text-[#EDE2D3]" />
+                <ArrowRight className="w-3.5 h-3.5 ml-1 text-white/80" />
               </Link>
             </div>
 
@@ -178,7 +192,7 @@ export default function Header() {
         </div>
       </header>
 
-      {/* 3. Mobile Navigation Drawer (Near Full-Screen) */}
+      {/* 3. Mobile Navigation Drawer */}
       {isOpen && (
         <div
           className="fixed inset-0 z-50 bg-black/60 backdrop-blur-md xl:hidden transition-opacity"
@@ -198,7 +212,7 @@ export default function Header() {
         }`}
       >
         {/* Drawer Header */}
-        <div className="p-4 sm:p-5 border-b border-[#E7E5E4] flex items-center justify-between bg-[#FAF8F2]">
+        <div className="p-4 sm:p-5 border-b border-stone-200 flex items-center justify-between bg-stone-50">
           <div className="flex items-center gap-3">
             <Image
               src="/logo.png"
@@ -211,7 +225,7 @@ export default function Header() {
               <p className="font-heading font-bold text-[#14532D] text-base leading-tight">
                 {SCHOOL_DATA.name}
               </p>
-              <p className="text-xs text-[#6B4226] font-medium">Gulzarbagh, Patna</p>
+              <p className="text-xs text-stone-600 font-medium">Gulzarbagh, Patna</p>
             </div>
           </div>
           <button
@@ -254,13 +268,13 @@ export default function Header() {
               className="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-lg font-semibold text-white bg-[#14532D] hover:bg-[#0B3B20] text-sm shadow-xs transition-colors"
             >
               <span>Admission Enquiry</span>
-              <ArrowRight className="w-4 h-4 text-[#EDE2D3]" />
+              <ArrowRight className="w-4 h-4 text-white/80" />
             </Link>
 
             <Link
               href="/contact"
               onClick={closeDrawer}
-              className="w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-lg font-medium text-stone-700 bg-[#FAF8F2] hover:bg-stone-100 border border-[#EDE2D3] text-sm transition-colors"
+              className="w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-lg font-medium text-stone-700 bg-white hover:bg-stone-50 border border-stone-200 text-sm transition-colors shadow-2xs"
             >
               <span>Campus Location & Details</span>
             </Link>
@@ -268,8 +282,8 @@ export default function Header() {
         </div>
 
         {/* Drawer Footer Information */}
-        <div className="p-4 bg-[#0B3B20] text-[#EDE2D3] text-xs space-y-1.5 border-t border-[#14532D]">
-          <p className="font-heading font-semibold text-[#FAF8F2]">&ldquo;{SCHOOL_DATA.tagline}&rdquo;</p>
+        <div className="p-4 bg-[#0B3B20] text-stone-200 text-xs space-y-1.5 border-t border-[#14532D]">
+          <p className="font-heading font-semibold text-white">&ldquo;{SCHOOL_DATA.tagline}&rdquo;</p>
           <p className="text-stone-300 text-[11px] leading-relaxed">
             Opp. Jashn Palace, Ashok Rajpath Rd, Gulzarbagh, Patna 800007
           </p>

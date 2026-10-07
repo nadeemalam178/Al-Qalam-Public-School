@@ -188,28 +188,44 @@ The mobile app was elevated from a basic static interface to a visually rich, re
 
 ## 7. Supabase Backend Architecture & Database Schema
 
-All backend logic, relational schemas, security policies, and seed scripts were constructed and verified:
+Supabase serves as the **single source of truth and central backend** for both the Next.js website and the Flutter mobile application suite:
 
-### 🗄️ Tables Created (`supabase_schema.sql`)
-1. `profiles`: User accounts linked to `auth.users(id)` with roles (`admin`, `teacher`, `guardian`), designations, and student linkages.
-2. `classes`: Pre-Nursery, Nursery, LKG, UKG, Class 1 through Class 5.
-3. `sections`: Section A, Section B.
-4. `students`: Enrolled student profiles, admission numbers, parents' names, attendance rate, pending fees, blood group, and emergency phone.
-5. `guardian_students`: Relational table linking parent profile IDs to their children (supporting multi-sibling families).
-6. `attendance`: Daily presence tracking per student (`present`, `absent`, `late`, `excused`).
-7. `homework`: Daily diary tasks with subject, title, description, due date, and completion status.
-8. `notices`: Institutional circulars with target audience scoping (`all`, `guardian`, `teacher`).
-9. `admission_enquiries`: Captures online admission applications submitted from the website.
+### 🗄️ Unified Relational Schema (21 Core Tables - `supabase_schema.sql`)
+1. `academic_years`: Tracks academic sessions (`2026-2027`), terms, and active session flag.
+2. `profiles`: User accounts linked directly to `auth.users(id)` with roles (`admin`, `teacher`, `guardian`).
+3. `classes`: Pre-Nursery, Nursery, LKG, UKG, and Class 1 through Class 5.
+4. `sections`: Section A, Section B linked via `class_id`.
+5. `subjects`: Curriculum subjects (Mathematics, Science & EVS, Hindi, Urdu, Deeniyat, etc.).
+6. `students`: Enrolled student profiles, admission numbers, parents' names, blood group, and class linkages.
+7. `guardian_students`: Relational table linking parent profile IDs to their children (supporting multi-sibling families with in-app child switcher).
+8. `teachers`: Faculty records linked to user profiles.
+9. `teacher_classes`: Class and subject assignments per faculty member.
+10. `attendance`: Daily presence tracking per student (`present`, `absent`, `late`, `excused`).
+11. `homework`: Daily assignments with subject, title, due date, attachments, and completion tracking.
+12. `diary`: Daily classroom progress logs recorded by educators.
+13. `exams`: Term examinations and assessment periods.
+14. `marks`: Student subject evaluation marks, grades, and teacher remarks.
+15. `fee_invoices`: Financial invoices with status tracking (`pending`, `partially_paid`, `paid`, `overdue`).
+16. `fee_payments`: Payment transactions, receipts, and collection channels (Counter Cash, UPI).
+17. `notices`: Institutional circulars with audience targeting (`all`, `guardian`, `teacher`, `admin`).
+18. `admission_enquiries`: Captures online website admission applications and campus visit leads.
+19. `leave_requests`: Student leave applications with parent request and faculty review states.
+20. `timetables`: Weekly schedules mapped to periods, subjects, teachers, and classrooms.
+21. `audit_logs`: Detailed immutable audit trail for administrative operations.
 
 ### 🛡️ Row Level Security (RLS) & Triggers
-- RLS enabled across all 9 tables.
-- Automated `handle_new_user()` trigger automatically populates the `profiles` table upon Supabase Auth sign-up.
-- Guardians can only view their own linked children's attendance and fee records.
-- Faculty can record attendance and assign homework for their assigned classes.
+- RLS enabled across all 21 tables with security-definer helper functions.
+- `handle_new_user()` trigger automatically populates the `profiles` table upon Supabase Auth sign-up.
+- `reconcile_fee_invoice()` trigger automatically reconciles invoice payment status and updates student pending dues upon payment recording.
+- Guardians are isolated to view only their linked children's records.
+- Faculty are isolated to access and update only their assigned classes.
 - Administrators possess master CRUD permissions across all tables.
 
-### 🌱 Realistic Seed Script (`supabase_dummy_data.sql`)
-- Pre-populated with realistic Gulzarbagh, Patna students, teachers, homework assignments, notices, and pending fee records for seamless offline and online demonstration.
+### 📦 Storage Buckets Configured
+- `student-photos`, `teacher-photos`, `school-assets`, `notices`, `homework`, `documents`.
+
+### 🌱 Comprehensive Seed Script (`supabase_seed_data.sql`)
+- Pre-populated with authentic Gulzarbagh, Patna students, teachers, classes, subjects, marks, fee invoices, payments, timetable slots, circulars, and website admission leads.
 
 ---
 

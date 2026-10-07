@@ -23,11 +23,11 @@ export default function NoticeCard({ notice }: NoticeCardProps) {
   const getCategoryBadge = (category: NoticeItem["category"]) => {
     switch (category) {
       case "Admissions":
-        return "bg-[#FAF8F2] text-[#6B4226] border-[#EDE2D3]";
+        return "bg-emerald-50 text-[#14532D] border-emerald-200";
       case "Academic":
         return "bg-[#E8F3EA] text-[#14532D] border-[#2F7D4A]/30";
       case "Safety":
-        return "bg-[#E8F3EA] text-[#166534] border-[#2F7D4A]/30";
+        return "bg-blue-50 text-blue-800 border-blue-200";
       default:
         return "bg-stone-100 text-stone-800 border-stone-200";
     }
@@ -35,7 +35,7 @@ export default function NoticeCard({ notice }: NoticeCardProps) {
 
   return (
     <>
-      <div className="bg-white rounded-xl border border-[#E7E5E4] p-5 sm:p-6 card-subtle flex flex-col justify-between group">
+      <div className="bg-white rounded-xl border border-stone-200/90 p-5 sm:p-6 shadow-xs flex flex-col justify-between group hover:border-[#14532D]/40 transition-colors">
         <div>
           <div className="flex items-center justify-between gap-3 mb-3">
             <span
@@ -46,12 +46,12 @@ export default function NoticeCard({ notice }: NoticeCardProps) {
               {notice.category}
             </span>
             <div className="flex items-center gap-1.5 text-xs text-stone-500 font-medium">
-              <Calendar className="w-3.5 h-3.5 text-[#6B4226]" />
+              <Calendar className="w-3.5 h-3.5 text-stone-400" />
               <span>{notice.date}</span>
             </div>
           </div>
 
-          <h3 className="font-heading font-bold text-base sm:text-lg text-[#14532D] group-hover:text-[#0B3B20] transition-colors leading-snug mb-2">
+          <h3 className="font-heading font-bold text-base sm:text-lg text-stone-900 group-hover:text-[#14532D] transition-colors leading-snug mb-2">
             {notice.title}
           </h3>
 
@@ -63,15 +63,15 @@ export default function NoticeCard({ notice }: NoticeCardProps) {
         <div className="mt-5 pt-3.5 border-t border-stone-100 flex items-center justify-between text-xs">
           <button
             onClick={() => setShowModal(true)}
-            className="font-semibold text-[#14532D] hover:text-[#0B3B20] flex items-center gap-1 group-hover:underline cursor-pointer"
+            className="font-bold text-[#14532D] hover:text-[#0B3B20] flex items-center gap-1 group-hover:underline cursor-pointer"
           >
             <span>Read Notice</span>
-            <ChevronRight className="w-3.5 h-3.5 text-[#6B4226]" />
+            <ChevronRight className="w-3.5 h-3.5 text-[#14532D]" />
           </button>
 
           {notice.isImportant && (
-            <span className="flex items-center gap-1 text-[11px] font-semibold text-[#6B4226] bg-[#FAF8F2] px-2 py-0.5 rounded border border-[#EDE2D3]">
-              <AlertCircle className="w-3 h-3 text-[#6B4226]" />
+            <span className="flex items-center gap-1 text-[11px] font-bold text-amber-800 bg-amber-50 px-2 py-0.5 rounded border border-amber-200">
+              <AlertCircle className="w-3 h-3 text-amber-700" />
               <span>Important</span>
             </span>
           )}
@@ -88,7 +88,7 @@ export default function NoticeCard({ notice }: NoticeCardProps) {
           onClick={() => setShowModal(false)}
         >
           <div
-            className="bg-white rounded-2xl max-w-lg w-full p-6 sm:p-8 shadow-2xl border border-stone-200 relative"
+            className="bg-white rounded-xl max-w-lg w-full p-6 sm:p-8 shadow-2xl border border-stone-200 relative"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-center justify-between border-b border-stone-100 pb-4 mb-4">
@@ -97,7 +97,7 @@ export default function NoticeCard({ notice }: NoticeCardProps) {
                   <Bell className="w-4 h-4" />
                 </div>
                 <div>
-                  <span className="text-xs font-bold uppercase tracking-wider text-[#6B4226]">
+                  <span className="text-xs font-bold uppercase tracking-wider text-[#14532D]">
                     School Circular
                   </span>
                   <p className="text-xs text-stone-500">{notice.date}</p>
@@ -120,12 +120,12 @@ export default function NoticeCard({ notice }: NoticeCardProps) {
               >
                 {notice.category}
               </span>
-              <h4 className="font-heading font-bold text-lg sm:text-xl text-[#14532D] leading-snug">
+              <h4 className="font-heading font-bold text-lg sm:text-xl text-stone-900 leading-snug">
                 {notice.title}
               </h4>
             </div>
 
-            <div className="text-sm text-stone-700 leading-relaxed bg-[#FAF8F2] p-4 sm:p-5 rounded-xl border border-[#EDE2D3] mb-6">
+            <div className="text-sm text-stone-700 leading-relaxed bg-stone-50 p-4 sm:p-5 rounded-xl border border-stone-200 mb-6">
               {notice.details}
             </div>
 

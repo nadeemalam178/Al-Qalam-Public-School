@@ -20,9 +20,9 @@ export default function SectionHeading({
       {badge && (
         <div>
           <span
-            className={`inline-flex items-center px-3 py-1 rounded-md text-xs font-semibold uppercase tracking-wider border ${
+            className={`inline-flex items-center px-3 py-1 rounded-md text-xs font-bold uppercase tracking-wider border ${
               dark
-                ? "bg-[#072413] text-[#EDE2D3] border-[#2F7D4A]/40"
+                ? "bg-white/10 text-emerald-200 border-white/20 backdrop-blur-xs"
                 : "bg-[#E8F3EA] text-[#14532D] border-[#2F7D4A]/25"
             }`}
           >
@@ -32,8 +32,8 @@ export default function SectionHeading({
       )}
 
       <h2
-        className={`font-heading font-black text-2xl sm:text-3xl lg:text-4xl tracking-tight leading-tight ${
-          dark ? "text-white" : "text-[#14532D]"
+        className={`font-heading font-bold text-2xl sm:text-3xl lg:text-4xl tracking-tight leading-tight ${
+          dark ? "text-white" : "text-stone-900"
         }`}
       >
         {title}

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../providers/school_provider.dart';
@@ -148,11 +149,23 @@ class ParentFeesScreen extends StatelessWidget {
                         Expanded(
                           child: ElevatedButton.icon(
                             onPressed: () {
+                              final receiptSummary = 'Al-Qalam Public School Receipt\n'
+                                  'Receipt No: ${receipt.receiptNo}\n'
+                                  'Student: ${receipt.studentName} (${receipt.grade})\n'
+                                  'Term: ${receipt.term}\n'
+                                  'Paid Amount: ₹${receipt.paidAmount.toInt()}\n'
+                                  'Mode: ${receipt.paymentMode}\n'
+                                  'Date: ${receipt.paidDate ?? "Completed"}\n'
+                                  'Campus: Gulzarbagh, Patna';
+                              Clipboard.setData(ClipboardData(text: receiptSummary));
                               Navigator.pop(ctx);
                               ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text('Receipt downloaded to documents.'),
+                                SnackBar(
+                                  content: Text(
+                                    'Receipt ${receipt.receiptNo} copied to clipboard & saved.',
+                                  ),
                                   backgroundColor: AppTheme.forestPrimary,
+                                  duration: const Duration(seconds: 3),
                                 ),
                               );
                             },
@@ -263,6 +276,97 @@ class ParentFeesScreen extends StatelessWidget {
                               () => selectedMode = 'UPI / PhonePe / GPay');
                         },
                       ),
+                      if (selectedMode == 'UPI / PhonePe / GPay') ...[
+                        const SizedBox(height: 10),
+                        Container(
+                          padding: const EdgeInsets.all(12),
+                          decoration: BoxDecoration(
+                            color: AppTheme.forestTint,
+                            borderRadius: BorderRadius.circular(14),
+                            border: Border.all(
+                                color: AppTheme.forestPrimary.withValues(alpha: 0.25)),
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Row(
+                                    children: [
+                                      const Icon(Icons.qr_code_scanner,
+                                          color: AppTheme.forestPrimary, size: 18),
+                                      const SizedBox(width: 6),
+                                      Text(
+                                        'Official UPI ID:',
+                                        style: GoogleFonts.inter(
+                                          fontSize: 11,
+                                          fontWeight: FontWeight.bold,
+                                          color: AppTheme.forestDeep,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  InkWell(
+                                    onTap: () {
+                                      Clipboard.setData(
+                                          const ClipboardData(text: '9308462418@upi'));
+                                      ScaffoldMessenger.of(context).showSnackBar(
+                                        const SnackBar(
+                                          content: Text('UPI ID copied to clipboard: 9308462418@upi'),
+                                          backgroundColor: AppTheme.forestPrimary,
+                                          duration: Duration(seconds: 2),
+                                        ),
+                                      );
+                                    },
+                                    child: Container(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 8, vertical: 3),
+                                      decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius: BorderRadius.circular(8),
+                                        border: Border.all(color: AppTheme.forestPrimary),
+                                      ),
+                                      child: Row(
+                                        children: [
+                                          const Icon(Icons.copy,
+                                              size: 11, color: AppTheme.forestPrimary),
+                                          const SizedBox(width: 4),
+                                          Text(
+                                            'Copy',
+                                            style: GoogleFonts.inter(
+                                              fontSize: 10,
+                                              fontWeight: FontWeight.bold,
+                                              color: AppTheme.forestPrimary,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 6),
+                              Text(
+                                '9308462418@upi',
+                                style: GoogleFonts.inter(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.bold,
+                                  color: AppTheme.forestPrimary,
+                                ),
+                              ),
+                              const SizedBox(height: 2),
+                              Text(
+                                'Payee: Al-Qalam Public School • SBI Patna Main Branch',
+                                style: GoogleFonts.inter(
+                                  fontSize: 10,
+                                  color: AppTheme.textMuted,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
                       const SizedBox(height: 8),
                       _buildPaymentOption(
                         title: 'School Accounts Counter (Cash)',
@@ -412,7 +516,7 @@ class ParentFeesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final school = Provider.of<SchoolProvider>(context);
-    final student = school.getStudentById('STU-001');
+    final student = school.selectedStudent;
     final feeRecords = school.getFeesForStudent(student.id);
 
     final totalPaid = feeRecords.fold(0.0, (acc, f) => acc + f.paidAmount);

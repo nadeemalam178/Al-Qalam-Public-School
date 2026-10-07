@@ -71,50 +71,50 @@ export const schoolImages = {
     height: 900,
   },
 
-  // Smart Classes verified facility
+  // Real Classroom & Academics Feature
+  academics: {
+    src: "/images/school/classrooms/classroom-learning.jpg",
+    alt: "Primary students in foundational learning session at Al-Qalam Public School",
+    caption: "Attentive classroom learning atmosphere in Gulzarbagh",
+    width: 1200,
+    height: 900,
+  },
+
+  // Smart Classes verified facility - Real classroom interactive session
   smartClass: {
-    src: "/images/smart-class-sample.jpg",
+    src: "/images/school/classrooms/interactive-classroom-session.jpg",
     alt: "Interactive Smart Class teaching module display at Al-Qalam Public School",
-    caption: "Interactive audio-visual learning module",
+    caption: "Interactive audio-visual learning module in Al-Qalam classroom",
     width: 1200,
     height: 896,
   },
 
-  // CCTV Monitoring verified facility
+  // CCTV Monitoring verified facility - Real school campus exterior
   cctv: {
-    src: "/images/cctv-sample.jpg",
+    src: "/images/school/campus/school-campus-exterior.jpg",
     alt: "Campus CCTV security cameras and corridor monitoring at Al-Qalam Public School",
     caption: "Monitored campus surveillance supporting student safety",
     width: 1200,
     height: 896,
   },
 
-  // Academics page feature
-  academics: {
-    src: "/images/real/students-classroom.jpg",
-    alt: "Foundational primary students learning at Al-Qalam Public School",
-    caption: "Structured foundational learning with dedicated teacher guidance",
-    width: 2048,
-    height: 1536,
-  },
-
-  // Admission enquiry desk
+  // Admission enquiry desk - Real school entrance gate
   admission: {
-    src: "/images/admission-sample.jpg",
+    src: "/images/school/campus/school-gate-entrance-banner.jpg",
     alt: "Al-Qalam Public School campus admission enquiry desk",
     caption: "Admission guidance desk for parents in Gulzarbagh",
     width: 1200,
     height: 896,
   },
 
-  // Director Rahat Jahan desk presentation
+  // Director Rahat Jahan desk presentation - Real award ceremony
   director: {
-    src: "/images/director-placeholder.jpg",
-    alt: "Office of the Director, Al-Qalam Public School",
+    src: "/images/school/achievements/rotary-shiksha-ratna-award.jpg",
+    alt: "Director Rahat Jahan receiving Rotary Shiksha Ratna honor",
     caption: "Directorate of Al-Qalam Public School",
     width: 1200,
     height: 896,
-    isPlaceholder: true,
+    isPlaceholder: false,
   },
 
   // Digitally Rebuilt Official School Banner

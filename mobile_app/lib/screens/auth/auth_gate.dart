@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../providers/auth_provider.dart';
+import '../../providers/school_provider.dart';
 import '../../theme/app_theme.dart';
 import '../common/main_navigation_screen.dart';
 import 'login_screen.dart';
@@ -30,6 +31,9 @@ class _AuthGateState extends State<AuthGate> {
   Future<void> _checkSession() async {
     final auth = context.read<AuthProvider>();
     await auth.restoreSession();
+    if (auth.isAuthenticated && mounted) {
+      context.read<SchoolProvider>().loadInitialData(user: auth.currentUser);
+    }
     if (mounted) {
       setState(() {
         _isChecking = false;

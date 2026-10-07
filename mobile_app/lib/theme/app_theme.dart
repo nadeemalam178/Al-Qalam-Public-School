@@ -14,25 +14,36 @@ class AppTheme {
   static const Color goldPrimary = Color(0xFFD4AF37);
   static const Color goldDark = Color(0xFFB8860B);
   static const Color goldLight = Color(0xFFFFF7DC);
-  static const Color earthBrown = Color(0xFF6B4226);
-  static const Color warmBeige = Color(0xFFEDE2D3);
+  static const Color earthBrown = Color(0xFF14532D);
+  static const Color warmBeige = Color(0xFFE5E7EB);
 
   // Background & Surfaces
-  static const Color backgroundLight = Color(0xFFFAF8F2);
+  static const Color backgroundLight = Color(0xFFF8FAFC);
   static const Color surfaceWhite = Color(0xFFFFFFFF);
   static const Color surfaceCard = Color(0xFFFFFFFF);
-  static const Color borderLight = Color(0xFFE5E7EB);
+  static const Color borderLight = Color(0xFFE2E8F0);
 
   // Text Colors
-  static const Color textDark = Color(0xFF1F2937);
-  static const Color textMuted = Color(0xFF6B7280);
-  static const Color textLight = Color(0xFF9CA3AF);
+  static const Color textDark = Color(0xFF0F172A);
+  static const Color textMuted = Color(0xFF64748B);
+  static const Color textLight = Color(0xFF94A3B8);
 
   // Status Indicators
   static const Color success = Color(0xFF10B981);
   static const Color warning = Color(0xFFF59E0B);
   static const Color danger = Color(0xFFEF4444);
   static const Color info = Color(0xFF3B82F6);
+
+  // Glass & Blur Design Tokens
+  static const Color glassSurface = Color(0xCCFFFFFF); // 80% opacity white
+  static const Color glassSurfaceSubtle = Color(0x99FFFFFF); // 60% opacity white
+  static const Color glassBorder = Color(0xAAFFFFFF); // Crisp light rim
+  static const Color glassBorderSubtle = Color(0x4DFFFFFF); // 30% border
+  static const Color glassForest = Color(0xDD0B3B20); // Frosted forest
+  static const Color glassForestPrimary = Color(0xDD14532D);
+  static const Color glassDarkSurface = Color(0xB31E293B); // 70% dark slate
+  static const Color glassDarkBorder = Color(0x26FFFFFF); // 15% white rim
+  static const double glassDefaultBlur = 16.0;
 
   static ThemeData get lightTheme {
     final baseFont = GoogleFonts.interTextTheme();
@@ -55,22 +66,22 @@ class AppTheme {
         onError: Colors.white,
       ),
       textTheme: baseFont.copyWith(
-        displayLarge: GoogleFonts.outfit(
+        displayLarge: GoogleFonts.plusJakartaSans(
           fontSize: 32,
           fontWeight: FontWeight.bold,
           color: forestDeep,
         ),
-        displayMedium: GoogleFonts.outfit(
+        displayMedium: GoogleFonts.plusJakartaSans(
           fontSize: 26,
           fontWeight: FontWeight.bold,
           color: forestDeep,
         ),
-        titleLarge: GoogleFonts.outfit(
+        titleLarge: GoogleFonts.plusJakartaSans(
           fontSize: 20,
-          fontWeight: FontWeight.w600,
+          fontWeight: FontWeight.w700,
           color: forestDeep,
         ),
-        titleMedium: GoogleFonts.inter(
+        titleMedium: GoogleFonts.plusJakartaSans(
           fontSize: 16,
           fontWeight: FontWeight.w600,
           color: textDark,
@@ -78,12 +89,12 @@ class AppTheme {
         bodyLarge: GoogleFonts.inter(
           fontSize: 15,
           color: textDark,
-          height: 1.4,
+          height: 1.45,
         ),
         bodyMedium: GoogleFonts.inter(
           fontSize: 13,
           color: textMuted,
-          height: 1.4,
+          height: 1.45,
         ),
       ),
       appBarTheme: AppBarTheme(
@@ -91,20 +102,20 @@ class AppTheme {
         foregroundColor: Colors.white,
         elevation: 0,
         centerTitle: false,
-        titleTextStyle: GoogleFonts.outfit(
+        titleTextStyle: GoogleFonts.plusJakartaSans(
           fontSize: 18,
-          fontWeight: FontWeight.w600,
+          fontWeight: FontWeight.w700,
           color: Colors.white,
           letterSpacing: 0.3,
         ),
       ),
       cardTheme: CardThemeData(
         color: surfaceCard,
-        elevation: 1.5,
-        shadowColor: forestDeep.withValues(alpha: 0.08),
+        elevation: 0.5,
+        shadowColor: forestDeep.withValues(alpha: 0.06),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16),
-          side: const BorderSide(color: Color(0xFFEEF2F0), width: 1),
+          side: const BorderSide(color: Color(0xFFE2E8F0), width: 1),
         ),
         margin: const EdgeInsets.symmetric(vertical: 6, horizontal: 0),
       ),
@@ -117,7 +128,7 @@ class AppTheme {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
           ),
-          textStyle: GoogleFonts.inter(
+          textStyle: GoogleFonts.plusJakartaSans(
             fontSize: 14,
             fontWeight: FontWeight.w600,
           ),
@@ -131,7 +142,7 @@ class AppTheme {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
           ),
-          textStyle: GoogleFonts.inter(
+          textStyle: GoogleFonts.plusJakartaSans(
             fontSize: 14,
             fontWeight: FontWeight.w600,
           ),

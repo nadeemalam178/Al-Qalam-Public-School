@@ -1,7 +1,9 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, Merriweather } from "next/font/google";
+import { Inter, Plus_Jakarta_Sans } from "next/font/google";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import MobileAppNav from "@/components/MobileAppNav";
+import QuickHelpFloating from "@/components/QuickHelpFloating";
 import "./globals.css";
 
 const inter = Inter({
@@ -10,9 +12,9 @@ const inter = Inter({
   variable: "--font-inter",
 });
 
-const merriweather = Merriweather({
+const plusJakartaSans = Plus_Jakarta_Sans({
   subsets: ["latin"],
-  weight: ["300", "400", "700", "900"],
+  weight: ["500", "600", "700", "800"],
   display: "swap",
   variable: "--font-heading",
 });
@@ -124,15 +126,13 @@ const jsonLd = {
     "https://www.google.com/maps/search/?api=1&query=Opposite+Jashn+Palace+Marriage+Hall+Agarwal+Tola+Loharwa+Ghat+Ashok+Rajpath+Rd+Gulzarbagh+Alamganj+Patna+Bihar+800007",
 };
 
-import MobileAppNav from "@/components/MobileAppNav";
-
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${inter.variable} ${merriweather.variable} h-full antialiased`}>
+    <html lang="en" className={`${inter.variable} ${plusJakartaSans.variable} h-full antialiased`}>
       <head>
         <script
           type="application/ld+json"
@@ -158,6 +158,8 @@ export default function RootLayout({
           {children}
         </main>
         <Footer />
+        {/* Floating Quick Helpline & WhatsApp Desk */}
+        <QuickHelpFloating />
         {/* Mobile App-like Bottom Navigation Dock */}
         <MobileAppNav />
       </body>

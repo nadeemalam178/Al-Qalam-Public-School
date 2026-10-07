@@ -4,8 +4,10 @@ import 'package:provider/provider.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../models/login_role.dart';
 import '../../providers/auth_provider.dart';
+import '../../providers/school_provider.dart';
 import '../../theme/app_theme.dart';
 import '../../widgets/role_card.dart';
+import '../../widgets/glass_widgets.dart';
 import '../common/main_navigation_screen.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -56,6 +58,29 @@ class _LoginScreenState extends State<LoginScreen> {
     context.read<AuthProvider>().clearError();
   }
 
+  void _quickFillRoleCredentials(LoginRole role) {
+    setState(() {
+      _selectedRole = role;
+      if (role == LoginRole.parent) {
+        _identifierController.text = 'parent_201';
+      } else if (role == LoginRole.teacher) {
+        _identifierController.text = 'teacher_101';
+      } else {
+        _identifierController.text = 'alqalam_777';
+      }
+      _passwordController.text = 'newappschool';
+    });
+    context.read<AuthProvider>().clearError();
+  }
+
+  Future<void> _quickLoginDirect(LoginRole role) async {
+    _quickFillRoleCredentials(role);
+    await Future.delayed(const Duration(milliseconds: 120));
+    if (mounted) {
+      await _handleLogin();
+    }
+  }
+
   Future<void> _handleLogin() async {
     if (_selectedRole == null) return;
     if (!_formKey.currentState!.validate()) return;
@@ -71,6 +96,10 @@ class _LoginScreenState extends State<LoginScreen> {
     );
 
     if (success && mounted) {
+      // Load Supabase school data scoped to this verified profile
+      final schoolProvider = context.read<SchoolProvider>();
+      schoolProvider.loadInitialData(user: authProvider.currentUser);
+
       Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(
           builder: (_) => const MainNavigationScreen(),
@@ -146,35 +175,36 @@ class _LoginScreenState extends State<LoginScreen> {
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: overlayStyle,
       child: Scaffold(
-        backgroundColor: isDark
-            ? const Color(0xFF0F172A)
-            : const Color(0xFFF6F8F4), // Brand background #F6F8F4
-        body: SafeArea(
-          child: Center(
-            child: SingleChildScrollView(
-              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
-              physics: const BouncingScrollPhysics(),
-              child: ConstrainedBox(
-                constraints: const BoxConstraints(maxWidth: 440),
-                child: AnimatedSwitcher(
-                  duration: const Duration(milliseconds: 320),
-                  switchInCurve: Curves.easeOutCubic,
-                  switchOutCurve: Curves.easeInCubic,
-                  transitionBuilder: (child, animation) {
-                    return FadeTransition(
-                      opacity: animation,
-                      child: SlideTransition(
-                        position: Tween<Offset>(
-                          begin: const Offset(0.04, 0.0),
-                          end: Offset.zero,
-                        ).animate(animation),
-                        child: child,
-                      ),
-                    );
-                  },
-                  child: _selectedRole == null
-                      ? _buildRoleSelectionView(isDark)
-                      : _buildLoginFormView(isDark, auth),
+        backgroundColor: Colors.transparent,
+        body: AmbientGlassBackground(
+          isDark: isDark,
+          child: SafeArea(
+            child: Center(
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
+                physics: const BouncingScrollPhysics(),
+                child: ConstrainedBox(
+                  constraints: const BoxConstraints(maxWidth: 440),
+                  child: AnimatedSwitcher(
+                    duration: const Duration(milliseconds: 320),
+                    switchInCurve: Curves.easeOutCubic,
+                    switchOutCurve: Curves.easeInCubic,
+                    transitionBuilder: (child, animation) {
+                      return FadeTransition(
+                        opacity: animation,
+                        child: SlideTransition(
+                          position: Tween<Offset>(
+                            begin: const Offset(0.04, 0.0),
+                            end: Offset.zero,
+                          ).animate(animation),
+                          child: child,
+                        ),
+                      );
+                    },
+                    child: _selectedRole == null
+                        ? _buildRoleSelectionView(isDark)
+                        : _buildLoginFormView(isDark, auth),
+                  ),
                 ),
               ),
             ),
@@ -287,7 +317,64 @@ class _LoginScreenState extends State<LoginScreen> {
           isSelected: _selectedRole == LoginRole.parent,
           onTap: () => _onRoleSelected(LoginRole.parent),
         ),
-        const SizedBox(height: 36),
+        const SizedBox(height: 24),
+
+        // Quick One-Tap Demo Testing Box
+        GlassCard(
+          accentColor: AppTheme.goldPrimary,
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  const Icon(Icons.bolt_rounded, size: 20, color: AppTheme.goldPrimary),
+                  const SizedBox(width: 8),
+                  Text(
+                    'Instant Demo Login (1-Tap)',
+                    style: GoogleFonts.inter(
+                      fontSize: 13,
+                      fontWeight: FontWeight.bold,
+                      color: isDark ? Colors.white : AppTheme.forestDeep,
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 12),
+              Row(
+                children: [
+                  Expanded(
+                    child: _buildQuickDemoPill(
+                      label: 'Parent',
+                      sublabel: 'Zaid Alam',
+                      icon: Icons.family_restroom,
+                      onTap: () => _quickLoginDirect(LoginRole.parent),
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: _buildQuickDemoPill(
+                      label: 'Teacher',
+                      sublabel: 'Farzana B.',
+                      icon: Icons.school,
+                      onTap: () => _quickLoginDirect(LoginRole.teacher),
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: _buildQuickDemoPill(
+                      label: 'Admin',
+                      sublabel: 'Rahat J.',
+                      icon: Icons.admin_panel_settings,
+                      onTap: () => _quickLoginDirect(LoginRole.administrator),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(height: 28),
 
         // Footer Campus Details
         Text(
@@ -434,133 +521,149 @@ class _LoginScreenState extends State<LoginScreen> {
             const SizedBox(height: 20),
           ],
 
-          // Email / Mobile Field
-          Text(
-            'Email / Mobile Number',
-            style: GoogleFonts.inter(
-              fontSize: 13,
-              fontWeight: FontWeight.w600,
-              color: isDark ? Colors.white70 : AppTheme.textDark,
-            ),
-          ),
-          const SizedBox(height: 8),
-          TextFormField(
-            controller: _identifierController,
-            keyboardType: TextInputType.emailAddress,
-            textInputAction: TextInputAction.next,
-            style: GoogleFonts.inter(
-              fontSize: 14,
-              color: isDark ? Colors.white : AppTheme.textDark,
-            ),
-            decoration: InputDecoration(
-              hintText: role == LoginRole.parent
-                  ? 'e.g. 9835012450 or parent@email.com'
-                  : role == LoginRole.teacher
-                      ? 'e.g. 9431056782 or teacher@alqalam.edu.in'
-                      : 'e.g. director@alqalam.edu.in',
-              hintStyle: GoogleFonts.inter(
-                fontSize: 13,
-                color: isDark ? Colors.white30 : AppTheme.textLight,
-              ),
-              prefixIcon: const Icon(
-                Icons.person_outline_rounded,
-                color: AppTheme.forestPrimary,
-                size: 20,
-              ),
-            ),
-            validator: (value) {
-              if (value == null || value.trim().isEmpty) {
-                return 'Please enter your email or mobile number.';
-              }
-              return null;
-            },
-          ),
-          const SizedBox(height: 18),
-
-          // Password Field
-          Text(
-            'Password',
-            style: GoogleFonts.inter(
-              fontSize: 13,
-              fontWeight: FontWeight.w600,
-              color: isDark ? Colors.white70 : AppTheme.textDark,
-            ),
-          ),
-          const SizedBox(height: 8),
-          TextFormField(
-            controller: _passwordController,
-            obscureText: _obscurePassword,
-            textInputAction: TextInputAction.done,
-            onFieldSubmitted: (_) => _handleLogin(),
-            style: GoogleFonts.inter(
-              fontSize: 14,
-              color: isDark ? Colors.white : AppTheme.textDark,
-            ),
-            decoration: InputDecoration(
-              hintText: 'Enter your password',
-              hintStyle: GoogleFonts.inter(
-                fontSize: 13,
-                color: isDark ? Colors.white30 : AppTheme.textLight,
-              ),
-              prefixIcon: const Icon(
-                Icons.lock_outline_rounded,
-                color: AppTheme.forestPrimary,
-                size: 20,
-              ),
-              suffixIcon: IconButton(
-                icon: Icon(
-                  _obscurePassword
-                      ? Icons.visibility_off_outlined
-                      : Icons.visibility_outlined,
-                  color: isDark ? Colors.white54 : AppTheme.textMuted,
-                  size: 20,
+          // Frosted Glass Form Card
+          GlassCard(
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                // Email / Mobile Field
+                Text(
+                  'Email / Mobile Number',
+                  style: GoogleFonts.inter(
+                    fontSize: 13,
+                    fontWeight: FontWeight.w600,
+                    color: isDark ? Colors.white70 : AppTheme.textDark,
+                  ),
                 ),
-                onPressed: () {
-                  setState(() {
-                    _obscurePassword = !_obscurePassword;
-                  });
-                },
-              ),
-            ),
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Please enter your password.';
-              }
-              return null;
-            },
-          ),
-          const SizedBox(height: 24),
-
-          // Login Button
-          SizedBox(
-            height: 52,
-            child: ElevatedButton(
-              onPressed: auth.isLoading ? null : _handleLogin,
-              style: ElevatedButton.styleFrom(
-                backgroundColor: AppTheme.forestPrimary,
-                foregroundColor: Colors.white,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(14),
-                ),
-                elevation: 1,
-              ),
-              child: auth.isLoading
-                  ? const SizedBox(
-                      width: 22,
-                      height: 22,
-                      child: CircularProgressIndicator(
-                        strokeWidth: 2.2,
-                        valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-                      ),
-                    )
-                  : Text(
-                      'LOGIN',
-                      style: GoogleFonts.inter(
-                        fontSize: 15,
-                        fontWeight: FontWeight.bold,
-                        letterSpacing: 0.8,
-                      ),
+                const SizedBox(height: 8),
+                TextFormField(
+                  controller: _identifierController,
+                  keyboardType: TextInputType.emailAddress,
+                  textInputAction: TextInputAction.next,
+                  style: GoogleFonts.inter(
+                    fontSize: 14,
+                    color: isDark ? Colors.white : AppTheme.textDark,
+                  ),
+                  decoration: InputDecoration(
+                    fillColor: isDark
+                        ? Colors.white.withValues(alpha: 0.05)
+                        : Colors.white.withValues(alpha: 0.7),
+                    hintText: role == LoginRole.parent
+                        ? 'e.g. 9835012450 or parent@email.com'
+                        : role == LoginRole.teacher
+                            ? 'e.g. 9431056782 or teacher@alqalam.edu.in'
+                            : 'e.g. director@alqalam.edu.in',
+                    hintStyle: GoogleFonts.inter(
+                      fontSize: 13,
+                      color: isDark ? Colors.white30 : AppTheme.textLight,
                     ),
+                    prefixIcon: const Icon(
+                      Icons.person_outline_rounded,
+                      color: AppTheme.forestPrimary,
+                      size: 20,
+                    ),
+                  ),
+                  validator: (value) {
+                    if (value == null || value.trim().isEmpty) {
+                      return 'Please enter your email or mobile number.';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 18),
+
+                // Password Field
+                Text(
+                  'Password',
+                  style: GoogleFonts.inter(
+                    fontSize: 13,
+                    fontWeight: FontWeight.w600,
+                    color: isDark ? Colors.white70 : AppTheme.textDark,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                TextFormField(
+                  controller: _passwordController,
+                  obscureText: _obscurePassword,
+                  textInputAction: TextInputAction.done,
+                  onFieldSubmitted: (_) => _handleLogin(),
+                  style: GoogleFonts.inter(
+                    fontSize: 14,
+                    color: isDark ? Colors.white : AppTheme.textDark,
+                  ),
+                  decoration: InputDecoration(
+                    fillColor: isDark
+                        ? Colors.white.withValues(alpha: 0.05)
+                        : Colors.white.withValues(alpha: 0.7),
+                    hintText: 'Enter your password',
+                    hintStyle: GoogleFonts.inter(
+                      fontSize: 13,
+                      color: isDark ? Colors.white30 : AppTheme.textLight,
+                    ),
+                    prefixIcon: const Icon(
+                      Icons.lock_outline_rounded,
+                      color: AppTheme.forestPrimary,
+                      size: 20,
+                    ),
+                    suffixIcon: IconButton(
+                      icon: Icon(
+                        _obscurePassword
+                            ? Icons.visibility_off_outlined
+                            : Icons.visibility_outlined,
+                        color: isDark ? Colors.white54 : AppTheme.textMuted,
+                        size: 20,
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          _obscurePassword = !_obscurePassword;
+                        });
+                      },
+                    ),
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter your password.';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 24),
+
+                // Login Button
+                SizedBox(
+                  height: 52,
+                  child: ElevatedButton(
+                    onPressed: auth.isLoading ? null : _handleLogin,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: AppTheme.forestPrimary,
+                      foregroundColor: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(14),
+                      ),
+                      elevation: 2,
+                      shadowColor: AppTheme.forestPrimary.withValues(alpha: 0.3),
+                    ),
+                    child: auth.isLoading
+                        ? const SizedBox(
+                            width: 22,
+                            height: 22,
+                            child: CircularProgressIndicator(
+                              strokeWidth: 2.2,
+                              valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                            ),
+                          )
+                        : Text(
+                            'LOGIN',
+                            style: GoogleFonts.inter(
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                              letterSpacing: 0.8,
+                            ),
+                          ),
+                  ),
+                ),
+              ],
             ),
           ),
           const SizedBox(height: 14),
@@ -598,6 +701,49 @@ class _LoginScreenState extends State<LoginScreen> {
                 padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
               ),
             ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildQuickDemoPill({
+    required String label,
+    required String sublabel,
+    required IconData icon,
+    required VoidCallback onTap,
+  }) {
+    return GlassContainer(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(14),
+      blur: 10,
+      opacity: 0.65,
+      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 10),
+      borderColor: AppTheme.forestPrimary.withValues(alpha: 0.25),
+      child: Column(
+        children: [
+          Icon(icon, size: 20, color: AppTheme.forestPrimary),
+          const SizedBox(height: 5),
+          Text(
+            label,
+            style: GoogleFonts.inter(
+              fontSize: 11,
+              fontWeight: FontWeight.bold,
+              color: AppTheme.forestDeep,
+            ),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
+          const SizedBox(height: 1),
+          Text(
+            sublabel,
+            style: GoogleFonts.inter(
+              fontSize: 9,
+              fontWeight: FontWeight.w500,
+              color: AppTheme.textMuted,
+            ),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
           ),
         ],
       ),

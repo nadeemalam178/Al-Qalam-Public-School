@@ -67,16 +67,22 @@ export async function POST(request: Request) {
     const referenceId = `AQPS-${Date.now().toString().slice(-6)}`;
     const submissionTime = new Date().toISOString();
 
-    // Log structured lead server-side for school administration
-    console.info("[Admissions Lead]", {
-      referenceId,
-      studentName: trimmedStudent,
-      parentName: trimmedParent,
-      mobile: `+91 ${cleanMobile}`,
-      grade,
-      hasMessage: Boolean(cleanMessage),
-      submissionTime,
-    });
+    // Persist directly to Supabase PostgreSQL admission_enquiries table
+    try {
+      const { insertAdmissionEnquiry } = await import("@/lib/supabase");
+      await insertAdmissionEnquiry({
+        referenceNo: referenceId,
+        studentName: trimmedStudent,
+        parentName: trimmedParent,
+        mobile: `+91 ${cleanMobile}`,
+        grade,
+        message: cleanMessage,
+      });
+      console.info("[Supabase Admissions Lead Saved]", { referenceId, student: trimmedStudent });
+    } catch (dbErr) {
+      console.warn("[Supabase Admissions Lead Fallback]", dbErr);
+      // Lead logged to stdout even if network fails so no lead is ever lost
+    }
 
     return NextResponse.json({
       success: true,

@@ -34,7 +34,7 @@ const announcements = [
 
 export default function AnnouncementMarquee() {
   return (
-    <div className="relative overflow-hidden bg-gradient-to-r from-[#0B3B20] via-[#14532D] to-[#0B3B20] text-[#EDE2D3] border-y border-[#2F7D4A]/30 py-2.5 shadow-xs select-none">
+    <div className="relative overflow-hidden bg-gradient-to-r from-[#0B3B20] via-[#14532D] to-[#0B3B20] text-stone-200 border-y border-[#2F7D4A]/30 py-2.5 shadow-xs select-none">
       {/* Ambient gradient glow edges */}
       <div className="absolute left-0 top-0 bottom-0 w-12 bg-gradient-to-r from-[#0B3B20] to-transparent z-10 pointer-events-none" />
       <div className="absolute right-0 top-0 bottom-0 w-12 bg-gradient-to-l from-[#0B3B20] to-transparent z-10 pointer-events-none" />

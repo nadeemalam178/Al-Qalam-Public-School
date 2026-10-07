@@ -1,3 +1,4 @@
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../theme/app_theme.dart';
@@ -24,34 +25,43 @@ class StatCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final themeColor = color ?? AppTheme.forestPrimary;
+    final r = BorderRadius.circular(20);
 
     return BounceTap(
       onTap: onTap,
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
         decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(18),
-          border: Border.all(
-            color: themeColor.withValues(alpha: 0.18),
-            width: 1,
-          ),
-          gradient: LinearGradient(
-            colors: [
-              Colors.white,
-              themeColor.withValues(alpha: 0.025),
-            ],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
+          borderRadius: r,
           boxShadow: [
             BoxShadow(
-              color: themeColor.withValues(alpha: 0.06),
-              blurRadius: 14,
-              offset: const Offset(0, 5),
+              color: themeColor.withValues(alpha: 0.08),
+              blurRadius: 16,
+              offset: const Offset(0, 6),
             ),
           ],
         ),
+        child: ClipRRect(
+          borderRadius: r,
+          child: BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 12, sigmaY: 12),
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 13),
+              decoration: BoxDecoration(
+                borderRadius: r,
+                color: Colors.white.withValues(alpha: 0.78),
+                border: Border.all(
+                  color: Colors.white.withValues(alpha: 0.85),
+                  width: 1.2,
+                ),
+                gradient: LinearGradient(
+                  colors: [
+                    Colors.white.withValues(alpha: 0.88),
+                    themeColor.withValues(alpha: 0.04),
+                  ],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                ),
+              ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -140,6 +150,9 @@ class StatCard extends StatelessWidget {
           ],
         ),
       ),
-    );
+    ),
+  ),
+),
+);
   }
 }

@@ -32,8 +32,8 @@ export default function FacilityCard({ facility, featured = false }: FacilityCar
 
   return (
     <div
-      className={`card-subtle group rounded-2xl bg-white border overflow-hidden flex flex-col justify-between shadow-xs ${
-        featured ? "border-[#2F7D4A]/40" : "border-stone-200"
+      className={`group rounded-xl bg-white border overflow-hidden flex flex-col justify-between shadow-xs ${
+        featured ? "border-[#2F7D4A]/40" : "border-stone-200/90"
       }`}
     >
       <div>
@@ -50,14 +50,14 @@ export default function FacilityCard({ facility, featured = false }: FacilityCar
 
           {/* Floating Badge */}
           <div className="absolute top-3.5 right-3.5 z-10">
-            <span className="inline-flex items-center px-3 py-1 rounded-md text-xs font-semibold bg-white/95 text-[#14532D] shadow-xs backdrop-blur-xs">
+            <span className="inline-flex items-center px-3 py-1 rounded-md text-xs font-bold bg-white/95 text-[#14532D] shadow-xs backdrop-blur-xs">
               {facility.badge}
             </span>
           </div>
 
           {/* Floating Title & Icon */}
           <div className="absolute bottom-3.5 left-3.5 right-3.5 z-10 flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl flex items-center justify-center bg-white/95 text-[#14532D] border border-[#2F7D4A]/25 shadow-sm shrink-0">
+            <div className="w-10 h-10 rounded-lg flex items-center justify-center bg-white/95 text-[#14532D] border border-[#2F7D4A]/25 shadow-sm shrink-0">
               {renderIcon(facility.iconName)}
             </div>
             <div>
@@ -78,7 +78,7 @@ export default function FacilityCard({ facility, featured = false }: FacilityCar
           </p>
 
           <div className="border-t border-stone-100 pt-4 space-y-2">
-            <p className="text-xs font-bold uppercase tracking-wider text-[#6B4226]">
+            <p className="text-xs font-bold uppercase tracking-wider text-stone-700">
               Key Highlights
             </p>
             <ul className="space-y-2">
@@ -94,7 +94,7 @@ export default function FacilityCard({ facility, featured = false }: FacilityCar
       </div>
 
       <div className="mx-6 sm:mx-7 mb-6 pt-3.5 border-t border-stone-100 flex items-center justify-between text-xs text-stone-500">
-        <span className="font-medium text-[#14532D]">Verified Amenity</span>
+        <span className="font-bold text-[#14532D]">Verified Amenity</span>
         <span>Gulzarbagh, Patna</span>
       </div>
     </div>

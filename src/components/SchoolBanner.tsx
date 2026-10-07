@@ -7,9 +7,9 @@ export default function SchoolBanner() {
   return (
     <section className="relative w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 my-10 sm:my-16">
       {/* Outer Banner Card with Gold/Emerald Border Accent */}
-      <div className="relative overflow-hidden rounded-3xl bg-radial from-[#1e5e38] via-[#0e3d20] to-[#051a0d] border-4 border-[#c89d52] shadow-2xl p-6 sm:p-10 lg:p-12 text-white">
+      <div className="relative overflow-hidden rounded-xl bg-radial from-[#1e5e38] via-[#0e3d20] to-[#051a0d] border-2 border-[#c89d52] shadow-xl p-6 sm:p-10 lg:p-12 text-white">
         {/* Decorative Gold Inset Border */}
-        <div className="absolute inset-2 sm:inset-3 border border-[#f7d58b]/30 rounded-2xl pointer-events-none" />
+        <div className="absolute inset-2 sm:inset-3 border border-[#f7d58b]/30 rounded-lg pointer-events-none" />
 
         {/* Ambient Radial Lighting */}
         <div className="absolute -top-24 left-1/2 -translate-x-1/2 w-96 sm:w-[600px] h-64 bg-radial from-[#f7d58b]/15 to-transparent blur-2xl pointer-events-none" />
@@ -29,7 +29,7 @@ export default function SchoolBanner() {
               />
             </div>
             <div>
-              <p className="text-xs sm:text-sm font-bold uppercase tracking-widest text-[#ede2d3]">
+              <p className="text-xs sm:text-sm font-bold uppercase tracking-widest text-stone-200">
                 Al-Qalam Public School
               </p>
               <p className="text-[11px] sm:text-xs font-semibold text-[#f7d58b] tracking-wider uppercase">
@@ -47,7 +47,7 @@ export default function SchoolBanner() {
           </div>
 
           {/* Key Amenities */}
-          <div className="hidden lg:flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#e8f3ea]/10 border border-[#e8f3ea]/20 text-xs font-bold uppercase tracking-wider text-[#ede2d3]">
+          <div className="hidden lg:flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#e8f3ea]/10 border border-[#e8f3ea]/20 text-xs font-bold uppercase tracking-wider text-emerald-200">
             <span>CCTV Security</span>
             <span>•</span>
             <span>Smart Classes</span>
@@ -94,7 +94,7 @@ export default function SchoolBanner() {
         </div>
 
         {/* Bottom Banner Feature Bar */}
-        <div className="relative z-10 pt-4 sm:pt-6 border-t border-[#c89d52]/30 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs sm:text-sm text-[#ede2d3]">
+        <div className="relative z-10 pt-4 sm:pt-6 border-t border-[#c89d52]/30 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs sm:text-sm text-stone-200">
           <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-6 font-semibold">
             <span className="inline-flex items-center gap-1.5">
               <ShieldCheck className="w-4 h-4 text-[#c89d52]" /> CCTV Monitored Campus

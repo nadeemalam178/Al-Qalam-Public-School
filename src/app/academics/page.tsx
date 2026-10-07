@@ -49,7 +49,7 @@ export default function AcademicsPage() {
       {/* Banner */}
       <section className="bg-forest-hero text-white py-14 sm:py-18 lg:py-20 border-b border-[#0B3B20]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-3">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-[#072413] border border-[#2F7D4A]/40 text-[#EDE2D3] text-xs font-semibold uppercase tracking-wider">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-md bg-white/10 border border-white/20 text-emerald-200 text-xs font-bold uppercase tracking-wider backdrop-blur-xs">
             <GraduationCap className="w-3.5 h-3.5" />
             <span>Academic Framework</span>
           </div>
@@ -63,13 +63,13 @@ export default function AcademicsPage() {
       </section>
 
       {/* Teaching Methodology */}
-      <section className="py-16 sm:py-20 bg-white border-b border-[#E7E5E4]">
+      <section className="py-16 sm:py-20 bg-white border-b border-stone-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl mx-auto text-center mb-12 sm:mb-14 space-y-3">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-[#FAF8F2] border border-[#EDE2D3] text-[#6B4226] text-xs font-semibold uppercase tracking-wider">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-[#E8F3EA] border border-[#2F7D4A]/20 text-[#14532D] text-xs font-bold uppercase tracking-wider">
               <span>Teaching Method</span>
             </div>
-            <h2 className="font-heading font-black text-2xl sm:text-3xl text-[#14532D] tracking-tight">
+            <h2 className="font-heading font-bold text-2xl sm:text-3xl text-stone-900 tracking-tight">
               How We Teach at Al-Qalam
             </h2>
             <p className="text-stone-600 text-sm sm:text-base leading-relaxed">
@@ -83,13 +83,13 @@ export default function AcademicsPage() {
               return (
                 <div
                   key={i}
-                  className="bg-[#FAF8F2] p-6 rounded-xl border border-[#EDE2D3] card-subtle flex flex-col justify-between"
+                  className="bg-stone-50/70 p-6 rounded-xl border border-stone-200/90 shadow-xs flex flex-col justify-between"
                 >
                   <div>
-                    <div className="w-10 h-10 rounded-lg bg-white text-[#14532D] flex items-center justify-center border border-[#EDE2D3] mb-4">
+                    <div className="w-10 h-10 rounded-lg bg-white text-[#14532D] flex items-center justify-center border border-stone-200 mb-4 shadow-2xs">
                       <Icon className="w-5 h-5" />
                     </div>
-                    <h3 className="font-heading font-bold text-base text-[#14532D] mb-1.5">
+                    <h3 className="font-heading font-bold text-base text-stone-900 mb-1.5">
                       {pillar.title}
                     </h3>
                     <p className="text-stone-600 text-xs sm:text-sm leading-relaxed">
@@ -102,7 +102,7 @@ export default function AcademicsPage() {
           </div>
 
           {/* Real Classroom Feature */}
-          <div className="mt-12 rounded-2xl overflow-hidden border border-[#EDE2D3] bg-[#FAF8F2]">
+          <div className="mt-12 rounded-xl overflow-hidden border border-stone-200/90 bg-stone-50/70 shadow-xs">
             <div className="grid grid-cols-1 lg:grid-cols-12 items-center">
               <div className="lg:col-span-7 relative h-64 sm:h-80 w-full bg-stone-900">
                 <Image
@@ -119,10 +119,10 @@ export default function AcademicsPage() {
               </div>
 
               <div className="lg:col-span-5 p-6 sm:p-8 space-y-3">
-                <span className="text-xs uppercase tracking-wider font-semibold text-[#6B4226]">
+                <span className="text-xs uppercase tracking-wider font-bold text-[#14532D]">
                   Classroom Atmosphere
                 </span>
-                <h3 className="font-heading font-bold text-xl sm:text-2xl text-[#14532D]">
+                <h3 className="font-heading font-bold text-xl sm:text-2xl text-stone-900">
                   Attentive Mentorship in Every Lesson
                 </h3>
                 <p className="text-stone-600 text-xs sm:text-sm leading-relaxed">
@@ -131,10 +131,10 @@ export default function AcademicsPage() {
                 <div className="pt-2">
                   <Link
                     href="/admissions"
-                    className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#14532D] hover:underline"
+                    className="inline-flex items-center gap-1.5 text-xs font-bold text-[#14532D] hover:underline"
                   >
                     <span>Inquire About Class Enrollment</span>
-                    <ArrowRight className="w-3.5 h-3.5 text-[#6B4226]" />
+                    <ArrowRight className="w-3.5 h-3.5" />
                   </Link>
                 </div>
               </div>
@@ -144,10 +144,10 @@ export default function AcademicsPage() {
       </section>
 
       {/* Academic Stages Detailed Breakdown */}
-      <section className="py-16 sm:py-20 bg-[#FAF8F2] border-b border-[#EDE2D3]">
+      <section className="py-16 sm:py-20 bg-stone-50/70 border-b border-stone-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl mx-auto text-center mb-12 space-y-3">
-            <h2 className="font-heading font-black text-2xl sm:text-3xl text-[#14532D] tracking-tight">
+            <h2 className="font-heading font-bold text-2xl sm:text-3xl text-stone-900 tracking-tight">
               Educational Stages at Al-Qalam
             </h2>
             <p className="text-stone-600 text-sm sm:text-base leading-relaxed">
@@ -159,16 +159,16 @@ export default function AcademicsPage() {
             {SCHOOL_DATA.academicStages.map((stage, idx) => (
               <div
                 key={stage.id}
-                className="bg-white rounded-2xl p-6 sm:p-8 border border-[#E7E5E4] card-subtle flex flex-col md:flex-row gap-8 items-start"
+                className="bg-white rounded-xl p-6 sm:p-8 border border-stone-200/90 shadow-xs flex flex-col md:flex-row gap-8 items-start"
               >
                 <div className="md:w-1/3 space-y-2 shrink-0">
-                  <span className="inline-block px-2.5 py-0.5 rounded text-xs font-semibold bg-[#E8F3EA] text-[#14532D] border border-[#2F7D4A]/25">
+                  <span className="inline-block px-2.5 py-0.5 rounded text-xs font-bold bg-[#E8F3EA] text-[#14532D] border border-[#2F7D4A]/25">
                     Stage 0{idx + 1}
                   </span>
-                  <h3 className="font-heading font-bold text-xl sm:text-2xl text-[#14532D]">
+                  <h3 className="font-heading font-bold text-xl sm:text-2xl text-stone-900">
                     {stage.stageName}
                   </h3>
-                  <p className="text-xs font-semibold text-[#6B4226]">
+                  <p className="text-xs font-bold text-[#14532D]">
                     {stage.grades}
                   </p>
                   <p className="text-xs text-stone-500 pt-1">
@@ -181,8 +181,8 @@ export default function AcademicsPage() {
                     {stage.description}
                   </p>
 
-                  <div className="bg-[#FAF8F2] p-4 rounded-xl border border-[#EDE2D3] space-y-2">
-                    <p className="text-xs font-bold uppercase tracking-wider text-[#6B4226]">
+                  <div className="bg-stone-50/70 p-4 rounded-xl border border-stone-200/80 space-y-2">
+                    <p className="text-xs font-bold uppercase tracking-wider text-stone-700">
                       Subject & Learning Highlights:
                     </p>
                     <ul className="space-y-2">
@@ -198,10 +198,10 @@ export default function AcademicsPage() {
                   <div className="pt-1">
                     <Link
                       href="/admissions"
-                      className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#14532D] hover:underline"
+                      className="inline-flex items-center gap-1.5 text-xs font-bold text-[#14532D] hover:underline"
                     >
                       <span>Submit Admission Enquiry for {stage.stageName}</span>
-                      <ArrowRight className="w-3.5 h-3.5 text-[#6B4226]" />
+                      <ArrowRight className="w-3.5 h-3.5" />
                     </Link>
                   </div>
                 </div>
@@ -214,7 +214,7 @@ export default function AcademicsPage() {
       {/* CTA */}
       <section className="py-16 sm:py-20 bg-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-5">
-          <h2 className="font-heading font-black text-2xl sm:text-3xl text-[#14532D] tracking-tight">
+          <h2 className="font-heading font-bold text-2xl sm:text-3xl text-stone-900 tracking-tight">
             Interested in Enrolling Your Child?
           </h2>
           <p className="text-stone-600 text-sm sm:text-base leading-relaxed max-w-2xl mx-auto">
@@ -223,7 +223,7 @@ export default function AcademicsPage() {
           <div className="pt-2">
             <Link
               href="/admissions"
-              className="btn-primary px-6 py-3 rounded-lg text-sm font-semibold text-white bg-[#14532D] hover:bg-[#0B3B20] shadow-xs transition-colors"
+              className="btn-primary px-6 py-3 rounded-lg text-sm font-semibold text-white bg-[#14532D] hover:bg-[#0B3B20] shadow-xs transition-colors inline-block"
             >
               <span>Go to Admissions Page</span>
             </Link>

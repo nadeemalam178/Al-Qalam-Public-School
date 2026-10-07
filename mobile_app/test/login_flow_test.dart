@@ -7,6 +7,7 @@ import 'package:al_qalam_school/providers/auth_provider.dart';
 import 'package:al_qalam_school/providers/school_provider.dart';
 import 'package:al_qalam_school/screens/auth/login_screen.dart';
 import 'package:al_qalam_school/theme/app_theme.dart';
+import 'package:al_qalam_school/widgets/role_card.dart';
 
 void main() {
   group('LoginRole and Database Mapping Tests', () {
@@ -163,9 +164,9 @@ void main() {
       expect(find.text('Select your account type'), findsOneWidget);
 
       // Three cards
-      expect(find.text('Administrator'), findsOneWidget);
-      expect(find.text('Teacher'), findsOneWidget);
-      expect(find.text('Parent'), findsOneWidget);
+      expect(find.widgetWithText(RoleCard, 'Administrator'), findsOneWidget);
+      expect(find.widgetWithText(RoleCard, 'Teacher'), findsOneWidget);
+      expect(find.widgetWithText(RoleCard, 'Parent'), findsOneWidget);
 
       // Subtitles
       expect(find.text('Manage school operations'), findsOneWidget);
@@ -178,7 +179,7 @@ void main() {
       await tester.pumpAndSettle();
 
       // Tap Teacher card
-      await tester.tap(find.text('Teacher'));
+      await tester.tap(find.widgetWithText(RoleCard, 'Teacher'));
       await tester.pumpAndSettle();
 
       // Form header
@@ -195,7 +196,7 @@ void main() {
       await tester.pumpAndSettle();
 
       // Select Parent
-      await tester.tap(find.text('Parent'));
+      await tester.tap(find.widgetWithText(RoleCard, 'Parent'));
       await tester.pumpAndSettle();
 
       expect(find.text('Parent Login'), findsOneWidget);
@@ -206,9 +207,9 @@ void main() {
 
       // Back to three cards
       expect(find.text('Select your account type'), findsOneWidget);
-      expect(find.text('Administrator'), findsOneWidget);
-      expect(find.text('Teacher'), findsOneWidget);
-      expect(find.text('Parent'), findsOneWidget);
+      expect(find.widgetWithText(RoleCard, 'Administrator'), findsOneWidget);
+      expect(find.widgetWithText(RoleCard, 'Teacher'), findsOneWidget);
+      expect(find.widgetWithText(RoleCard, 'Parent'), findsOneWidget);
     });
   });
 }

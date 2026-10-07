@@ -1,10 +1,14 @@
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../providers/school_provider.dart';
 import '../../theme/app_theme.dart';
+import '../../services/school_data_repository.dart';
 import '../../widgets/section_header.dart';
 import '../../widgets/animated_entry.dart';
+import '../../widgets/glass_widgets.dart';
 import 'attendance_screen.dart';
 import 'fees_screen.dart';
 import 'homework_screen.dart';
@@ -16,15 +20,53 @@ import '../common/about_school_screen.dart';
 class ParentDashboardScreen extends StatelessWidget {
   const ParentDashboardScreen({super.key});
 
+  Future<void> _callDesk(BuildContext context) async {
+    final cleanPhone = SchoolDataRepository.schoolPhone.replaceAll(RegExp(r'[^0-9+]'), '');
+    final uri = Uri.parse('tel:$cleanPhone');
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri);
+    } else {
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Could not initiate call to $cleanPhone'),
+            backgroundColor: AppTheme.forestPrimary,
+          ),
+        );
+      }
+    }
+  }
+
+  Future<void> _chatDeskWhatsApp(BuildContext context, String studentName, String grade) async {
+    final cleanPhone = SchoolDataRepository.schoolPhone.replaceAll(RegExp(r'[^0-9]'), '');
+    final text = Uri.encodeComponent(
+      'Hello Al-Qalam Campus Desk, I am the parent of $studentName ($grade). I have an inquiry regarding my ward.',
+    );
+    final uri = Uri.parse('https://wa.me/$cleanPhone?text=$text');
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri, mode: LaunchMode.externalApplication);
+    } else {
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Could not open WhatsApp on this device.'),
+            backgroundColor: AppTheme.forestPrimary,
+          ),
+        );
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final school = Provider.of<SchoolProvider>(context);
-    final student = school.getStudentById('STU-001'); // Zaid Alam
+    final student = school.selectedStudent;
     final studentHomework = school.getHomeworkForGrade(student.grade);
     final activeHwCount =
         studentHomework.where((h) => !h.isCompleted).length;
     final latestNotice =
         school.notices.isNotEmpty ? school.notices.first : null;
+    final linkedStudents = school.linkedStudents;
 
     return SingleChildScrollView(
       physics: const BouncingScrollPhysics(),
@@ -32,144 +74,404 @@ class ParentDashboardScreen extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Student ID Profile Card
+          // Multi-Child Switcher (When guardian has multiple enrolled wards)
+          if (linkedStudents.length > 1) ...[
+            AnimatedEntry(
+              delay: const Duration(milliseconds: 20),
+              child: Container(
+                margin: const EdgeInsets.only(bottom: 12),
+                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                decoration: BoxDecoration(
+                  color: AppTheme.forestTint,
+                  borderRadius: BorderRadius.circular(16),
+                  border: Border.all(
+                    color: AppTheme.forestPrimary.withValues(alpha: 0.2),
+                  ),
+                ),
+                child: Row(
+                  children: [
+                    const Icon(
+                      Icons.family_restroom_rounded,
+                      size: 20,
+                      color: AppTheme.forestPrimary,
+                    ),
+                    const SizedBox(width: 8),
+                    Text(
+                      'Select Child:',
+                      style: GoogleFonts.inter(
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold,
+                        color: AppTheme.forestDeep,
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        physics: const BouncingScrollPhysics(),
+                        child: Row(
+                          children: linkedStudents.map((child) {
+                            final isSelected = child.id == student.id;
+                            return Padding(
+                              padding: const EdgeInsets.only(right: 6),
+                              child: ChoiceChip(
+                                label: Text(
+                                  '${child.name} (${child.grade})',
+                                  style: GoogleFonts.inter(
+                                    fontSize: 11,
+                                    fontWeight: isSelected
+                                        ? FontWeight.bold
+                                        : FontWeight.normal,
+                                    color: isSelected
+                                        ? Colors.white
+                                        : AppTheme.textDark,
+                                  ),
+                                ),
+                                selected: isSelected,
+                                selectedColor: AppTheme.forestPrimary,
+                                backgroundColor: Colors.white,
+                                showCheckmark: false,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                  side: BorderSide(
+                                    color: isSelected
+                                        ? AppTheme.forestPrimary
+                                        : AppTheme.borderLight,
+                                  ),
+                                ),
+                                onSelected: (_) {
+                                  school.selectChild(child);
+                                },
+                              ),
+                            );
+                          }).toList(),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+
+          // Student ID Profile Card (Frosted Glass)
           AnimatedEntry(
             delay: const Duration(milliseconds: 40),
             child: Container(
-              padding: const EdgeInsets.all(18),
               decoration: BoxDecoration(
-                gradient: const LinearGradient(
-                  colors: [AppTheme.forestDeep, AppTheme.forestPrimary],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                ),
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(22),
                 boxShadow: [
                   BoxShadow(
                     color: AppTheme.forestDeep.withValues(alpha: 0.25),
-                    blurRadius: 16,
+                    blurRadius: 20,
                     offset: const Offset(0, 8),
                   ),
                 ],
               ),
-              child: Column(
-                children: [
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Container(
-                        width: 58,
-                        height: 58,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: Colors.white,
-                          border: Border.all(
-                            color: AppTheme.goldPrimary,
-                            width: 2.5,
-                          ),
-                        ),
-                        child: const Center(
-                          child: Icon(
-                            Icons.face_rounded,
-                            size: 38,
-                            color: AppTheme.forestPrimary,
-                          ),
-                        ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(22),
+                child: BackdropFilter(
+                  filter: ImageFilter.blur(sigmaX: 16, sigmaY: 16),
+                  child: Container(
+                    padding: const EdgeInsets.all(18),
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [
+                          AppTheme.forestDeep.withValues(alpha: 0.88),
+                          AppTheme.forestPrimary.withValues(alpha: 0.82),
+                        ],
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
                       ),
-                      const SizedBox(width: 14),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                      borderRadius: BorderRadius.circular(22),
+                      border: Border.all(
+                        color: Colors.white.withValues(alpha: 0.22),
+                        width: 1.2,
+                      ),
+                    ),
+                    child: Column(
+                      children: [
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            Row(
-                              children: [
-                                Flexible(
-                                  child: Text(
-                                    student.name,
-                                    style: GoogleFonts.outfit(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.white,
-                                    ),
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
+                            Container(
+                              width: 58,
+                              height: 58,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: Colors.white,
+                                border: Border.all(
+                                  color: AppTheme.goldPrimary,
+                                  width: 2.5,
                                 ),
-                                const SizedBox(width: 8),
-                                Container(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 8, vertical: 2),
-                                  decoration: BoxDecoration(
-                                    color: AppTheme.goldPrimary,
-                                    borderRadius: BorderRadius.circular(12),
-                                  ),
-                                  child: Text(
-                                    'Roll #${student.rollNo}',
-                                    style: GoogleFonts.inter(
-                                      fontSize: 10,
-                                      fontWeight: FontWeight.bold,
-                                      color: AppTheme.forestDeep,
-                                    ),
-                                  ),
+                              ),
+                              child: const Center(
+                                child: Icon(
+                                  Icons.face_rounded,
+                                  size: 38,
+                                  color: AppTheme.forestPrimary,
                                 ),
-                              ],
-                            ),
-                            const SizedBox(height: 4),
-                            Text(
-                              student.fullClass,
-                              style: GoogleFonts.inter(
-                                fontSize: 13,
-                                color: AppTheme.forestSoft,
-                                fontWeight: FontWeight.w500,
                               ),
                             ),
-                            const SizedBox(height: 2),
-                            Text(
-                              'Adm: ${student.admissionNo}',
-                              style: GoogleFonts.inter(
-                                fontSize: 11,
-                                color: Colors.white60,
+                            const SizedBox(width: 14),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    children: [
+                                      Flexible(
+                                        child: Text(
+                                          student.name,
+                                          style: GoogleFonts.outfit(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.white,
+                                          ),
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                      ),
+                                      const SizedBox(width: 8),
+                                      Container(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 8, vertical: 2),
+                                        decoration: BoxDecoration(
+                                          color: AppTheme.goldPrimary,
+                                          borderRadius: BorderRadius.circular(12),
+                                        ),
+                                        child: Text(
+                                          'Roll #${student.rollNo}',
+                                          style: GoogleFonts.inter(
+                                            fontSize: 10,
+                                            fontWeight: FontWeight.bold,
+                                            color: AppTheme.forestDeep,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(height: 4),
+                                  Text(
+                                    student.fullClass,
+                                    style: GoogleFonts.inter(
+                                      fontSize: 13,
+                                      color: AppTheme.forestSoft,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 2),
+                                  Text(
+                                    'Adm: ${student.admissionNo}',
+                                    style: GoogleFonts.inter(
+                                      fontSize: 11,
+                                      color: Colors.white60,
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
                           ],
                         ),
-                      ),
-                    ],
+                        const SizedBox(height: 16),
+                        const Divider(color: Colors.white12, height: 1),
+                        const SizedBox(height: 12),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            _buildStudentMiniStat(
+                              'Attendance',
+                              '${student.attendanceRate.toStringAsFixed(1)}%',
+                              Icons.check_circle_outline,
+                              Colors.greenAccent,
+                            ),
+                            _buildStudentMiniStat(
+                              'Blood Group',
+                              student.bloodGroup,
+                              Icons.favorite_outline,
+                              Colors.pinkAccent,
+                            ),
+                            _buildStudentMiniStat(
+                              'Pending Fees',
+                              student.pendingFees > 0
+                                  ? '₹${student.pendingFees.toInt()}'
+                                  : 'Clear',
+                              Icons.receipt_outlined,
+                              student.pendingFees > 0
+                                  ? AppTheme.goldPrimary
+                                  : Colors.greenAccent,
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
-                  const SizedBox(height: 16),
-                  const Divider(color: Colors.white12, height: 1),
-                  const SizedBox(height: 12),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      _buildStudentMiniStat(
-                        'Attendance',
-                        '${student.attendanceRate.toStringAsFixed(1)}%',
-                        Icons.check_circle_outline,
-                        Colors.greenAccent,
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(height: 14),
+
+          // Direct Campus Desk & WhatsApp Quick Bar
+          AnimatedEntry(
+            delay: const Duration(milliseconds: 80),
+            child: GlassCard(
+              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+              accentColor: AppTheme.forestPrimary,
+              child: Row(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      color: AppTheme.forestTint,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: const Icon(
+                      Icons.support_agent_rounded,
+                      color: AppTheme.forestPrimary,
+                      size: 22,
+                    ),
+                  ),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Campus Office Desk',
+                          style: GoogleFonts.inter(
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold,
+                            color: AppTheme.forestDeep,
+                          ),
+                        ),
+                        Text(
+                          'Gulzarbagh • 8:30 AM - 1:30 PM',
+                          style: GoogleFonts.inter(
+                            fontSize: 10,
+                            color: AppTheme.textMuted,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  InkWell(
+                    onTap: () => _callDesk(context),
+                    borderRadius: BorderRadius.circular(10),
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                      decoration: BoxDecoration(
+                        color: AppTheme.forestTint,
+                        borderRadius: BorderRadius.circular(10),
+                        border: Border.all(color: AppTheme.forestPrimary.withValues(alpha: 0.3)),
                       ),
-                      _buildStudentMiniStat(
-                        'Blood Group',
-                        student.bloodGroup,
-                        Icons.favorite_outline,
-                        Colors.pinkAccent,
+                      child: Row(
+                        children: [
+                          const Icon(Icons.phone, size: 14, color: AppTheme.forestPrimary),
+                          const SizedBox(width: 4),
+                          Text(
+                            'Call',
+                            style: GoogleFonts.inter(
+                              fontSize: 11,
+                              fontWeight: FontWeight.bold,
+                              color: AppTheme.forestPrimary,
+                            ),
+                          ),
+                        ],
                       ),
-                      _buildStudentMiniStat(
-                        'Pending Fees',
-                        student.pendingFees > 0
-                            ? '₹${student.pendingFees.toInt()}'
-                            : 'Clear',
-                        Icons.receipt_outlined,
-                        student.pendingFees > 0
-                            ? AppTheme.goldPrimary
-                            : Colors.greenAccent,
+                    ),
+                  ),
+                  const SizedBox(width: 6),
+                  InkWell(
+                    onTap: () => _chatDeskWhatsApp(context, student.name, student.fullClass),
+                    borderRadius: BorderRadius.circular(10),
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFDCFCE7),
+                        borderRadius: BorderRadius.circular(10),
+                        border: Border.all(color: const Color(0xFF22C55E).withValues(alpha: 0.4)),
                       ),
-                    ],
+                      child: Row(
+                        children: [
+                          const Icon(Icons.chat_bubble_outline, size: 14, color: Color(0xFF16A34A)),
+                          const SizedBox(width: 4),
+                          Text(
+                            'WhatsApp',
+                            style: GoogleFonts.inter(
+                              fontSize: 11,
+                              fontWeight: FontWeight.bold,
+                              color: const Color(0xFF16A34A),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
                 ],
               ),
             ),
           ),
-          const SizedBox(height: 20),
+          const SizedBox(height: 18),
+
+          // Daily Moral Value / Hadith Card
+          AnimatedEntry(
+            delay: const Duration(milliseconds: 110),
+            child: Container(
+              padding: const EdgeInsets.all(14),
+              decoration: BoxDecoration(
+                gradient: const LinearGradient(
+                  colors: [
+                    Color(0xFFFFFBEB),
+                    Colors.white,
+                  ],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                ),
+                borderRadius: BorderRadius.circular(16),
+                border: Border.all(color: AppTheme.goldPrimary.withValues(alpha: 0.35)),
+              ),
+              child: Row(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      color: AppTheme.goldLight,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: const Icon(Icons.lightbulb_outline, color: AppTheme.goldDark, size: 20),
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Moral Thought of the Day',
+                          style: GoogleFonts.inter(
+                            fontSize: 11,
+                            fontWeight: FontWeight.bold,
+                            color: AppTheme.goldDark,
+                            letterSpacing: 0.5,
+                          ),
+                        ),
+                        const SizedBox(height: 2),
+                        Text(
+                          '“Seeking knowledge is an obligation upon every individual. Strive for discipline, respect, and curiosity.”',
+                          style: GoogleFonts.inter(
+                            fontSize: 12,
+                            fontStyle: FontStyle.italic,
+                            color: AppTheme.textDark,
+                            height: 1.35,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          const SizedBox(height: 18),
 
           // Quick Action Navigation Grid
           AnimatedEntry(
@@ -506,87 +808,103 @@ class ParentDashboardScreen extends StatelessWidget {
     String? badge,
     required VoidCallback onTap,
   }) {
+    final r = BorderRadius.circular(18);
+
     return BounceTap(
       onTap: onTap,
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 10),
         decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: color.withValues(alpha: 0.16)),
-          gradient: LinearGradient(
-            colors: [
-              Colors.white,
-              color.withValues(alpha: 0.035),
-            ],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
+          borderRadius: r,
           boxShadow: [
             BoxShadow(
-              color: color.withValues(alpha: 0.06),
-              blurRadius: 10,
-              offset: const Offset(0, 3),
+              color: color.withValues(alpha: 0.08),
+              blurRadius: 14,
+              offset: const Offset(0, 5),
             ),
           ],
         ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Stack(
-              clipBehavior: Clip.none,
-              children: [
-                Container(
-                  padding: const EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    color: color.withValues(alpha: 0.12),
-                    shape: BoxShape.circle,
-                  ),
-                  child: Icon(icon, color: color, size: 22),
+        child: ClipRRect(
+          borderRadius: r,
+          child: BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 12, sigmaY: 12),
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 10),
+              decoration: BoxDecoration(
+                color: Colors.white.withValues(alpha: 0.78),
+                borderRadius: r,
+                border: Border.all(
+                  color: Colors.white.withValues(alpha: 0.85),
+                  width: 1.2,
                 ),
-                if (badge != null)
-                  Positioned(
-                    top: -4,
-                    right: -8,
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 6, vertical: 2),
-                      decoration: BoxDecoration(
-                        color: AppTheme.goldPrimary,
-                        borderRadius: BorderRadius.circular(10),
-                        boxShadow: [
-                          BoxShadow(
-                            color: AppTheme.goldPrimary.withValues(alpha: 0.3),
-                            blurRadius: 6,
-                            offset: const Offset(0, 2),
-                          ),
-                        ],
-                      ),
-                      child: Text(
-                        badge,
-                        style: GoogleFonts.inter(
-                          fontSize: 9,
-                          fontWeight: FontWeight.bold,
-                          color: AppTheme.forestDeep,
-                        ),
-                      ),
-                    ),
-                  ),
-              ],
-            ),
-            const SizedBox(height: 8),
-            Text(
-              title,
-              style: GoogleFonts.inter(
-                fontSize: 12,
-                fontWeight: FontWeight.bold,
-                color: AppTheme.textDark,
+                gradient: LinearGradient(
+                  colors: [
+                    Colors.white.withValues(alpha: 0.85),
+                    color.withValues(alpha: 0.04),
+                  ],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                ),
               ),
-              textAlign: TextAlign.center,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Stack(
+                    clipBehavior: Clip.none,
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          color: color.withValues(alpha: 0.12),
+                          shape: BoxShape.circle,
+                        ),
+                        child: Icon(icon, color: color, size: 22),
+                      ),
+                      if (badge != null)
+                        Positioned(
+                          top: -4,
+                          right: -8,
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 6, vertical: 2),
+                            decoration: BoxDecoration(
+                              color: AppTheme.goldPrimary,
+                              borderRadius: BorderRadius.circular(10),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: AppTheme.goldPrimary.withValues(alpha: 0.3),
+                                  blurRadius: 6,
+                                  offset: const Offset(0, 2),
+                                ),
+                              ],
+                            ),
+                            child: Text(
+                              badge,
+                              style: GoogleFonts.inter(
+                                fontSize: 9,
+                                fontWeight: FontWeight.bold,
+                                color: AppTheme.forestDeep,
+                              ),
+                            ),
+                          ),
+                        ),
+                    ],
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    title,
+                    style: GoogleFonts.inter(
+                      fontSize: 12,
+                      fontWeight: FontWeight.bold,
+                      color: AppTheme.textDark,
+                    ),
+                    textAlign: TextAlign.center,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ],
+              ),
             ),
-          ],
+          ),
         ),
       ),
     );

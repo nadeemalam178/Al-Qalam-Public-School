@@ -11,7 +11,7 @@ class ReportCardScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final school = Provider.of<SchoolProvider>(context);
-    final reportCard = school.getReportCardForStudent('STU-001');
+    final reportCard = school.getReportCardForStudent(school.selectedStudent.id);
 
     if (reportCard == null) {
       return const Scaffold(

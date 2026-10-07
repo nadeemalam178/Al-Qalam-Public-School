@@ -21,7 +21,7 @@ const categoryIcons: Record<SchoolEventItem["category"], React.ReactNode> = {
   Academic: <BookOpen className="w-4 h-4 text-[#14532D]" />,
   Activities: <Trophy className="w-4 h-4 text-[#2F7D4A]" />,
   Events: <Compass className="w-4 h-4 text-[#0B3B20]" />,
-  Celebrations: <Calendar className="w-4 h-4 text-[#6B4226]" />,
+  Celebrations: <Calendar className="w-4 h-4 text-[#14532D]" />,
 };
 
 function DynamicEventCard({ event, index }: { event: SchoolEventItem; index: number }) {
@@ -48,12 +48,12 @@ function DynamicEventCard({ event, index }: { event: SchoolEventItem; index: num
     if (isHovered || images.length <= 1) return;
 
     const delay = 4000 + (index % 3) * 1200;
-    const timer = setInterval(() => {
+    const interval = setInterval(() => {
       setCurrentIdx((prev) => (prev + 1) % images.length);
     }, delay);
 
-    return () => clearInterval(timer);
-  }, [isHovered, index, images.length]);
+    return () => clearInterval(interval);
+  }, [isHovered, images.length, index]);
 
   const nextImg = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -75,7 +75,7 @@ function DynamicEventCard({ event, index }: { event: SchoolEventItem; index: num
     <div
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      className="group relative rounded-2xl border border-stone-200/80 glass-panel overflow-hidden flex flex-col hover:border-[#14532D]/40 hover:shadow-2xl transition-all duration-500 hover:-translate-y-1.5"
+      className="group relative rounded-xl border border-stone-200/90 bg-white shadow-xs overflow-hidden flex flex-col hover:border-[#14532D]/40 hover:shadow-md transition-all duration-300"
     >
       {/* Dynamic Image Container */}
       <div className="relative h-52 sm:h-56 w-full bg-stone-900 overflow-hidden">
@@ -103,21 +103,21 @@ function DynamicEventCard({ event, index }: { event: SchoolEventItem; index: num
 
         {/* Category Badge & Date */}
         <div className="absolute top-3 left-3 right-3 flex items-center justify-between z-30 pointer-events-none">
-          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-semibold bg-white/95 text-[#14532D] shadow-sm backdrop-blur-md border border-white/60">
+          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[11px] font-bold bg-white/95 text-[#14532D] shadow-2xs backdrop-blur-xs border border-white/60">
             {categoryIcons[event.category]}
             <span>{event.category}</span>
           </span>
 
           <div className="flex items-center gap-1.5">
             {images.length > 1 && (
-              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-black/60 text-[#EDE2D3] border border-white/20 backdrop-blur-md shadow-xs">
-                <Layers className="w-3 h-3 text-[#C6E7CE]" />
+              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-black/60 text-stone-200 border border-white/20 backdrop-blur-xs shadow-2xs">
+                <Layers className="w-3 h-3 text-emerald-300" />
                 <span>
                   {currentIdx + 1}/{images.length}
                 </span>
               </span>
             )}
-            <span className="px-2.5 py-1 rounded-full text-[11px] font-semibold bg-black/65 text-white backdrop-blur-md border border-white/20">
+            <span className="px-2.5 py-1 rounded-full text-[11px] font-semibold bg-black/65 text-white backdrop-blur-xs border border-white/20">
               {event.date}
             </span>
           </div>
@@ -130,7 +130,7 @@ function DynamicEventCard({ event, index }: { event: SchoolEventItem; index: num
               type="button"
               onClick={prevImg}
               aria-label="Previous image"
-              className="p-1 rounded-full bg-black/60 text-white hover:bg-black/90 backdrop-blur-md border border-white/20 transition-transform active:scale-95 cursor-pointer"
+              className="p-1 rounded-full bg-black/60 text-white hover:bg-black/90 backdrop-blur-xs border border-white/20 transition-transform active:scale-95 cursor-pointer"
             >
               <ChevronLeft className="w-3.5 h-3.5" />
             </button>
@@ -138,7 +138,7 @@ function DynamicEventCard({ event, index }: { event: SchoolEventItem; index: num
               type="button"
               onClick={nextImg}
               aria-label="Next image"
-              className="p-1 rounded-full bg-black/60 text-white hover:bg-black/90 backdrop-blur-md border border-white/20 transition-transform active:scale-95 cursor-pointer"
+              className="p-1 rounded-full bg-black/60 text-white hover:bg-black/90 backdrop-blur-xs border border-white/20 transition-transform active:scale-95 cursor-pointer"
             >
               <ChevronRight className="w-3.5 h-3.5" />
             </button>
@@ -154,7 +154,7 @@ function DynamicEventCard({ event, index }: { event: SchoolEventItem; index: num
                   key={dotIdx}
                   className={`h-1.5 rounded-full transition-all duration-300 ${
                     dotIdx === currentIdx
-                      ? "w-4 bg-[#C6E7CE]"
+                      ? "w-4 bg-emerald-300"
                       : "w-1.5 bg-white/40"
                   }`}
                 />
@@ -168,9 +168,9 @@ function DynamicEventCard({ event, index }: { event: SchoolEventItem; index: num
       </div>
 
       {/* Content */}
-      <div className="p-5 flex-1 flex flex-col justify-between bg-white/90 backdrop-blur-sm">
+      <div className="p-5 flex-1 flex flex-col justify-between bg-white">
         <div className="space-y-2">
-          <h4 className="font-heading font-bold text-base sm:text-lg text-[#14532D] group-hover:text-[#0B3B20] transition-colors leading-snug">
+          <h4 className="font-heading font-bold text-base sm:text-lg text-stone-900 group-hover:text-[#14532D] transition-colors leading-snug">
             {event.title}
           </h4>
           <p className="text-stone-600 text-xs sm:text-sm leading-relaxed line-clamp-3">
@@ -178,16 +178,17 @@ function DynamicEventCard({ event, index }: { event: SchoolEventItem; index: num
           </p>
         </div>
 
-        <div className="mt-4 pt-3 border-t border-stone-100 flex items-center justify-between text-xs text-stone-500">
-          <span className="text-[11px] font-medium text-stone-500">
-            {event.citation || "School Archive"}
-          </span>
+        <div className="pt-4 mt-4 border-t border-stone-100 flex items-center justify-between text-xs">
+          <div className="flex items-center gap-1.5 text-stone-500 font-medium">
+            <Calendar className="w-3.5 h-3.5 text-stone-400" />
+            <span>{event.date}</span>
+          </div>
           <Link
             href="/gallery"
-            className="text-[#14532D] font-bold inline-flex items-center gap-1 group-hover:translate-x-1 transition-transform"
+            className="font-bold text-[#14532D] hover:underline inline-flex items-center gap-1"
           >
-            <span>Photos</span>
-            <span>→</span>
+            <span>View Album</span>
+            <ArrowRight className="w-3 h-3" />
           </Link>
         </div>
       </div>
@@ -197,38 +198,40 @@ function DynamicEventCard({ event, index }: { event: SchoolEventItem; index: num
 
 export default function SchoolLifeEvents() {
   const leadImages = [
-    "/images/school/achievements/rotary-shiksha-ratna-award.jpg",
-    "/images/school/achievements/annual-exam-merit-shield.jpg",
-    "/images/school/achievements/star-student-trophy-ceremony.jpg",
-    "/images/school/achievements/annual-exam-merit-medal.jpg",
+    "/images/school/director-rotary-award.jpg",
+    "/images/school/director-rotary-stage.jpg",
+    "/images/school/director-stage-audience.jpg",
+    "/images/school/director-stage-wide.jpg",
   ];
+
   const [leadImgIdx, setLeadImgIdx] = useState(0);
   const [leadHovered, setLeadHovered] = useState(false);
 
-  // Hover auto-cycle lead card
   useEffect(() => {
-    if (!leadHovered) return;
-    const timer = setInterval(() => {
-      setLeadImgIdx((prev) => (prev + 1) % leadImages.length);
-    }, 1800);
-    return () => clearInterval(timer);
+    if (!leadHovered) {
+      const interval = setInterval(() => {
+        setLeadImgIdx((prev) => (prev + 1) % leadImages.length);
+      }, 3500);
+      return () => clearInterval(interval);
+    } else {
+      const interval = setInterval(() => {
+        setLeadImgIdx((prev) => (prev + 1) % leadImages.length);
+      }, 1600);
+      return () => clearInterval(interval);
+    }
   }, [leadHovered, leadImages.length]);
 
   return (
-    <section className="relative py-16 sm:py-20 lg:py-24 bg-[#FAF8F2] border-b border-[#EDE2D3] overflow-hidden">
-      {/* Ambient background depth blurs */}
-      <div className="absolute top-10 left-1/4 w-96 h-96 rounded-full bg-emerald-500/10 blur-3xl pointer-events-none -z-10 animate-ambient-orb" />
-      <div className="absolute bottom-10 right-1/4 w-96 h-96 rounded-full bg-[#D9C2B0]/25 blur-3xl pointer-events-none -z-10" />
-
+    <section className="relative py-16 sm:py-20 lg:py-24 bg-stone-50/70 border-b border-stone-200 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-12 sm:mb-14">
           <div className="space-y-3">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white border border-[#EDE2D3] text-[#6B4226] text-xs font-semibold uppercase tracking-wider shadow-xs">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-[#E8F3EA] border border-[#2F7D4A]/20 text-[#14532D] text-xs font-bold uppercase tracking-wider">
               <Calendar className="w-3.5 h-3.5 text-[#14532D]" />
               <span>Campus Activities &amp; Highlights</span>
             </div>
-            <h2 className="font-heading font-black text-2xl sm:text-3xl lg:text-4xl text-[#14532D] tracking-tight">
+            <h2 className="font-heading font-bold text-2xl sm:text-3xl lg:text-4xl text-stone-900 tracking-tight">
               School Life, Honors &amp; Annual Events
             </h2>
             <p className="text-stone-600 text-sm sm:text-base max-w-2xl leading-relaxed">
@@ -238,10 +241,10 @@ export default function SchoolLifeEvents() {
 
           <Link
             href="/gallery"
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-semibold text-[#14532D] bg-white hover:bg-[#E8F3EA] border border-[#EDE2D3] transition-all hover:scale-105 shrink-0 shadow-xs active:scale-95"
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-xs font-semibold text-[#14532D] bg-white hover:bg-[#E8F3EA] border border-stone-200 transition-colors shrink-0 shadow-xs"
           >
             <span>Explore 25+ Photos Gallery</span>
-            <ArrowRight className="w-3.5 h-3.5 text-[#6B4226]" />
+            <ArrowRight className="w-3.5 h-3.5 text-[#14532D]" />
           </Link>
         </div>
 
@@ -249,11 +252,11 @@ export default function SchoolLifeEvents() {
         <div
           onMouseEnter={() => setLeadHovered(true)}
           onMouseLeave={() => setLeadHovered(false)}
-          className="relative group rounded-3xl border border-[#EDE2D3] p-6 sm:p-8 lg:p-10 mb-10 shadow-lg glass-panel hover:border-[#14532D]/40 transition-all duration-500 overflow-hidden"
+          className="relative group rounded-xl border border-stone-200/90 bg-white p-6 sm:p-8 lg:p-10 mb-10 shadow-xs hover:border-[#14532D]/40 transition-all duration-300 overflow-hidden"
         >
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
             {/* Dynamic Photo Container */}
-            <div className="lg:col-span-5 relative h-72 sm:h-96 w-full rounded-2xl overflow-hidden border border-stone-200/80 bg-stone-900 shadow-md">
+            <div className="lg:col-span-5 relative h-72 sm:h-96 w-full rounded-xl overflow-hidden border border-stone-200/80 bg-stone-900 shadow-sm">
               {leadImages.map((src, idx) => (
                 <div
                   key={src}
@@ -277,8 +280,8 @@ export default function SchoolLifeEvents() {
               <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/20 z-20 pointer-events-none" />
 
               <div className="absolute top-3 left-3 z-30 pointer-events-none">
-                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-[#14532D] text-white shadow-xs backdrop-blur-md border border-white/20">
-                  <Award className="w-3.5 h-3.5 text-[#EDE2D3]" />
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-md text-xs font-bold bg-[#14532D] text-white shadow-xs backdrop-blur-xs border border-white/20">
+                  <Award className="w-3.5 h-3.5 text-emerald-200" />
                   <span>State Level Honor</span>
                 </span>
               </div>
@@ -290,7 +293,7 @@ export default function SchoolLifeEvents() {
                     <span
                       key={dIdx}
                       className={`h-1.5 rounded-full transition-all duration-300 ${
-                        dIdx === leadImgIdx ? "w-5 bg-[#C6E7CE]" : "w-1.5 bg-white/40"
+                        dIdx === leadImgIdx ? "w-5 bg-emerald-300" : "w-1.5 bg-white/40"
                       }`}
                     />
                   ))}
@@ -303,17 +306,17 @@ export default function SchoolLifeEvents() {
 
             <div className="lg:col-span-7 space-y-4">
               <div className="flex flex-wrap items-center gap-3 text-xs text-stone-500 font-medium">
-                <span className="px-3 py-1 rounded-full bg-[#E8F3EA] text-[#14532D] font-bold border border-[#2F7D4A]/20">
+                <span className="px-3 py-1 rounded-md bg-[#E8F3EA] text-[#14532D] font-bold border border-[#2F7D4A]/20">
                   Institutional Recognition
                 </span>
                 <span>•</span>
                 <span className="inline-flex items-center gap-1.5 text-stone-700 font-semibold">
-                  <Calendar className="w-3.5 h-3.5 text-[#6B4226]" />
+                  <Calendar className="w-3.5 h-3.5 text-[#14532D]" />
                   <span>5 September 2014 (Teachers&apos; Day)</span>
                 </span>
               </div>
 
-              <h3 className="font-heading font-black text-xl sm:text-2xl lg:text-3xl text-[#14532D] leading-snug">
+              <h3 className="font-heading font-bold text-xl sm:text-2xl lg:text-3xl text-stone-900 leading-snug">
                 Rotary Shiksha Ratna Samman Presented by Chief Minister Nitish Kumar
               </h3>
 
@@ -323,7 +326,7 @@ export default function SchoolLifeEvents() {
 
               <div className="pt-2 flex flex-wrap items-center justify-between gap-4 text-xs text-stone-500">
                 <div className="flex items-center gap-2">
-                  <span className="font-semibold text-[#6B4226]">Conferred by:</span>
+                  <span className="font-semibold text-stone-900">Conferred by:</span>
                   <span>Rotary Club Patna City &amp; Govt. of Bihar dignitaries</span>
                 </div>
                 <Link

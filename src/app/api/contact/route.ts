@@ -44,12 +44,19 @@ export async function POST(request: Request) {
     const referenceId = `CAMPUS-${Date.now().toString().slice(-6)}`;
     const submissionTime = new Date().toISOString();
 
-    console.info("[Campus Contact Lead]", {
-      referenceId,
-      name: trimmedName,
-      mobile: `+91 ${cleanMobile}`,
-      submissionTime,
-    });
+    // Persist directly to Supabase PostgreSQL admission_enquiries table
+    try {
+      const { insertCampusContact } = await import("@/lib/supabase");
+      await insertCampusContact({
+        referenceNo: referenceId,
+        name: trimmedName,
+        mobile: `+91 ${cleanMobile}`,
+        message: trimmedMessage,
+      });
+      console.info("[Supabase Campus Contact Saved]", { referenceId, name: trimmedName });
+    } catch (dbErr) {
+      console.warn("[Supabase Campus Contact Fallback]", dbErr);
+    }
 
     return NextResponse.json({
       success: true,

@@ -107,7 +107,7 @@ class _ParentAttendanceScreenState extends State<ParentAttendanceScreen> {
   @override
   Widget build(BuildContext context) {
     final school = Provider.of<SchoolProvider>(context);
-    final student = school.getStudentById('STU-001');
+    final student = school.selectedStudent;
     final attendanceRecords = school.getAttendanceForStudent(student.id);
 
     final presentCount = attendanceRecords

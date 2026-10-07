@@ -53,7 +53,7 @@ export default function FacilitiesPage() {
       {/* Page Banner */}
       <section className="bg-forest-hero text-white py-14 sm:py-18 lg:py-20 border-b border-[#0B3B20]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-3">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-[#072413] border border-[#2F7D4A]/40 text-[#EDE2D3] text-xs font-semibold uppercase tracking-wider">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-md bg-white/10 border border-white/20 text-emerald-200 text-xs font-bold uppercase tracking-wider backdrop-blur-xs">
             <ShieldCheck className="w-3.5 h-3.5" />
             <span>Campus Infrastructure</span>
           </div>
@@ -67,13 +67,13 @@ export default function FacilitiesPage() {
       </section>
 
       {/* Main Facilities Section */}
-      <section className="py-16 sm:py-20 bg-white border-b border-[#E7E5E4]">
+      <section className="py-16 sm:py-20 bg-white border-b border-stone-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl mx-auto text-center mb-12 sm:mb-14 space-y-3">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-[#FAF8F2] border border-[#EDE2D3] text-[#6B4226] text-xs font-semibold uppercase tracking-wider">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-[#E8F3EA] border border-[#2F7D4A]/20 text-[#14532D] text-xs font-bold uppercase tracking-wider">
               <span>Verified Infrastructure</span>
             </div>
-            <h2 className="font-heading font-black text-2xl sm:text-3xl lg:text-4xl text-[#14532D] tracking-tight">
+            <h2 className="font-heading font-bold text-2xl sm:text-3xl lg:text-4xl text-stone-900 tracking-tight">
               Learning in a Safe, Technology-Enabled Environment
             </h2>
             <p className="text-stone-600 text-sm sm:text-base leading-relaxed">
@@ -87,7 +87,7 @@ export default function FacilitiesPage() {
               return (
                 <div
                   key={facility.id}
-                  className="bg-white rounded-2xl overflow-hidden border border-[#E7E5E4] card-subtle flex flex-col justify-between"
+                  className="bg-white rounded-xl overflow-hidden border border-stone-200/90 shadow-xs flex flex-col justify-between"
                 >
                   <div>
                     <div className="img-zoom-box relative h-56 sm:h-64 w-full bg-stone-900 border-b border-stone-200">
@@ -101,7 +101,7 @@ export default function FacilitiesPage() {
                       <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent pointer-events-none" />
 
                       <div className="absolute top-3 left-3">
-                        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-md text-xs font-semibold bg-white/95 text-[#14532D] shadow-xs backdrop-blur-xs">
+                        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-md text-xs font-bold bg-white/95 text-[#14532D] shadow-xs backdrop-blur-xs">
                           <IconComp className="w-3.5 h-3.5" />
                           <span>{facility.badge}</span>
                         </span>
@@ -109,7 +109,7 @@ export default function FacilitiesPage() {
                     </div>
 
                     <div className="p-6 sm:p-7 space-y-4">
-                      <h3 className="font-heading font-bold text-xl sm:text-2xl text-[#14532D]">
+                      <h3 className="font-heading font-bold text-xl sm:text-2xl text-stone-900">
                         {facility.title}
                       </h3>
 
@@ -137,7 +137,7 @@ export default function FacilitiesPage() {
 
                   <div className="p-6 sm:p-7 pt-0 border-t border-stone-100 flex items-center justify-between text-xs text-stone-500">
                     <span>Verified Campus Amenity</span>
-                    <span className="text-[#14532D] font-semibold">Gulzarbagh Campus</span>
+                    <span className="text-[#14532D] font-bold">Gulzarbagh Campus</span>
                   </div>
                 </div>
               );
@@ -147,17 +147,17 @@ export default function FacilitiesPage() {
       </section>
 
       {/* Safety & Gate Protocol Card */}
-      <section className="py-16 sm:py-20 bg-[#FAF8F2] border-b border-[#EDE2D3]">
+      <section className="py-16 sm:py-20 bg-stone-50/70 border-b border-stone-200">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="bg-white rounded-2xl p-6 sm:p-8 border border-[#E7E5E4] space-y-4">
-            <h3 className="font-heading font-bold text-xl text-[#14532D]">
+          <div className="bg-white rounded-xl p-6 sm:p-8 border border-stone-200/90 shadow-xs space-y-4">
+            <h3 className="font-heading font-bold text-xl text-stone-900">
               Campus Visitor & Safety Protocol
             </h3>
             <p className="text-stone-600 text-sm leading-relaxed">
               To preserve student focus and security during school operation hours, all parent visits, deliveries, and enquiries must be checked in at the main gate. The campus entrance and primary corridors remain continuously monitored.
             </p>
             <div className="flex items-center gap-2 text-xs text-stone-500 pt-2 border-t border-stone-100">
-              <MapPin className="w-4 h-4 text-[#6B4226]" />
+              <MapPin className="w-4 h-4 text-[#14532D]" />
               <span>{SCHOOL_DATA.address.street}, {SCHOOL_DATA.address.landmark}, {SCHOOL_DATA.address.city}</span>
             </div>
           </div>
@@ -167,7 +167,7 @@ export default function FacilitiesPage() {
       {/* CTA */}
       <section className="py-16 sm:py-20 bg-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-5">
-          <h2 className="font-heading font-black text-2xl sm:text-3xl text-[#14532D] tracking-tight">
+          <h2 className="font-heading font-bold text-2xl sm:text-3xl text-stone-900 tracking-tight">
             Schedule a Campus Walkthrough
           </h2>
           <p className="text-stone-600 text-sm sm:text-base leading-relaxed max-w-2xl mx-auto">
@@ -179,11 +179,11 @@ export default function FacilitiesPage() {
               className="btn-primary px-6 py-3 rounded-lg text-sm font-semibold text-white bg-[#14532D] hover:bg-[#0B3B20] shadow-xs transition-colors flex items-center gap-2"
             >
               <span>Submit Admission Enquiry</span>
-              <ArrowRight className="w-4 h-4 text-[#EDE2D3]" />
+              <ArrowRight className="w-4 h-4 text-white/80" />
             </Link>
             <Link
               href="/contact"
-              className="btn-primary px-6 py-3 rounded-lg text-sm font-semibold text-stone-700 bg-[#FAF8F2] hover:bg-stone-100 border border-[#EDE2D3] transition-colors"
+              className="btn-primary px-6 py-3 rounded-lg text-sm font-semibold text-stone-700 bg-white hover:bg-stone-50 border border-stone-200 transition-colors"
             >
               <span>View Location on Map</span>
             </Link>

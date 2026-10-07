@@ -1,3 +1,4 @@
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -7,6 +8,7 @@ import '../../theme/app_theme.dart';
 import '../../widgets/stat_card.dart';
 import '../../widgets/section_header.dart';
 import '../../widgets/animated_entry.dart';
+import '../../widgets/glass_widgets.dart';
 import 'mark_attendance_screen.dart';
 import 'post_homework_screen.dart';
 import 'student_roster_screen.dart';
@@ -26,27 +28,42 @@ class TeacherDashboardScreen extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Faculty Welcome Card
+          // Faculty Welcome Card (Frosted Glass)
           AnimatedEntry(
             delay: const Duration(milliseconds: 40),
             child: Container(
-              padding: const EdgeInsets.all(18),
               decoration: BoxDecoration(
-                gradient: const LinearGradient(
-                  colors: [AppTheme.forestDeep, AppTheme.forestPrimary],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                ),
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(22),
                 boxShadow: [
                   BoxShadow(
-                    color: AppTheme.forestDeep.withValues(alpha: 0.2),
-                    blurRadius: 12,
+                    color: AppTheme.forestDeep.withValues(alpha: 0.22),
+                    blurRadius: 18,
                     offset: const Offset(0, 6),
                   ),
                 ],
               ),
-              child: Row(
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(22),
+                child: BackdropFilter(
+                  filter: ImageFilter.blur(sigmaX: 16, sigmaY: 16),
+                  child: Container(
+                    padding: const EdgeInsets.all(18),
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [
+                          AppTheme.forestDeep.withValues(alpha: 0.88),
+                          AppTheme.forestPrimary.withValues(alpha: 0.82),
+                        ],
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                      ),
+                      borderRadius: BorderRadius.circular(22),
+                      border: Border.all(
+                        color: Colors.white.withValues(alpha: 0.22),
+                        width: 1.2,
+                      ),
+                    ),
+                    child: Row(
                 children: [
                   Container(
                     width: 54,
@@ -101,7 +118,10 @@ class TeacherDashboardScreen extends StatelessWidget {
               ),
             ),
           ),
-          const SizedBox(height: 18),
+        ),
+      ),
+    ),
+    const SizedBox(height: 18),
 
           // Key Stats
           AnimatedEntry(
@@ -194,9 +214,11 @@ class TeacherDashboardScreen extends StatelessWidget {
           ),
           const SizedBox(height: 6),
           ...students.take(4).map((student) {
-            return Card(
-              margin: const EdgeInsets.only(bottom: 10),
+            return GlassCard(
+              margin: const EdgeInsets.only(bottom: 8),
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
               child: ListTile(
+                contentPadding: EdgeInsets.zero,
                 leading: CircleAvatar(
                   backgroundColor: AppTheme.forestTint,
                   foregroundColor: AppTheme.forestDeep,
@@ -252,63 +274,79 @@ class TeacherDashboardScreen extends StatelessWidget {
     required Color color,
     required VoidCallback onTap,
   }) {
+    final r = BorderRadius.circular(18);
+
     return BounceTap(
       onTap: onTap,
       child: Container(
-        padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(18),
-          border: Border.all(color: color.withValues(alpha: 0.18)),
-          gradient: LinearGradient(
-            colors: [
-              Colors.white,
-              color.withValues(alpha: 0.035),
-            ],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
+          borderRadius: r,
           boxShadow: [
             BoxShadow(
-              color: color.withValues(alpha: 0.06),
-              blurRadius: 12,
-              offset: const Offset(0, 4),
+              color: color.withValues(alpha: 0.08),
+              blurRadius: 14,
+              offset: const Offset(0, 5),
             ),
           ],
         ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              padding: const EdgeInsets.all(10),
+        child: ClipRRect(
+          borderRadius: r,
+          child: BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 12, sigmaY: 12),
+            child: Container(
+              padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
-                color: color.withValues(alpha: 0.12),
-                borderRadius: BorderRadius.circular(12),
+                color: Colors.white.withValues(alpha: 0.78),
+                borderRadius: r,
+                border: Border.all(
+                  color: Colors.white.withValues(alpha: 0.85),
+                  width: 1.2,
+                ),
+                gradient: LinearGradient(
+                  colors: [
+                    Colors.white.withValues(alpha: 0.85),
+                    color.withValues(alpha: 0.04),
+                  ],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                ),
               ),
-              child: Icon(icon, color: color, size: 24),
-            ),
-            const SizedBox(height: 12),
-            Text(
-              title,
-              style: GoogleFonts.inter(
-                fontSize: 13,
-                fontWeight: FontWeight.bold,
-                color: AppTheme.textDark,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      color: color.withValues(alpha: 0.12),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Icon(icon, color: color, size: 24),
+                  ),
+                  const SizedBox(height: 12),
+                  Text(
+                    title,
+                    style: GoogleFonts.inter(
+                      fontSize: 13,
+                      fontWeight: FontWeight.bold,
+                      color: AppTheme.textDark,
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  const SizedBox(height: 2),
+                  Text(
+                    subtitle,
+                    style: GoogleFonts.inter(
+                      fontSize: 11,
+                      color: AppTheme.textMuted,
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ],
               ),
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
             ),
-            const SizedBox(height: 2),
-            Text(
-              subtitle,
-              style: GoogleFonts.inter(
-                fontSize: 11,
-                color: AppTheme.textMuted,
-              ),
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-            ),
-          ],
+          ),
         ),
       ),
     );

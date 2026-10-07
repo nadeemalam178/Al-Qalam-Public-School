@@ -1,3 +1,4 @@
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../models/login_role.dart';
@@ -26,16 +27,19 @@ class _RoleCardState extends State<RoleCard> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
+    final r = BorderRadius.circular(18);
 
     final baseBorderColor = widget.isSelected
         ? AppTheme.forestPrimary
-        : (isDark ? Colors.white24 : AppTheme.borderLight);
+        : (isDark ? Colors.white.withValues(alpha: 0.18) : Colors.white.withValues(alpha: 0.85));
 
     final cardBgColor = widget.isSelected
         ? (isDark
-            ? AppTheme.forestPrimary.withValues(alpha: 0.25)
-            : AppTheme.forestTint.withValues(alpha: 0.65))
-        : (isDark ? const Color(0xFF1E293B) : Colors.white);
+            ? AppTheme.forestPrimary.withValues(alpha: 0.32)
+            : AppTheme.forestTint.withValues(alpha: 0.82))
+        : (isDark
+            ? const Color(0xFF1E293B).withValues(alpha: 0.68)
+            : Colors.white.withValues(alpha: 0.78));
 
     final iconBgColor = widget.isSelected
         ? AppTheme.forestPrimary
@@ -48,42 +52,48 @@ class _RoleCardState extends State<RoleCard> {
     return AnimatedScale(
       scale: _isHoveredOrPressed ? 0.98 : 1.0,
       duration: const Duration(milliseconds: 150),
-      child: Material(
-        color: Colors.transparent,
-        borderRadius: BorderRadius.circular(16),
-        child: InkWell(
-          onTap: widget.onTap,
-          onHighlightChanged: (pressed) {
-            setState(() {
-              _isHoveredOrPressed = pressed;
-            });
-          },
-          borderRadius: BorderRadius.circular(16),
-          splashColor: AppTheme.forestPrimary.withValues(alpha: 0.1),
-          highlightColor: AppTheme.forestPrimary.withValues(alpha: 0.05),
-          child: AnimatedContainer(
-            duration: const Duration(milliseconds: 250),
-            curve: Curves.easeInOut,
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
-            decoration: BoxDecoration(
-              color: cardBgColor,
-              borderRadius: BorderRadius.circular(16),
-              border: Border.all(
-                color: baseBorderColor,
-                width: widget.isSelected ? 2.0 : 1.0,
-              ),
-              boxShadow: [
-                BoxShadow(
-                  color: widget.isSelected
-                      ? AppTheme.forestPrimary.withValues(alpha: 0.12)
-                      : Colors.black.withValues(alpha: isDark ? 0.2 : 0.04),
-                  blurRadius: widget.isSelected ? 16 : 8,
-                  offset: const Offset(0, 4),
-                ),
-              ],
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: r,
+          boxShadow: [
+            BoxShadow(
+              color: widget.isSelected
+                  ? AppTheme.forestPrimary.withValues(alpha: 0.16)
+                  : Colors.black.withValues(alpha: isDark ? 0.25 : 0.04),
+              blurRadius: widget.isSelected ? 20 : 10,
+              offset: const Offset(0, 5),
             ),
-            child: Row(
-              children: [
+          ],
+        ),
+        child: ClipRRect(
+          borderRadius: r,
+          child: BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 14, sigmaY: 14),
+            child: Material(
+              color: Colors.transparent,
+              child: InkWell(
+                onTap: widget.onTap,
+                onHighlightChanged: (pressed) {
+                  setState(() {
+                    _isHoveredOrPressed = pressed;
+                  });
+                },
+                splashColor: AppTheme.forestPrimary.withValues(alpha: 0.12),
+                highlightColor: AppTheme.forestPrimary.withValues(alpha: 0.05),
+                child: AnimatedContainer(
+                  duration: const Duration(milliseconds: 250),
+                  curve: Curves.easeInOut,
+                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
+                  decoration: BoxDecoration(
+                    color: cardBgColor,
+                    borderRadius: r,
+                    border: Border.all(
+                      color: baseBorderColor,
+                      width: widget.isSelected ? 2.0 : 1.2,
+                    ),
+                  ),
+                  child: Row(
+                    children: [
                 // Icon Avatar
                 AnimatedContainer(
                   duration: const Duration(milliseconds: 250),
@@ -166,6 +176,9 @@ class _RoleCardState extends State<RoleCard> {
           ),
         ),
       ),
-    );
+    ),
+  ),
+),
+);
   }
 }

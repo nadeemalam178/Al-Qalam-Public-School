@@ -16,7 +16,7 @@ export default function ContactPage() {
       {/* Banner */}
       <section className="bg-forest-hero text-white py-14 sm:py-18 lg:py-20 border-b border-[#0B3B20]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-3">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-[#072413] border border-[#2F7D4A]/40 text-[#EDE2D3] text-xs font-semibold uppercase tracking-wider">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-md bg-white/10 border border-white/20 text-emerald-200 text-xs font-bold uppercase tracking-wider backdrop-blur-xs">
             <MapPin className="w-3.5 h-3.5" />
             <span>Campus Desk</span>
           </div>
@@ -33,7 +33,7 @@ export default function ContactPage() {
       <section className="py-16 sm:py-20 bg-white border-b border-[#E7E5E4]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl mx-auto text-center mb-12 space-y-2">
-            <h2 className="font-heading font-black text-2xl sm:text-3xl text-[#14532D] tracking-tight">
+            <h2 className="font-heading font-bold text-2xl sm:text-3xl text-stone-900 tracking-tight">
               School Address & Inquiries
             </h2>
             <p className="text-stone-600 text-sm leading-relaxed">
@@ -44,11 +44,11 @@ export default function ContactPage() {
           <ContactSection />
 
           {/* Detailed Transit, Landmark, and Visitor Cards */}
-          <div className="mt-14 bg-[#FAF8F2] border border-[#EDE2D3] rounded-2xl p-6 sm:p-8">
+          <div className="mt-14 bg-stone-50/70 border border-stone-200 rounded-xl p-6 sm:p-8">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <div className="space-y-2">
-                <div className="flex items-center gap-2 text-[#14532D] font-bold text-sm">
-                  <MapPin className="w-4 h-4 text-[#166534]" />
+                <div className="flex items-center gap-2 text-stone-900 font-bold text-sm">
+                  <MapPin className="w-4 h-4 text-[#14532D]" />
                   <span>Prominent Landmark</span>
                 </div>
                 <p className="text-xs text-stone-600 leading-relaxed">
@@ -57,8 +57,8 @@ export default function ContactPage() {
               </div>
 
               <div className="space-y-2">
-                <div className="flex items-center gap-2 text-[#14532D] font-bold text-sm">
-                  <Navigation className="w-4 h-4 text-[#166534]" />
+                <div className="flex items-center gap-2 text-stone-900 font-bold text-sm">
+                  <Navigation className="w-4 h-4 text-[#14532D]" />
                   <span>Postal Locality</span>
                 </div>
                 <p className="text-xs text-stone-600 leading-relaxed">
@@ -67,8 +67,8 @@ export default function ContactPage() {
               </div>
 
               <div className="space-y-2">
-                <div className="flex items-center gap-2 text-[#14532D] font-bold text-sm">
-                  <ShieldCheck className="w-4 h-4 text-[#166534]" />
+                <div className="flex items-center gap-2 text-stone-900 font-bold text-sm">
+                  <ShieldCheck className="w-4 h-4 text-[#14532D]" />
                   <span>Visitor Check-In</span>
                 </div>
                 <p className="text-xs text-stone-600 leading-relaxed">
@@ -77,7 +77,7 @@ export default function ContactPage() {
               </div>
             </div>
 
-            <div className="mt-6 pt-5 border-t border-[#EDE2D3] flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div className="mt-6 pt-5 border-t border-stone-200/80 flex flex-col sm:flex-row items-center justify-between gap-4">
               <p className="text-xs text-stone-600">
                 {SCHOOL_DATA.name} • {SCHOOL_DATA.address.fullAddress}
               </p>

@@ -40,7 +40,7 @@ function DynamicGalleryCard({
   onOpen,
 }: DynamicCardProps) {
   const allImages = React.useMemo(() => {
-    return [item.src, ...(item.altSrcs || [])];
+    return Array.from(new Set([item.src, ...(item.altSrcs || [])]));
   }, [item.src, item.altSrcs]);
 
   const [currentImgIdx, setCurrentImgIdx] = useState(0);
@@ -110,7 +110,7 @@ function DynamicGalleryCard({
         {/* Layered Images for Cross-Fade */}
         {allImages.map((src, imgIndex) => (
           <div
-            key={src}
+            key={`${src}-${imgIndex}`}
             className={`absolute inset-0 transition-all duration-700 ease-in-out ${
               imgIndex === currentImgIdx
                 ? "opacity-100 scale-100 z-10"
@@ -146,8 +146,8 @@ function DynamicGalleryCard({
 
           <div className="flex items-center gap-1.5">
             {allImages.length > 1 && (
-              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-black/60 text-[#EDE2D3] border border-white/20 backdrop-blur-md shadow-xs">
-                <Layers className="w-3 h-3 text-[#C6E7CE]" />
+              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-black/60 text-stone-200 border border-white/20 backdrop-blur-md shadow-xs">
+                <Layers className="w-3 h-3 text-emerald-300" />
                 <span>
                   {currentImgIdx + 1}/{allImages.length}
                 </span>
@@ -337,7 +337,7 @@ export default function GalleryGrid() {
       : null;
 
   const currentAlbumImages = currentItem
-    ? [currentItem.src, ...(currentItem.altSrcs || [])]
+    ? Array.from(new Set([currentItem.src, ...(currentItem.altSrcs || [])]))
     : [];
 
   const currentLightboxImg =
@@ -518,7 +518,7 @@ export default function GalleryGrid() {
                 </span>
                 {currentAlbumImages.map((thumbSrc, tIdx) => (
                   <button
-                    key={thumbSrc}
+                    key={`${thumbSrc}-${tIdx}`}
                     type="button"
                     onClick={() => setLightboxSubIdx(tIdx)}
                     className={`relative w-14 h-10 rounded-lg overflow-hidden shrink-0 border-2 transition-all cursor-pointer ${
@@ -542,7 +542,7 @@ export default function GalleryGrid() {
             <div className="p-5 bg-stone-900 border-t border-white/10 text-white">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                 <div>
-                  <h4 className="font-heading font-bold text-lg sm:text-xl text-[#EDE2D3]">
+                  <h4 className="font-heading font-bold text-lg sm:text-xl text-white">
                     {currentItem.title}
                   </h4>
                   <p className="text-stone-300 text-xs sm:text-sm mt-1 max-w-2xl leading-relaxed">

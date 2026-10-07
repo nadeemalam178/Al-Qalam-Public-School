@@ -1,3 +1,4 @@
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -34,12 +35,20 @@ class CustomSchoolAppBar extends StatelessWidget implements PreferredSizeWidget 
           constraints: BoxConstraints(
             maxHeight: MediaQuery.of(context).size.height * 0.85,
           ),
-          child: Container(
-            padding: const EdgeInsets.fromLTRB(24, 20, 24, 28),
-            decoration: const BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
-            ),
+          child: ClipRRect(
+            borderRadius: const BorderRadius.vertical(top: Radius.circular(32)),
+            child: BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
+              child: Container(
+                padding: const EdgeInsets.fromLTRB(24, 20, 24, 28),
+                decoration: BoxDecoration(
+                  color: Colors.white.withValues(alpha: 0.88),
+                  borderRadius: const BorderRadius.vertical(top: Radius.circular(32)),
+                  border: Border.all(
+                    color: Colors.white.withValues(alpha: 0.9),
+                    width: 1.5,
+                  ),
+                ),
             child: SingleChildScrollView(
               physics: const BouncingScrollPhysics(),
               child: Column(
@@ -248,9 +257,11 @@ class CustomSchoolAppBar extends StatelessWidget implements PreferredSizeWidget 
               ),
             ),
           ),
-        );
-      },
+        ),
+      ),
     );
+  },
+);
   }
 
   static Widget _buildProfileRow(IconData icon, String label, String value) {
@@ -283,9 +294,32 @@ class CustomSchoolAppBar extends StatelessWidget implements PreferredSizeWidget 
     final auth = Provider.of<AuthProvider>(context);
 
     return AppBar(
-      backgroundColor: AppTheme.forestDeep,
+      backgroundColor: Colors.transparent,
       elevation: 0,
       titleSpacing: 16,
+      flexibleSpace: ClipRect(
+        child: BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 16, sigmaY: 16),
+          child: Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  AppTheme.forestDeep.withValues(alpha: 0.88),
+                  AppTheme.forestPrimary.withValues(alpha: 0.82),
+                ],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
+              border: Border(
+                bottom: BorderSide(
+                  color: Colors.white.withValues(alpha: 0.15),
+                  width: 1,
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
       title: Row(
         children: [
           Container(

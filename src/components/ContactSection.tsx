@@ -63,27 +63,27 @@ export default function ContactSection() {
   return (
     <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
       {/* Left Column: Verified Campus Address & Visiting Guidelines */}
-      <div className="lg:col-span-6 bg-white rounded-2xl border border-stone-200 p-6 sm:p-8 shadow-xs space-y-6">
+      <div className="lg:col-span-6 bg-white rounded-xl border border-stone-200/90 p-6 sm:p-8 shadow-xs space-y-6">
         <div>
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-[#E8F3EA] text-[#14532D] border border-[#2F7D4A]/25 text-xs font-semibold uppercase tracking-wider mb-2">
+          <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-[#E8F3EA] text-[#14532D] text-xs font-bold uppercase tracking-wider mb-2.5">
             <span>Campus Location</span>
           </div>
-          <h3 className="font-heading font-black text-2xl text-[#14532D] tracking-tight">
+          <h3 className="font-heading font-bold text-2xl text-stone-900 tracking-tight">
             {SCHOOL_DATA.name}
           </h3>
-          <p className="text-xs font-semibold text-[#6B4226] mt-0.5">
+          <p className="text-xs font-medium text-stone-500 mt-1">
             Gulzarbagh, Alamganj, Patna, Bihar 800007
           </p>
         </div>
 
         {/* Address Card */}
-        <div className="bg-[#FAF8F2] border border-[#EDE2D3] rounded-xl p-5 space-y-4">
+        <div className="bg-stone-50/70 border border-stone-200 rounded-xl p-5 space-y-4">
           <div className="flex items-start gap-3.5">
-            <div className="w-10 h-10 rounded-lg bg-[#E8F3EA] text-[#14532D] flex items-center justify-center shrink-0 border border-[#2F7D4A]/20">
-              <MapPin className="w-5 h-5" />
+            <div className="w-10 h-10 rounded-lg bg-[#14532D] text-white flex items-center justify-center shrink-0 shadow-xs">
+              <MapPin className="w-5 h-5 text-white" />
             </div>
             <div className="text-sm leading-relaxed text-stone-700">
-              <p className="font-bold text-[#14532D]">{SCHOOL_DATA.address.line1}</p>
+              <p className="font-bold text-stone-900">{SCHOOL_DATA.address.line1}</p>
               <p>{SCHOOL_DATA.address.line2}</p>
               <p>{SCHOOL_DATA.address.street}</p>
               <p>
@@ -92,14 +92,14 @@ export default function ContactSection() {
             </div>
           </div>
 
-          <div className="pt-3 border-t border-[#EDE2D3] flex flex-wrap items-center justify-between gap-3">
+          <div className="pt-3 border-t border-stone-200/80 flex flex-wrap items-center justify-between gap-3">
             <a
               href={SCHOOL_DATA.address.googleMapsUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="btn-primary inline-flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-semibold text-white bg-[#14532D] hover:bg-[#0B3B20] shadow-xs cursor-pointer"
             >
-              <Navigation className="w-3.5 h-3.5 text-[#EDE2D3]" />
+              <Navigation className="w-3.5 h-3.5 text-stone-200" />
               <span>Get Directions</span>
             </a>
             <span className="text-xs text-stone-500 font-medium">
@@ -109,8 +109,8 @@ export default function ContactSection() {
         </div>
 
         {/* In-Person Campus Desk Instructions */}
-        <div className="p-4 rounded-xl bg-[#FAF8F2] border border-[#EDE2D3] text-xs text-stone-600 leading-relaxed space-y-2">
-          <p className="font-semibold text-[#14532D] text-sm">
+        <div className="p-4 rounded-xl bg-stone-50/70 border border-stone-200 text-xs text-stone-600 leading-relaxed space-y-1.5">
+          <p className="font-bold text-stone-900 text-sm">
             Campus Visit & Office Desk
           </p>
           <p>
@@ -123,8 +123,8 @@ export default function ContactSection() {
       </div>
 
       {/* Right Column: Quick Query to School Desk */}
-      <div className="lg:col-span-6 bg-white rounded-2xl border border-stone-200 p-6 sm:p-8 shadow-xs">
-        <h3 className="font-heading font-black text-xl sm:text-2xl text-[#14532D] tracking-tight mb-2">
+      <div className="lg:col-span-6 bg-white rounded-xl border border-stone-200/90 p-6 sm:p-8 shadow-xs">
+        <h3 className="font-heading font-bold text-xl sm:text-2xl text-stone-900 tracking-tight mb-1.5">
           Send a Message to Campus Desk
         </h3>
         <p className="text-xs sm:text-sm text-stone-500 mb-6">
@@ -170,7 +170,7 @@ export default function ContactSection() {
                 value={form.name}
                 onChange={(e) => setForm({ ...form, name: e.target.value })}
                 placeholder="Full Name"
-                className="w-full px-3.5 py-2.5 rounded-lg text-sm bg-[#FAF8F2] border border-stone-300 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#14532D] text-stone-900"
+                className="w-full px-3.5 py-2.5 rounded-lg text-sm bg-white border border-stone-300 focus:outline-none focus:ring-2 focus:ring-[#14532D] focus:border-transparent text-stone-900 transition-colors"
               />
             </div>
 
@@ -188,7 +188,7 @@ export default function ContactSection() {
                 value={form.mobile}
                 onChange={(e) => setForm({ ...form, mobile: e.target.value.replace(/\D/g, "") })}
                 placeholder="10-digit mobile number"
-                className="w-full px-3.5 py-2.5 rounded-lg text-sm bg-[#FAF8F2] border border-stone-300 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#14532D] text-stone-900"
+                className="w-full px-3.5 py-2.5 rounded-lg text-sm bg-white border border-stone-300 focus:outline-none focus:ring-2 focus:ring-[#14532D] focus:border-transparent text-stone-900 transition-colors"
               />
             </div>
 
@@ -205,23 +205,23 @@ export default function ContactSection() {
                 value={form.message}
                 onChange={(e) => setForm({ ...form, message: e.target.value })}
                 placeholder="How may our school administration assist you?"
-                className="w-full px-3.5 py-2.5 rounded-lg text-sm bg-[#FAF8F2] border border-stone-300 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#14532D] text-stone-900 resize-none"
+                className="w-full px-3.5 py-2.5 rounded-lg text-sm bg-white border border-stone-300 focus:outline-none focus:ring-2 focus:ring-[#14532D] focus:border-transparent text-stone-900 resize-none transition-colors"
               />
             </div>
 
             <button
               type="submit"
               disabled={isSubmitting}
-              className="btn-primary w-full py-2.5 px-5 rounded-lg text-sm font-semibold text-white bg-[#14532D] hover:bg-[#0B3B20] shadow-xs flex items-center justify-center gap-2 cursor-pointer disabled:opacity-60"
+              className="btn-primary w-full py-2.5 px-5 rounded-lg text-sm font-semibold text-white bg-[#14532D] hover:bg-[#0B3B20] shadow-xs flex items-center justify-center gap-2 cursor-pointer disabled:opacity-60 transition-colors"
             >
               {isSubmitting ? (
                 <>
-                  <RefreshCw className="w-4 h-4 animate-spin text-[#EDE2D3]" />
+                  <RefreshCw className="w-4 h-4 animate-spin text-white/80" />
                   <span>Sending Message...</span>
                 </>
               ) : (
                 <>
-                  <Send className="w-4 h-4 text-[#EDE2D3]" />
+                  <Send className="w-4 h-4 text-white/80" />
                   <span>Send Message to Desk</span>
                 </>
               )}
