@@ -1,7 +1,8 @@
 import { MetadataRoute } from "next";
+import { getSiteUrl } from "@/lib/siteConfig";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://alqalam-patna.edu.in";
+  const baseUrl = getSiteUrl();
   const routes = [
     "",
     "/about",

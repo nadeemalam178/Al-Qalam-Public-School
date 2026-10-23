@@ -4,6 +4,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import MobileAppNav from "@/components/MobileAppNav";
 import QuickHelpFloating from "@/components/QuickHelpFloating";
+import { getSiteUrl } from "@/lib/siteConfig";
 import "./globals.css";
 
 const inter = Inter({
@@ -26,7 +27,7 @@ export const viewport: Viewport = {
   maximumScale: 5,
 };
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://alqalam-patna.edu.in";
+const siteUrl = getSiteUrl();
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
