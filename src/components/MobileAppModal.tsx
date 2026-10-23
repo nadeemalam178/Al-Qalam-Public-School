@@ -7,16 +7,13 @@ import {
   ShieldCheck,
   UserCheck,
   GraduationCap,
-  Key,
   CheckCircle2,
+  Lock,
 } from "lucide-react";
 
 interface RoleCard {
   role: "Parent" | "Teacher" | "Administrator";
   title: string;
-  user: string;
-  pass: string;
-  name: string;
   details: string;
   features: string[];
 }
@@ -25,43 +22,34 @@ const ROLES_INFO: RoleCard[] = [
   {
     role: "Parent",
     title: "Parent & Student Portal",
-    user: "parent_201",
-    pass: "newappschool",
-    name: "Mohd. Tariq Alam (Parent of Zaid)",
-    details: "Monitor daily attendance, digital fee receipts, homework diary, timetable, and school circulars in real-time.",
+    details: "Designed exclusively for verified guardians to monitor student attendance, view digital fee receipts, track daily homework, and receive school circulars in real-time.",
     features: [
-      "Instant Attendance Alerts & SMS",
+      "Instant Daily Attendance Notifications",
       "Online Fee Dues & Downloadable Receipts",
       "Daily Homework Diary & Teacher Remarks",
-      "Digital Student ID Card & Academic Report",
+      "Digital Student ID Card & Academic Progress Cards",
     ],
   },
   {
     role: "Teacher",
     title: "Faculty & Classroom Desk",
-    user: "teacher_101",
-    pass: "newappschool",
-    name: "Farzana Begum (Senior Primary)",
-    details: "Quick classroom attendance marking, homework publishing, student marks entry, and direct parent notifications.",
+    details: "Authorized faculty portal for quick morning rollcall, digital homework assignment, subject syllabus tracking, and direct student performance entry.",
     features: [
       "1-Tap Morning Attendance Rollcall",
-      "Daily Homework Assignment & Deadlines",
-      "Periodic Unit Test Marks Submission",
-      "Classroom Timetable & Holiday Schedule",
+      "Daily Homework Assignment & Subject Schedules",
+      "Periodic Unit Test Marks & Grading Submission",
+      "Classroom Timetable & Official Holiday Schedules",
     ],
   },
   {
     role: "Administrator",
-    title: "Director & Campus Admin",
-    user: "Alqalam_777",
-    pass: "newappschool",
-    name: "Rahat Jahan (Director)",
-    details: "Complete institutional governance: fee collections overview, faculty tracking, admission enquiries, and circular broadcasts.",
+    title: "Director & Campus Administration",
+    details: "Complete institutional governance desk for school administrators to supervise campus operations, fee collection reports, faculty attendance, and urgent circular broadcasts.",
     features: [
       "Real-time Admission Enquiries Pipeline",
-      "Total Fee Collection & Defaulter Tracking",
-      "Campus-wide Instant Circular Broadcast",
-      "Complete Student Roster & Teacher Records",
+      "Consolidated Fee Collections & Dues Analytics",
+      "Campus-wide Instant Emergency & Circular Broadcast",
+      "Complete Student Rosters & Faculty Records Oversight",
     ],
   },
 ];
@@ -88,7 +76,7 @@ export default function MobileAppModal({
       onClick={onClose}
     >
       <div
-        className="relative max-w-3xl w-full bg-white rounded-3xl overflow-hidden shadow-2xl flex flex-col max-h-[92vh] border border-stone-200"
+        className="relative max-w-2xl w-full bg-white rounded-3xl overflow-hidden shadow-2xl flex flex-col max-h-[92vh] border border-stone-200"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header Bar */}
@@ -102,7 +90,7 @@ export default function MobileAppModal({
                 Official Al-Qalam Mobile Suite
               </h3>
               <p className="text-[11px] text-emerald-200">
-                Cross-Platform Flutter Suite for Admins, Teachers &amp; Parents
+                Institutional App Suite for Parents, Teachers &amp; Administration
               </p>
             </div>
           </div>
@@ -142,35 +130,23 @@ export default function MobileAppModal({
           <div className="p-5 rounded-2xl bg-gradient-to-br from-[#E8F3EA]/70 to-emerald-50/40 border border-[#2F7D4A]/25 space-y-3">
             <div className="flex items-center justify-between">
               <span className="px-3 py-1 rounded-full text-xs font-bold bg-[#14532D] text-white">
-                {current.role} Dashboard
+                {current.role} Portal
               </span>
-              <span className="text-[11px] text-stone-500 font-medium">
-                Active Demonstration Role
+              <span className="text-[11px] text-stone-500 font-medium flex items-center gap-1">
+                <Lock className="w-3 h-3 text-[#14532D]" />
+                <span>Protected Role</span>
               </span>
             </div>
 
-            <h4 className="font-heading font-bold text-base sm:text-lg text-stone-900">
-              {current.name}
-            </h4>
             <p className="text-xs sm:text-sm text-stone-700 leading-relaxed">
               {current.details}
             </p>
 
-            {/* Test Credentials Box */}
-            <div className="p-3.5 rounded-xl bg-white border border-[#2F7D4A]/20 flex flex-wrap items-center justify-between gap-3 text-xs">
-              <div className="flex items-center gap-2 text-stone-700">
-                <Key className="w-4 h-4 text-[#14532D]" />
-                <span>
-                  User ID: <strong className="font-mono text-stone-900">{current.user}</strong>
-                </span>
-              </div>
-              <div className="flex items-center gap-2 text-stone-700">
-                <span>
-                  Password: <strong className="font-mono text-stone-900">{current.pass}</strong>
-                </span>
-              </div>
-              <span className="text-[10px] text-emerald-700 bg-emerald-100/70 px-2 py-0.5 rounded-md font-semibold">
-                Instant Test Login
+            {/* Security Notice Box */}
+            <div className="p-3.5 rounded-xl bg-white border border-[#2F7D4A]/20 flex items-center gap-2.5 text-xs text-stone-600">
+              <Lock className="w-4 h-4 text-[#14532D] shrink-0" />
+              <span>
+                Personalized login credentials are issued privately by the school administrative desk to enrolled parents and appointed faculty.
               </span>
             </div>
           </div>
@@ -196,16 +172,16 @@ export default function MobileAppModal({
           {/* App Specifications */}
           <div className="p-4 rounded-xl bg-stone-50 border border-stone-200 flex flex-wrap items-center justify-between gap-4 text-xs text-stone-600">
             <div>
-              <span className="font-bold text-stone-900 block">Universal Android Build:</span>
-              <span>Compatible with Android 7.0 (Nougat) up to Android 15</span>
+              <span className="font-bold text-stone-900 block">Android Compatibility:</span>
+              <span>Android 7.0 (Nougat) up to Android 15</span>
             </div>
             <div>
-              <span className="font-bold text-stone-900 block">Engine:</span>
-              <span>Flutter 3.x Suite with Cloud Sync</span>
+              <span className="font-bold text-stone-900 block">Architecture:</span>
+              <span>Secured Cloud Database Sync</span>
             </div>
             <div>
-              <span className="font-bold text-stone-900 block">Security:</span>
-              <span>Encrypted Session Storage &amp; PIN Lock</span>
+              <span className="font-bold text-stone-900 block">Authentication:</span>
+              <span>Encrypted Session Tokens &amp; Role-Based Access Control</span>
             </div>
           </div>
         </div>
@@ -213,17 +189,17 @@ export default function MobileAppModal({
         {/* Footer Actions */}
         <div className="px-6 py-4 bg-stone-50 border-t border-stone-200 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-[11px] text-stone-500 text-center sm:text-left">
-            Need help installing or logging into your student account? Contact our campus desk at Ashok Rajpath Rd.
+            Need help installing or accessing your account? Contact the administrative desk at Ashok Rajpath Rd.
           </p>
 
           <div className="flex items-center gap-3 shrink-0">
             <a
-              href="https://wa.me/919308462418?text=Hello%20Al-Qalam%20School,%20please%20send%20me%20the%20mobile%20app%20download%20link."
+              href="https://wa.me/919308462418?text=Hello%20Al-Qalam%20School,%20I%20need%20assistance%20with%20the%20mobile%20app."
               target="_blank"
               rel="noopener noreferrer"
               className="px-4 py-2.5 rounded-xl bg-[#25D366] hover:bg-[#20BE5B] text-white font-bold text-xs shadow-xs transition-colors flex items-center gap-1.5"
             >
-              <span>Request APK on WhatsApp</span>
+              <span>Contact Campus Helpdesk</span>
             </a>
             <button
               onClick={onClose}
