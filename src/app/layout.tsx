@@ -49,6 +49,9 @@ export const metadata: Metadata = {
   authors: [{ name: "Al-Qalam Public School Administration" }],
   creator: "Al-Qalam Public School",
   publisher: "Al-Qalam Public School",
+  alternates: {
+    canonical: "./",
+  },
   verification: {
     google: "googlede28790a2b70fee9",
   },
