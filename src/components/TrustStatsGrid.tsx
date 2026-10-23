@@ -1,5 +1,5 @@
 import React from "react";
-import { Users, ShieldCheck, MonitorPlay, GraduationCap, Award } from "lucide-react";
+import { Users, ShieldCheck, MonitorPlay, GraduationCap } from "lucide-react";
 
 interface StatItem {
   id: string;

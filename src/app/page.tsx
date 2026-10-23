@@ -10,6 +10,8 @@ import FacilitiesSection from "@/components/FacilitiesSection";
 import GalleryGrid from "@/components/GalleryGrid";
 import SchoolLifeEvents from "@/components/SchoolLifeEvents";
 import DirectorCard from "@/components/DirectorCard";
+import ParentTestimonials from "@/components/ParentTestimonials";
+import FAQSection from "@/components/FAQSection";
 import AdmissionForm from "@/components/AdmissionForm";
 import AdmissionCalculator from "@/components/AdmissionCalculator";
 import ContactSection from "@/components/ContactSection";
@@ -51,7 +53,7 @@ export default function HomePage() {
                 <span>School Life</span>
               </div>
               <h2 className="font-heading font-bold text-2xl sm:text-3xl lg:text-4xl text-stone-900 tracking-tight">
-                Moments & Activities at Al-Qalam
+                Moments &amp; Activities at Al-Qalam
               </h2>
               <p className="text-stone-600 text-sm sm:text-base max-w-2xl leading-relaxed">
                 Authentic photographic glimpses of classroom practice, drawing competitions, educational excursions, and student achievements.
@@ -81,7 +83,10 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 8. Notice Board Announcements Preview */}
+      {/* 8.1 Parent Testimonials & Community Voice */}
+      <ParentTestimonials />
+
+      {/* 8.2 Notice Board Announcements Preview */}
       <section className="py-16 sm:py-20 bg-white border-b border-stone-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-10">
@@ -91,7 +96,7 @@ export default function HomePage() {
                 <span>Notice Board</span>
               </div>
               <h2 className="font-heading font-bold text-2xl sm:text-3xl text-stone-900 tracking-tight">
-                Latest Announcements & Circulars
+                Latest Announcements &amp; Circulars
               </h2>
             </div>
 
@@ -131,7 +136,9 @@ export default function HomePage() {
               </div>
 
               {/* Interactive Age & Grade Eligibility Calculator */}
-              <AdmissionCalculator />
+              <div id="calculator">
+                <AdmissionCalculator />
+              </div>
 
               {/* Vertical 4-Step Process Timeline */}
               <div className="space-y-4">
@@ -174,6 +181,9 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      {/* 9.1 Interactive Frequently Asked Questions */}
+      <FAQSection />
 
       {/* 10. Campus Location & Contact Section */}
       <section className="py-16 sm:py-20 bg-white">

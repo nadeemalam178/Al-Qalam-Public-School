@@ -1,20 +1,25 @@
-import React from "react";
+"use client";
+
+import React, { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import {
   MapPin,
   Phone,
-  Mail,
   Clock,
   ArrowRight,
   ShieldCheck,
   Smartphone,
-  ExternalLink,
+  FileText,
 } from "lucide-react";
 import { SCHOOL_DATA } from "@/data/schoolData";
+import MobileAppModal from "@/components/MobileAppModal";
+import ProspectusFeeModal from "@/components/ProspectusFeeModal";
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
+  const [isAppModalOpen, setIsAppModalOpen] = useState(false);
+  const [isProspectusOpen, setIsProspectusOpen] = useState(false);
 
   return (
     <footer
@@ -47,6 +52,13 @@ export default function Footer() {
             </p>
           </div>
           <div className="flex flex-wrap items-center gap-3">
+            <button
+              onClick={() => setIsProspectusOpen(true)}
+              className="text-xs py-3 px-5 rounded-md font-bold flex items-center gap-2 text-white bg-white/10 hover:bg-white/20 border border-white/20 transition-all cursor-pointer"
+            >
+              <FileText className="w-3.5 h-3.5 text-amber-300" />
+              <span>Fee Structure &amp; Prospectus</span>
+            </button>
             <Link
               href="/admissions"
               className="text-xs py-3 px-6 rounded-md font-bold flex items-center gap-2 text-stone-900 bg-[#E5A93C] hover:bg-[#D4982B] shadow-md hover:shadow-lg transition-all"
@@ -109,15 +121,12 @@ export default function Footer() {
               </div>
               <div className="flex items-center gap-2">
                 <Clock className="w-4 h-4 text-[#E5A93C] shrink-0" />
-                <span>Office Hours: 7:30 AM – 1:30 PM (Mon – Sat)</span>
+                <span>Office Hours: 7:30 AM - 1:30 PM (Mon - Sat)</span>
               </div>
-            </div>
-
-            <div className="pt-2">
-              <span className="inline-flex items-center gap-1.5 text-[11px] font-semibold px-2.5 py-1 rounded-sm bg-white/10 text-white border border-white/15">
-                <ShieldCheck className="w-3.5 h-3.5 text-[#E5A93C]" />
-                <span>Director: {SCHOOL_DATA.director.name}</span>
-              </span>
+              <div className="flex items-center gap-2">
+                <ShieldCheck className="w-4 h-4 text-[#E5A93C] shrink-0" />
+                <span>Director: Rahat Jahan</span>
+              </div>
             </div>
           </div>
 
@@ -173,14 +182,14 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/academics" className="text-[#E5A93C] hover:text-white font-medium transition-colors">
-                  Deeniyat & Tajweed
+                <Link href="/academics" className="text-stone-300 hover:text-white transition-colors">
+                  Deeniyat &amp; Tajweed
                 </Link>
               </li>
             </ul>
           </div>
 
-          {/* Col 3: Admissions & Guidelines */}
+          {/* Col 3: Admissions Desk */}
           <div className="lg:col-span-2 space-y-3">
             <h3 className="font-heading font-bold text-white text-xs tracking-wider uppercase border-b border-white/15 pb-2">
               Admissions Desk
@@ -192,12 +201,16 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/admissions" className="text-stone-300 hover:text-white transition-colors">
+                <button
+                  type="button"
+                  onClick={() => setIsProspectusOpen(true)}
+                  className="text-[#E5A93C] hover:underline font-semibold cursor-pointer"
+                >
                   Fee Structure Guidelines
-                </Link>
+                </button>
               </li>
               <li>
-                <Link href="/admissions" className="text-stone-300 hover:text-white transition-colors">
+                <Link href="/admissions#calculator" className="text-stone-300 hover:text-white transition-colors">
                   Age Eligibility Criteria
                 </Link>
               </li>
@@ -217,22 +230,22 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/contact" className="text-stone-300 hover:text-white transition-colors">
+                <Link href="/facilities" className="text-stone-300 hover:text-white transition-colors">
                   Transport Enquiries
                 </Link>
               </li>
               <li>
-                <Link href="/admissions" className="text-[#E5A93C] hover:text-white font-semibold transition-colors">
+                <Link href="/admissions" className="text-stone-300 hover:text-white transition-colors">
                   Enquiry Form 2026-27
                 </Link>
               </li>
             </ul>
           </div>
 
-          {/* Col 4: Campus Facilities & Activities */}
+          {/* Col 4: Campus Facilities */}
           <div className="lg:col-span-2 space-y-3">
             <h3 className="font-heading font-bold text-white text-xs tracking-wider uppercase border-b border-white/15 pb-2">
-              Campus & Activities
+              Campus &amp; Activities
             </h3>
             <ul className="space-y-1.5 text-xs">
               <li>
@@ -281,7 +294,7 @@ export default function Footer() {
           {/* Col 5: Portals, Disclosures & Mobile App */}
           <div className="lg:col-span-2 space-y-3">
             <h3 className="font-heading font-bold text-white text-xs tracking-wider uppercase border-b border-white/15 pb-2">
-              Portals & App
+              Portals &amp; App
             </h3>
             <ul className="space-y-1.5 text-xs">
               <li>
@@ -296,7 +309,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link href="/contact" className="text-stone-300 hover:text-white transition-colors">
-                  Grievance & Campus Desk
+                  Grievance &amp; Campus Desk
                 </Link>
               </li>
               <li>
@@ -306,29 +319,29 @@ export default function Footer() {
               </li>
             </ul>
 
-            {/* Mobile App Download Card */}
-            <div className="p-3 rounded-sm bg-white/10 border border-white/20 space-y-2">
+            {/* Mobile App Interactive Card */}
+            <div className="p-3 rounded-xl bg-white/10 border border-white/20 space-y-2">
               <div className="flex items-center gap-1.5 text-xs font-bold text-white">
                 <Smartphone className="w-3.5 h-3.5 text-[#E5A93C]" />
                 <span>Al-Qalam App</span>
               </div>
               <p className="text-[11px] text-stone-300 leading-tight">
-                Triple-role app for Admins, Teachers & Parents. Attendance, fees & timetable tracking.
+                Triple-role app for Admins, Teachers &amp; Parents. Attendance, fees &amp; timetable tracking.
               </p>
-              <a
-                href="/Al-Qalam-Public-School-Release.apk"
-                download
-                className="text-[10px] py-2 px-2.5 rounded-md font-bold flex items-center justify-center gap-1.5 text-stone-900 bg-[#E5A93C] hover:bg-[#D4982B] shadow-xs w-full transition-colors"
+              <button
+                type="button"
+                onClick={() => setIsAppModalOpen(true)}
+                className="text-[10px] py-2 px-2.5 rounded-md font-bold flex items-center justify-center gap-1.5 text-stone-900 bg-[#E5A93C] hover:bg-[#D4982B] shadow-xs w-full transition-colors cursor-pointer"
               >
-                <span>Download Android APK</span>
+                <span>Explore App / Demo Logins</span>
                 <ArrowRight className="w-3 h-3" />
-              </a>
+              </button>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Bottom Bar: Copyright & Location Verification (pb-24 on mobile ensures no overlap with MobileAppNav) */}
+      {/* Bottom Bar: Copyright & Location Verification */}
       <div
         className="py-5 pb-24 md:pb-5 px-4 sm:px-6 lg:px-8 border-t text-xs text-stone-400"
         style={{
@@ -342,21 +355,28 @@ export default function Footer() {
           </p>
           <div className="flex flex-wrap items-center gap-4 text-[11px]">
             <span className="text-stone-400">Ashok Rajpath Rd, Opp. Jashn Palace, Patna, Bihar 800007</span>
-            <span>•</span>
             <Link href="/admissions" className="hover:text-white transition-colors">
               Admissions
             </Link>
-            <span>•</span>
             <Link href="/notices" className="hover:text-white transition-colors">
               Notices
             </Link>
-            <span>•</span>
             <Link href="/contact" className="hover:text-white transition-colors">
               Contact Desk
             </Link>
           </div>
         </div>
       </div>
+
+      {/* Modals */}
+      <MobileAppModal
+        isOpen={isAppModalOpen}
+        onClose={() => setIsAppModalOpen(false)}
+      />
+      <ProspectusFeeModal
+        isOpen={isProspectusOpen}
+        onClose={() => setIsProspectusOpen(false)}
+      />
     </footer>
   );
 }

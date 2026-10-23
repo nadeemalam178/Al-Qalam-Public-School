@@ -198,10 +198,10 @@ function DynamicEventCard({ event, index }: { event: SchoolEventItem; index: num
 
 export default function SchoolLifeEvents() {
   const leadImages = [
-    "/images/school/director-rotary-award.jpg",
-    "/images/school/director-rotary-stage.jpg",
-    "/images/school/director-stage-audience.jpg",
-    "/images/school/director-stage-wide.jpg",
+    "/images/school/achievements/rotary-shiksha-ratna-award.jpg",
+    "/images/school/achievements/annual-exam-merit-shield.jpg",
+    "/images/school/achievements/star-student-trophy-ceremony.jpg",
+    "/images/school/achievements/annual-exam-merit-medal.jpg",
   ];
 
   const [leadImgIdx, setLeadImgIdx] = useState(0);

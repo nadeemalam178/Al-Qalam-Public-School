@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { GraduationCap, FileCheck, CheckCircle2, HelpCircle, MapPin } from "lucide-react";
 import AdmissionForm from "@/components/AdmissionForm";
 import AdmissionCalculator from "@/components/AdmissionCalculator";
+import FAQSection from "@/components/FAQSection";
 import { SCHOOL_DATA } from "@/data/schoolData";
 
 export const metadata: Metadata = {
@@ -47,10 +48,10 @@ export default function AdmissionsPage() {
             <div className="lg:col-span-6 space-y-10">
               <div className="space-y-4">
                 <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-[#E8F3EA] border border-[#2F7D4A]/20 text-[#14532D] text-xs font-bold uppercase tracking-wider">
-                  <span>Eligibility & Enrollment</span>
+                  <span>Eligibility &amp; Enrollment</span>
                 </div>
                 <h2 className="font-heading font-bold text-2xl sm:text-3xl text-stone-900 tracking-tight">
-                  Who Can Enquire & How the Process Works
+                  Who Can Enquire &amp; How the Process Works
                 </h2>
                 <p className="text-stone-700 text-sm sm:text-base leading-relaxed">
                   Al-Qalam Public School invites enquiries for children entering <strong>Foundational Education</strong> (Pre-School, LKG, UKG) and <strong>Primary Education</strong> (Classes 1 through 5). We seek to make admissions transparent, straightforward, and supportive for parents.
@@ -115,7 +116,7 @@ export default function AdmissionsPage() {
               <div className="bg-stone-50/80 border border-stone-200 rounded-xl p-4 sm:p-5 flex items-start gap-3.5 text-xs text-stone-700 shadow-2xs">
                 <HelpCircle className="w-5 h-5 text-[#14532D] shrink-0 mt-0.5" />
                 <div className="leading-relaxed">
-                  <span className="font-bold text-stone-900">Fee Schedules & Class Placements:</span> Official fee details, age guidelines, and uniform requirements are provided directly by our campus desk during school office hours.
+                  <span className="font-bold text-stone-900">Fee Schedules &amp; Class Placements:</span> Official fee details, age guidelines, and uniform requirements are provided directly by our campus desk during school office hours.
                 </div>
               </div>
             </div>
@@ -128,7 +129,10 @@ export default function AdmissionsPage() {
         </div>
       </section>
 
-      {/* Campus Visit Note */}
+      {/* 3. Frequently Asked Questions */}
+      <FAQSection />
+
+      {/* 4. Campus Visit Note */}
       <section className="py-12 bg-stone-50/70 border-b border-stone-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="bg-white rounded-xl p-6 sm:p-8 border border-stone-200/90 shadow-xs flex flex-col md:flex-row items-center justify-between gap-6">

@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { ArrowRight, GraduationCap, BookOpen, Sparkles, CheckCircle2 } from "lucide-react";
+import { ArrowRight, GraduationCap, Sparkles, CheckCircle2 } from "lucide-react";
 
 interface AcademicTab {
   id: string;

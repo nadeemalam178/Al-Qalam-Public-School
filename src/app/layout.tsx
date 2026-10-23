@@ -48,6 +48,9 @@ export const metadata: Metadata = {
   authors: [{ name: "Al-Qalam Public School Administration" }],
   creator: "Al-Qalam Public School",
   publisher: "Al-Qalam Public School",
+  verification: {
+    google: "googlede28790a2b70fee9",
+  },
   formatDetection: {
     email: false,
     address: true,
@@ -134,6 +137,8 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${inter.variable} ${plusJakartaSans.variable} h-full antialiased`}>
       <head>
+        <meta name="google-site-verification" content="googlede28790a2b70fee9" />
+        <meta name="google-site-verification" content="googlede28790a2b70fee9.html" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
