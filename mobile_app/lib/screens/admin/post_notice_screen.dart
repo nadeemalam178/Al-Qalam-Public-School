@@ -17,14 +17,28 @@ class _PostNoticeScreenState extends State<PostNoticeScreen> {
   final _titleController = TextEditingController();
   final _summaryController = TextEditingController();
   final _detailsController = TextEditingController();
-  String _selectedCategory = 'Academic';
+  String _selectedCategory = 'General';
+  String _targetAudience = 'all'; // 'all', 'teacher', or specific class
+  String _selectedClass = 'Class 1';
   bool _isImportant = false;
 
   final List<String> _categories = [
-    'Academic',
-    'Admissions',
-    'Safety',
     'General',
+    'Admissions',
+    'Academic',
+    'Safety',
+    'Holiday',
+  ];
+
+  final List<String> _classes = [
+    'Pre-School / Nursery',
+    'LKG',
+    'UKG',
+    'Class 1',
+    'Class 2',
+    'Class 3',
+    'Class 4',
+    'Class 5',
   ];
 
   @override
@@ -39,14 +53,26 @@ class _PostNoticeScreenState extends State<PostNoticeScreen> {
     if (_formKey.currentState!.validate()) {
       final school = Provider.of<SchoolProvider>(context, listen: false);
 
+      String effectiveAudience = _targetAudience;
+      if (_targetAudience == 'class') {
+        effectiveAudience = _selectedClass;
+      }
+
+      final dateNow = DateTime.now();
+      final dateStr =
+          '${dateNow.day.toString().padLeft(2, '0')}-${_getMonth(dateNow.month)}-${dateNow.year}';
+
       final newNotice = SchoolNotice(
-        id: 'NTC-${DateTime.now().millisecondsSinceEpoch}',
+        id: 'NTC-${dateNow.millisecondsSinceEpoch}',
         title: _titleController.text.trim(),
         category: _selectedCategory,
-        date: '30-Sep-2026',
-        summary: _summaryController.text.trim(),
+        date: dateStr,
+        summary: _summaryController.text.trim().isNotEmpty
+            ? _summaryController.text.trim()
+            : _detailsController.text.trim(),
         details: _detailsController.text.trim(),
         isImportant: _isImportant,
+        targetAudience: effectiveAudience,
       );
 
       school.broadcastNotice(newNotice);
@@ -54,7 +80,7 @@ class _PostNoticeScreenState extends State<PostNoticeScreen> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(
-            'Notice broadcasted across all school portals successfully!',
+            'Notice broadcasted successfully across website & app!',
             style: GoogleFonts.inter(),
           ),
           backgroundColor: AppTheme.forestPrimary,
@@ -66,11 +92,30 @@ class _PostNoticeScreenState extends State<PostNoticeScreen> {
     }
   }
 
+  String _getMonth(int m) {
+    const months = [
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'May',
+      'Jun',
+      'Jul',
+      'Aug',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dec'
+    ];
+    return months[m - 1];
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xFFF7F9F6),
       appBar: AppBar(
-        title: const Text('Broadcast Notice'),
+        title: const Text('Broadcast Notice & Circular'),
         backgroundColor: AppTheme.forestDeep,
       ),
       body: SingleChildScrollView(
@@ -99,17 +144,17 @@ class _PostNoticeScreenState extends State<PostNoticeScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Administrative Broadcast',
+                            'Unified Notice Broadcast',
                             style: GoogleFonts.outfit(
-                              fontSize: 16,
                               fontWeight: FontWeight.bold,
+                              fontSize: 15,
                               color: AppTheme.forestDeep,
                             ),
                           ),
                           Text(
-                            'Circulars are immediately published to Parents, Teachers, and Public notice board.',
+                            'Published notices sync directly to the public website and mobile app portal.',
                             style: GoogleFonts.inter(
-                              fontSize: 12,
+                              fontSize: 11,
                               color: AppTheme.textMuted,
                             ),
                           ),
@@ -121,164 +166,223 @@ class _PostNoticeScreenState extends State<PostNoticeScreen> {
               ),
               const SizedBox(height: 20),
 
-              // Title
+              // Target Audience Selector
               Text(
-                'Notice Title',
+                'Target Audience *',
                 style: GoogleFonts.inter(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w600,
-                  color: AppTheme.textDark,
-                ),
+                    fontWeight: FontWeight.bold, fontSize: 13),
               ),
-              const SizedBox(height: 6),
-              TextFormField(
-                controller: _titleController,
-                decoration: const InputDecoration(
-                  hintText: 'e.g. Winter Uniform Guidelines & Campus Schedule',
-                  prefixIcon: Icon(Icons.title, size: 18),
-                ),
-                validator: (val) => val == null || val.trim().isEmpty
-                    ? 'Please enter circular title'
-                    : null,
-              ),
-              const SizedBox(height: 16),
-
-              // Category & Priority
+              const SizedBox(height: 8),
               Row(
                 children: [
                   Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Category',
-                          style: GoogleFonts.inter(
-                            fontSize: 13,
-                            fontWeight: FontWeight.w600,
-                            color: AppTheme.textDark,
+                    child: InkWell(
+                      onTap: () => setState(() => _targetAudience = 'all'),
+                      borderRadius: BorderRadius.circular(12),
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(vertical: 10),
+                        decoration: BoxDecoration(
+                          color: _targetAudience == 'all'
+                              ? AppTheme.forestPrimary
+                              : Colors.white,
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(
+                            color: _targetAudience == 'all'
+                                ? AppTheme.forestPrimary
+                                : Colors.grey.withValues(alpha: 0.3),
                           ),
                         ),
-                        const SizedBox(height: 6),
-                        DropdownButtonFormField<String>(
-                          initialValue: _selectedCategory,
-                          decoration: const InputDecoration(
-                            contentPadding:
-                                EdgeInsets.symmetric(horizontal: 12),
+                        child: Center(
+                          child: Text(
+                            'Whole School\n(Web & All)',
+                            textAlign: TextAlign.center,
+                            style: GoogleFonts.inter(
+                              fontSize: 11,
+                              fontWeight: FontWeight.bold,
+                              color: _targetAudience == 'all'
+                                  ? Colors.white
+                                  : AppTheme.textDark,
+                            ),
                           ),
-                          items: _categories
-                              .map((c) => DropdownMenuItem(
-                                  value: c, child: Text(c)))
-                              .toList(),
-                          onChanged: (val) {
-                            if (val != null) {
-                              setState(() => _selectedCategory = val);
-                            }
-                          },
                         ),
-                      ],
+                      ),
                     ),
                   ),
-                  const SizedBox(width: 16),
+                  const SizedBox(width: 8),
                   Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Priority Tag',
-                          style: GoogleFonts.inter(
-                            fontSize: 13,
-                            fontWeight: FontWeight.w600,
-                            color: AppTheme.textDark,
+                    child: InkWell(
+                      onTap: () => setState(() => _targetAudience = 'class'),
+                      borderRadius: BorderRadius.circular(12),
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(vertical: 10),
+                        decoration: BoxDecoration(
+                          color: _targetAudience == 'class'
+                              ? AppTheme.goldDark
+                              : Colors.white,
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(
+                            color: _targetAudience == 'class'
+                                ? AppTheme.goldDark
+                                : Colors.grey.withValues(alpha: 0.3),
                           ),
                         ),
-                        const SizedBox(height: 6),
-                        Container(
-                          height: 52,
-                          padding: const EdgeInsets.symmetric(horizontal: 10),
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(12),
-                            border: Border.all(color: AppTheme.borderLight),
-                          ),
-                          child: Row(
-                            mainAxisAlignment:
-                                MainAxisAlignment.spaceBetween,
-                            children: [
-                              Flexible(
-                                child: Text(
-                                  _isImportant ? 'URGENT' : 'Standard',
-                                  style: GoogleFonts.inter(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.bold,
-                                    color: _isImportant
-                                        ? AppTheme.danger
-                                        : AppTheme.textDark,
-                                  ),
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ),
-                              Transform.scale(
-                                scale: 0.85,
-                                child: Switch(
-                                  value: _isImportant,
-                                  activeThumbColor: AppTheme.danger,
-                                  onChanged: (val) =>
-                                      setState(() => _isImportant = val),
-                                ),
-                              ),
-                            ],
+                        child: Center(
+                          child: Text(
+                            'Class-Wise\nNotice',
+                            textAlign: TextAlign.center,
+                            style: GoogleFonts.inter(
+                              fontSize: 11,
+                              fontWeight: FontWeight.bold,
+                              color: _targetAudience == 'class'
+                                  ? Colors.white
+                                  : AppTheme.textDark,
+                            ),
                           ),
                         ),
-                      ],
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: InkWell(
+                      onTap: () => setState(() => _targetAudience = 'teacher'),
+                      borderRadius: BorderRadius.circular(12),
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(vertical: 10),
+                        decoration: BoxDecoration(
+                          color: _targetAudience == 'teacher'
+                              ? Colors.indigo
+                              : Colors.white,
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(
+                            color: _targetAudience == 'teacher'
+                                ? Colors.indigo
+                                : Colors.grey.withValues(alpha: 0.3),
+                          ),
+                        ),
+                        child: Center(
+                          child: Text(
+                            'Teachers\nOnly',
+                            textAlign: TextAlign.center,
+                            style: GoogleFonts.inter(
+                              fontSize: 11,
+                              fontWeight: FontWeight.bold,
+                              color: _targetAudience == 'teacher'
+                                  ? Colors.white
+                                  : AppTheme.textDark,
+                            ),
+                          ),
+                        ),
+                      ),
                     ),
                   ),
                 ],
               ),
+              if (_targetAudience == 'class') ...[
+                const SizedBox(height: 12),
+                DropdownButtonFormField<String>(
+                  initialValue: _selectedClass,
+                  decoration: const InputDecoration(
+                    labelText: 'Select Class for Notice *',
+                    prefixIcon: Icon(Icons.class_outlined, size: 18),
+                  ),
+                  items: _classes
+                      .map((c) => DropdownMenuItem(value: c, child: Text(c)))
+                      .toList(),
+                  onChanged: (v) {
+                    if (v != null) setState(() => _selectedClass = v);
+                  },
+                ),
+              ],
               const SizedBox(height: 16),
 
-              // Summary
-              Text(
-                'Short Summary (Displayed in preview cards)',
-                style: GoogleFonts.inter(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w600,
-                  color: AppTheme.textDark,
+              // Title Field
+              TextFormField(
+                controller: _titleController,
+                decoration: const InputDecoration(
+                  labelText: 'Notice Title *',
+                  hintText: 'e.g. Annual Sports Meet Schedule',
+                  prefixIcon: Icon(Icons.title, size: 18),
                 ),
+                validator: (val) {
+                  if (val == null || val.trim().isEmpty) {
+                    return 'Title is required';
+                  }
+                  return null;
+                },
               ),
-              const SizedBox(height: 6),
+              const SizedBox(height: 16),
+
+              // Category Selector
+              DropdownButtonFormField<String>(
+                initialValue: _selectedCategory,
+                decoration: const InputDecoration(
+                  labelText: 'Category *',
+                  prefixIcon: Icon(Icons.category, size: 18),
+                ),
+                items: _categories.map((cat) {
+                  return DropdownMenuItem(value: cat, child: Text(cat));
+                }).toList(),
+                onChanged: (val) {
+                  if (val != null) {
+                    setState(() => _selectedCategory = val);
+                  }
+                },
+              ),
+              const SizedBox(height: 16),
+
+              // Brief Summary
               TextFormField(
                 controller: _summaryController,
                 maxLines: 2,
                 decoration: const InputDecoration(
-                  hintText: 'Brief 1-2 sentence overview of the circular...',
+                  labelText: 'Summary (Optional)',
+                  hintText: '1-2 sentence preview shown on lists...',
                 ),
-                validator: (val) => val == null || val.trim().isEmpty
-                    ? 'Please provide a short summary'
-                    : null,
               ),
               const SizedBox(height: 16),
 
-              // Full Details
-              Text(
-                'Full Circular Text & Instructions',
-                style: GoogleFonts.inter(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w600,
-                  color: AppTheme.textDark,
-                ),
-              ),
-              const SizedBox(height: 6),
+              // Detailed Content
               TextFormField(
                 controller: _detailsController,
                 maxLines: 5,
                 decoration: const InputDecoration(
+                  labelText: 'Notice Full Content *',
                   hintText:
-                      'Provide comprehensive directions, timing, dates, and instructions for parents & faculty...',
+                      'Provide comprehensive guidelines, dates, instructions, or schedules...',
+                  alignLabelWithHint: true,
                 ),
-                validator: (val) => val == null || val.trim().isEmpty
-                    ? 'Please provide full circular details'
-                    : null,
+                validator: (val) {
+                  if (val == null || val.trim().isEmpty) {
+                    return 'Notice details cannot be empty';
+                  }
+                  return null;
+                },
+              ),
+              const SizedBox(height: 16),
+
+              // High Priority Checkbox
+              CheckboxListTile(
+                contentPadding: EdgeInsets.zero,
+                value: _isImportant,
+                activeColor: AppTheme.forestPrimary,
+                title: Text(
+                  'Mark as Important / Urgent Alert',
+                  style: GoogleFonts.inter(
+                    fontWeight: FontWeight.w600,
+                    fontSize: 13,
+                  ),
+                ),
+                subtitle: Text(
+                  'Pins this notice to the top with a priority badge',
+                  style: GoogleFonts.inter(
+                    fontSize: 11,
+                    color: AppTheme.textMuted,
+                  ),
+                ),
+                onChanged: (val) {
+                  setState(() => _isImportant = val ?? false);
+                },
               ),
               const SizedBox(height: 24),
 
@@ -288,10 +392,14 @@ class _PostNoticeScreenState extends State<PostNoticeScreen> {
                 child: ElevatedButton.icon(
                   onPressed: _publishNotice,
                   icon: const Icon(Icons.send_rounded, size: 18),
-                  label: const Text('Publish & Broadcast Notice'),
+                  label: const Text('Broadcast Notice Now'),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppTheme.forestPrimary,
+                    foregroundColor: Colors.white,
+                    padding: const EdgeInsets.symmetric(vertical: 14),
+                  ),
                 ),
               ),
-              const SizedBox(height: 24),
             ],
           ),
         ),

@@ -246,52 +246,7 @@ export const SCHOOL_DATA = {
     },
   ] as AdmissionStep[],
 
-  notices: [
-    {
-      id: "notice-01",
-      title: "Admission Enquiry Open for Upcoming Academic Session",
-      date: "Active Session",
-      category: "Admissions",
-      summary:
-        "Parents seeking admission for Foundational (Pre-Primary/KG) and Primary (Class 1-5) grades may submit an admission enquiry online or visit the campus desk.",
-      details:
-        "Al-Qalam Public School welcomes enquiries for the upcoming academic year. Parents can fill out the online Admission Enquiry form or visit our school premises opposite Jashn Palace Marriage Hall on Ashok Rajpath Rd, Gulzarbagh, Patna. Documentation checklists and seat availability are provided at the campus desk.",
-      isImportant: true,
-    },
-    {
-      id: "notice-02",
-      title: "Smart Class Integration in Primary Learning Modules",
-      date: "Academic Notice",
-      category: "Academic",
-      summary:
-        "Interactive audio-visual sessions are scheduled weekly across foundational and primary classes to reinforce core science, mathematics, and language concepts.",
-      details:
-        "Smart teaching modules are systematically used to illustrate complex ideas with animations, diagrams, and educational stories. Parents are encouraged to review their child's engagement during parent-school interactions.",
-      isImportant: false,
-    },
-    {
-      id: "notice-03",
-      title: "Campus Safety & CCTV Monitoring Protocol",
-      date: "Safety Guidelines",
-      category: "Safety",
-      summary:
-        "Security protocols and CCTV camera surveillance remain actively supervised across school corridors and entrance gates for student protection.",
-      details:
-        "Campus access during school hours is monitored to maintain a safe, orderly learning space. All visitors, parents, and vendors must sign the visitor register at the main entrance gate.",
-      isImportant: false,
-    },
-    {
-      id: "notice-04",
-      title: "Campus Desk & General Information Notice",
-      date: "General Circular",
-      category: "General",
-      summary:
-        "School circulars, uniform guidelines, and academic schedule details are available for review at the school administrative desk.",
-      details:
-        "For any administrative clarification, parent visits are accommodated during standard school hours at our Gulzarbagh campus on Ashok Rajpath Rd.",
-      isImportant: false,
-    },
-  ] as NoticeItem[],
+  notices: [] as NoticeItem[],
 
   galleryItems: GALLERY_ITEMS,
 

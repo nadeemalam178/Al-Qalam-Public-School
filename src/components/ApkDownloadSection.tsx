@@ -87,7 +87,7 @@ export default function ApkDownloadSection() {
                     className="px-6 py-3.5 rounded-xl font-bold text-sm bg-amber-400 hover:bg-amber-300 text-stone-900 shadow-lg hover:shadow-xl transition-all flex items-center gap-2.5 active:scale-95"
                   >
                     <Download className="w-4 h-4" />
-                    <span>Download Release APK (v1.2.2)</span>
+                    <span>Download Release APK (v1.3.0)</span>
                   </a>
 
                   <button

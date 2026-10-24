@@ -110,11 +110,18 @@ export default function HomePage() {
             </Link>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {SCHOOL_DATA.notices.slice(0, 2).map((notice) => (
-              <NoticeCard key={notice.id} notice={notice} />
-            ))}
-          </div>
+          {SCHOOL_DATA.notices.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {SCHOOL_DATA.notices.slice(0, 2).map((notice) => (
+                <NoticeCard key={notice.id} notice={notice} />
+              ))}
+            </div>
+          ) : (
+            <div className="p-8 rounded-2xl bg-stone-50 border border-stone-200 text-center text-stone-600 text-sm">
+              <p className="font-semibold text-stone-800">Campus Notice Board Active</p>
+              <p className="text-xs text-stone-500 mt-1">Official circulars posted by campus administration in the app will appear here in real time.</p>
+            </div>
+          )}
         </div>
       </section>
 

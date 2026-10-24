@@ -1,3 +1,4 @@
+import '../models/teacher_model.dart';
 import '../models/gallery_item_model.dart';
 import 'package:flutter/foundation.dart';
 import '../models/student_model.dart';
@@ -23,7 +24,7 @@ class SupabaseSchoolRepository {
   Future<List<Student>> fetchStudents() async {
     final client = SupabaseService.client;
     if (client == null || !SupabaseService.isInitialized) {
-      return SchoolDataRepository.initialStudents;
+      return [];
     }
 
     try {
@@ -33,10 +34,10 @@ class SupabaseSchoolRepository {
           .order('name', ascending: true);
 
       final list = (response as List).map((row) => _mapStudent(row)).toList();
-      return list.isNotEmpty ? list : SchoolDataRepository.initialStudents;
+      return list;
     } catch (e) {
       debugPrint('[SupabaseSchoolRepository] fetchStudents fallback: $e');
-      return SchoolDataRepository.initialStudents;
+      return [];
     }
   }
 
@@ -97,7 +98,7 @@ class SupabaseSchoolRepository {
   Future<List<AttendanceRecord>> fetchAttendance({String? studentId}) async {
     final client = SupabaseService.client;
     if (client == null || !SupabaseService.isInitialized) {
-      return SchoolDataRepository.initialAttendance;
+      return [];
     }
 
     try {
@@ -109,10 +110,10 @@ class SupabaseSchoolRepository {
       final response = await query.order('date', ascending: false);
       final list =
           (response as List).map((row) => _mapAttendance(row)).toList();
-      return list.isNotEmpty ? list : SchoolDataRepository.initialAttendance;
+      return list;
     } catch (e) {
       debugPrint('[SupabaseSchoolRepository] fetchAttendance fallback: $e');
-      return SchoolDataRepository.initialAttendance;
+      return [];
     }
   }
 
@@ -157,7 +158,7 @@ class SupabaseSchoolRepository {
   Future<List<HomeworkItem>> fetchHomework({String? grade}) async {
     final client = SupabaseService.client;
     if (client == null || !SupabaseService.isInitialized) {
-      return SchoolDataRepository.initialHomework;
+      return [];
     }
 
     try {
@@ -168,10 +169,10 @@ class SupabaseSchoolRepository {
 
       final response = await query.order('due_date', ascending: true);
       final list = (response as List).map((row) => _mapHomework(row)).toList();
-      return list.isNotEmpty ? list : SchoolDataRepository.initialHomework;
+      return list;
     } catch (e) {
       debugPrint('[SupabaseSchoolRepository] fetchHomework fallback: $e');
-      return SchoolDataRepository.initialHomework;
+      return [];
     }
   }
 
@@ -227,7 +228,7 @@ class SupabaseSchoolRepository {
   Future<List<SchoolNotice>> fetchNotices({String? role}) async {
     final client = SupabaseService.client;
     if (client == null || !SupabaseService.isInitialized) {
-      return SchoolDataRepository.initialNotices;
+      return [];
     }
 
     try {
@@ -238,10 +239,10 @@ class SupabaseSchoolRepository {
 
       final response = await query.order('publish_date', ascending: false);
       final list = (response as List).map((row) => _mapNotice(row)).toList();
-      return list.isNotEmpty ? list : SchoolDataRepository.initialNotices;
+      return list;
     } catch (e) {
       debugPrint('[SupabaseSchoolRepository] fetchNotices fallback: $e');
-      return SchoolDataRepository.initialNotices;
+      return [];
     }
   }
 
@@ -297,7 +298,7 @@ class SupabaseSchoolRepository {
   Future<List<FeeReceipt>> fetchFees({String? studentId}) async {
     final client = SupabaseService.client;
     if (client == null || !SupabaseService.isInitialized) {
-      return SchoolDataRepository.initialFees;
+      return [];
     }
 
     try {
@@ -308,10 +309,10 @@ class SupabaseSchoolRepository {
 
       final response = await query.order('due_date', ascending: false);
       final list = (response as List).map((row) => _mapFeeInvoice(row)).toList();
-      return list.isNotEmpty ? list : SchoolDataRepository.initialFees;
+      return list;
     } catch (e) {
       debugPrint('[SupabaseSchoolRepository] fetchFees fallback: $e');
-      return SchoolDataRepository.initialFees;
+      return [];
     }
   }
 
@@ -360,7 +361,7 @@ class SupabaseSchoolRepository {
   Future<List<AdmissionInquiry>> fetchAdmissionInquiries() async {
     final client = SupabaseService.client;
     if (client == null || !SupabaseService.isInitialized) {
-      return SchoolDataRepository.initialInquiries;
+      return [];
     }
 
     try {
@@ -371,10 +372,10 @@ class SupabaseSchoolRepository {
 
       final list =
           (response as List).map((row) => _mapInquiry(row)).toList();
-      return list.isNotEmpty ? list : SchoolDataRepository.initialInquiries;
+      return list;
     } catch (e) {
       debugPrint('[SupabaseSchoolRepository] fetchAdmissionInquiries fallback: $e');
-      return SchoolDataRepository.initialInquiries;
+      return [];
     }
   }
 
@@ -420,7 +421,7 @@ class SupabaseSchoolRepository {
   Future<List<TimetableSlot>> fetchTimetable({String? grade}) async {
     final client = SupabaseService.client;
     if (client == null || !SupabaseService.isInitialized) {
-      return SchoolDataRepository.timetableData.first.slots;
+      return [];
     }
 
     try {
@@ -438,7 +439,7 @@ class SupabaseSchoolRepository {
           : SchoolDataRepository.timetableData.first.slots;
     } catch (e) {
       debugPrint('[SupabaseSchoolRepository] fetchTimetable fallback: $e');
-      return SchoolDataRepository.timetableData.first.slots;
+      return [];
     }
   }
 
@@ -674,4 +675,49 @@ class SupabaseSchoolRepository {
     }
   }
 
+
+  // --------------------------------------------------------------------------
+  // TEACHERS MANAGEMENT
+  // --------------------------------------------------------------------------
+
+  Future<List<TeacherModel>> fetchTeachers() async {
+    final client = SupabaseService.client;
+    if (client == null || !SupabaseService.isInitialized) {
+      return [];
+    }
+
+    try {
+      final response = await client
+          .from('teachers')
+          .select()
+          .order('name', ascending: true);
+
+      return (response as List).map((row) => TeacherModel.fromJson(row)).toList();
+    } catch (e) {
+      debugPrint('[SupabaseSchoolRepository] fetchTeachers error: $e');
+      return [];
+    }
+  }
+
+  Future<void> saveTeacher(TeacherModel teacher) async {
+    final client = SupabaseService.client;
+    if (client != null && SupabaseService.isInitialized) {
+      try {
+        await client.from('teachers').upsert(teacher.toJson());
+      } catch (e) {
+        debugPrint('[SupabaseSchoolRepository] saveTeacher error: $e');
+      }
+    }
+  }
+
+  Future<void> deleteTeacher(String id) async {
+    final client = SupabaseService.client;
+    if (client != null && SupabaseService.isInitialized) {
+      try {
+        await client.from('teachers').delete().eq('id', id);
+      } catch (e) {
+        debugPrint('[SupabaseSchoolRepository] deleteTeacher error: $e');
+      }
+    }
+  }
 }

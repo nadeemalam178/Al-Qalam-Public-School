@@ -54,16 +54,14 @@ export async function insertAdmissionEnquiry(payload: AdmissionEnquiryPayload) {
         message: payload.message || null,
         status: "pending",
       },
-    ])
-    .select()
-    .single();
+    ]);
 
   if (error) {
     console.error("[Supabase insertAdmissionEnquiry Error]", error);
     throw error;
   }
 
-  return { data, referenceNo: refNo };
+  return { referenceNo: refNo };
 }
 
 /**
@@ -91,16 +89,14 @@ export async function insertCampusContact(payload: {
         message: payload.message,
         status: "pending",
       },
-    ])
-    .select()
-    .single();
+    ]);
 
   if (error) {
     console.error("[Supabase insertCampusContact Error]", error);
     throw error;
   }
 
-  return { data, referenceNo: refNo };
+  return { referenceNo: refNo };
 }
 
 /**

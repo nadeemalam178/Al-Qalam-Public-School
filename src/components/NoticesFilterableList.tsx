@@ -106,7 +106,7 @@ export default function NoticesFilterableList() {
         </div>
       ) : (
         <div className="text-center py-12 bg-stone-50/70 rounded-xl border border-stone-200 text-stone-500 text-sm">
-          No circulars found matching &quot;{searchQuery}&quot;. Please adjust your search criteria or category filter.
+          No active circulars at this time. Official notices broadcasted from the school app will appear here.
         </div>
       )}
     </div>

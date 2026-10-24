@@ -22,8 +22,8 @@ class AppUpdateInfo {
 }
 
 class AppUpdateService {
-  static const String currentVersion = '1.2.2';
-  static const int currentBuildNumber = 5;
+  static const String currentVersion = '1.3.0';
+  static const int currentBuildNumber = 6;
 
   static const String _githubLatestReleaseApi =
       'https://api.github.com/repos/nadeemalam178/Al-Qalam-Public-School/releases/latest';

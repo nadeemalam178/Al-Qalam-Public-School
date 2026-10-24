@@ -1,6 +1,8 @@
 import '../models/gallery_item_model.dart';
 import 'dart:async';
+import 'dart:convert';
 import 'package:flutter/foundation.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../models/user_model.dart';
 import '../models/student_model.dart';
@@ -11,35 +13,31 @@ import '../models/exam_model.dart';
 import '../models/notice_model.dart';
 import '../models/admission_inquiry_model.dart';
 import '../models/timetable_model.dart';
-import '../services/school_data_repository.dart';
+import '../models/teacher_model.dart';
 import '../services/supabase_school_repository.dart';
 import '../services/supabase_service.dart';
 
 class SchoolProvider extends ChangeNotifier {
   final SupabaseSchoolRepository _repository;
+  static const _storage = FlutterSecureStorage();
 
   SchoolProvider({SupabaseSchoolRepository? repository})
       : _repository = repository ?? const SupabaseSchoolRepository();
 
-  List<Student> _students = List.from(SchoolDataRepository.initialStudents);
-  List<AttendanceRecord> _attendance =
-      List.from(SchoolDataRepository.initialAttendance);
-  List<FeeReceipt> _fees = List.from(SchoolDataRepository.initialFees);
-  List<HomeworkItem> _homework = List.from(SchoolDataRepository.initialHomework);
-  List<SchoolNotice> _notices = List.from(SchoolDataRepository.initialNotices);
-  List<AdmissionInquiry> _inquiries =
-      List.from(SchoolDataRepository.initialInquiries);
-  final List<ExamReportCard> _reportCards =
-      List.from(SchoolDataRepository.initialReportCards);
-  List<TimetableSlot> _timetable =
-      List.from(SchoolDataRepository.timetableData.first.slots);
+  List<Student> _students = [];
+  List<AttendanceRecord> _attendance = [];
+  List<FeeReceipt> _fees = [];
+  List<HomeworkItem> _homework = [];
+  List<SchoolNotice> _notices = [];
+  List<AdmissionInquiry> _inquiries = [];
+  final List<ExamReportCard> _reportCards = [];
+  List<TimetableSlot> _timetable = [];
+  List<TeacherModel> _teachers = [];
   List<SchoolGalleryItem> _galleryItems =
       List.from(SupabaseSchoolRepository.defaultGalleryItems);
 
   // Multi-Child / Sibling Support for Guardians
-  List<Student> _linkedStudents = [
-    SchoolDataRepository.initialStudents.first,
-  ];
+  List<Student> _linkedStudents = [];
   Student? _selectedStudent;
 
   bool _isLoading = false;
@@ -55,6 +53,7 @@ class SchoolProvider extends ChangeNotifier {
   List<AdmissionInquiry> get inquiries => _inquiries;
   List<ExamReportCard> get reportCards => _reportCards;
   List<TimetableSlot> get timetable => _timetable;
+  List<TeacherModel> get teachers => _teachers;
   List<SchoolGalleryItem> get galleryItems => _galleryItems;
 
   // Multi-Child Getters
@@ -62,7 +61,23 @@ class SchoolProvider extends ChangeNotifier {
   Student get selectedStudent {
     if (_selectedStudent != null) return _selectedStudent!;
     if (_linkedStudents.isNotEmpty) return _linkedStudents.first;
-    return _students.first;
+    if (_students.isNotEmpty) return _students.first;
+    return const Student(
+      id: 'no-student',
+      name: 'No Enrolled Student',
+      admissionNo: 'AQPS-NONE',
+      grade: 'General',
+      section: 'A',
+      rollNo: 0,
+      fatherName: '',
+      motherName: '',
+      phone: '',
+      address: '',
+      dob: '',
+      bloodGroup: '',
+      attendanceRate: 100.0,
+      pendingFees: 0.0,
+    );
   }
 
   bool get isLoading => _isLoading;
@@ -98,13 +113,14 @@ class SchoolProvider extends ChangeNotifier {
             : (user?.role == UserRole.teacher ? 'teacher' : 'guardian'),
       );
 
-      // 4. Fetch Attendance & Homework & Fees
+      // 4. Fetch Attendance & Homework & Fees & Inquiries
       _attendance = await _repository.fetchAttendance();
       _homework = await _repository.fetchHomework();
       _fees = await _repository.fetchFees();
       _inquiries = await _repository.fetchAdmissionInquiries();
       _timetable = await _repository.fetchTimetable();
       _galleryItems = await _repository.fetchGalleryItems();
+      await fetchTeachers();
 
       // 5. Setup Realtime Sync for Notices & Circulars
       _setupRealtimeSync();
@@ -163,7 +179,6 @@ class SchoolProvider extends ChangeNotifier {
             schema: 'public',
             table: 'gallery_items',
             callback: (payload) async {
-              debugPrint('[Realtime Gallery Event] received: ${payload.eventType}');
               final updated = await _repository.fetchGalleryItems();
               _galleryItems = updated;
               notifyListeners();
@@ -173,28 +188,8 @@ class SchoolProvider extends ChangeNotifier {
 
       _isRealtimeActive = true;
     } catch (e) {
-      debugPrint('[Realtime Setup Error] $e');
+      debugPrint('[Realtime Sync Init Error] $e');
     }
-  }
-
-  // Student specific queries
-  Student getStudentById(String id) {
-    return _students.firstWhere(
-      (s) => s.id == id,
-      orElse: () => _students.first,
-    );
-  }
-
-  List<AttendanceRecord> getAttendanceForStudent(String studentId) {
-    return _attendance.where((a) => a.studentId == studentId).toList();
-  }
-
-  List<FeeReceipt> getFeesForStudent(String studentId) {
-    return _fees.where((f) => f.studentId == studentId).toList();
-  }
-
-  List<HomeworkItem> getHomeworkForGrade(String grade) {
-    return _homework.where((h) => h.grade.contains(grade)).toList();
   }
 
   ExamReportCard? getReportCardForStudent(String studentId) {
@@ -213,8 +208,6 @@ class SchoolProvider extends ChangeNotifier {
       final newStatus = !current.isCompleted;
       _homework[index] = current.copyWith(isCompleted: newStatus);
       notifyListeners();
-
-      // Persist to Supabase
       _repository.toggleHomeworkCompletion(id, newStatus);
     }
   }
@@ -222,8 +215,6 @@ class SchoolProvider extends ChangeNotifier {
   void addHomework(HomeworkItem item) {
     _homework.insert(0, item);
     notifyListeners();
-
-    // Persist to Supabase
     _repository.addHomework(item);
   }
 
@@ -257,8 +248,6 @@ class SchoolProvider extends ChangeNotifier {
       );
     }
     notifyListeners();
-
-    // Persist to Supabase
     _repository.markAttendance(
       studentId: studentId,
       date: date,
@@ -296,7 +285,6 @@ class SchoolProvider extends ChangeNotifier {
         paymentMode: paymentMode,
       );
 
-      // Also update student pending fees
       final stuIdx = _students.indexWhere((s) => s.id == f.studentId);
       if (stuIdx != -1) {
         final stu = _students[stuIdx];
@@ -319,8 +307,6 @@ class SchoolProvider extends ChangeNotifier {
       }
 
       notifyListeners();
-
-      // Persist to Supabase
       _repository.recordFeePayment(
         invoiceId: feeId,
         amountPaidNow: amountPaidNow,
@@ -328,7 +314,6 @@ class SchoolProvider extends ChangeNotifier {
       );
     }
   }
-
 
   Future<void> addGalleryPhoto(SchoolGalleryItem item) async {
     _galleryItems.insert(0, item);
@@ -348,12 +333,20 @@ class SchoolProvider extends ChangeNotifier {
     await _repository.deleteNotice(id);
   }
 
+  Future<void> refreshNotices() async {
+    _notices = await _repository.fetchNotices();
+    notifyListeners();
+  }
+
   void broadcastNotice(SchoolNotice notice) {
     _notices.insert(0, notice);
     notifyListeners();
-
-    // Broadcast across Supabase (instantly reaches website & mobile)
     _repository.broadcastNotice(notice);
+  }
+
+  Future<void> refreshInquiries() async {
+    _inquiries = await _repository.fetchAdmissionInquiries();
+    notifyListeners();
   }
 
   void submitAdmissionInquiry(AdmissionInquiry inquiry) {
@@ -366,10 +359,62 @@ class SchoolProvider extends ChangeNotifier {
     if (index != -1) {
       _inquiries[index] = _inquiries[index].copyWith(status: newStatus);
       notifyListeners();
-
-      // Persist to Supabase
       _repository.updateInquiryStatus(id, newStatus);
     }
+  }
+
+  // --------------------------------------------------------------------------
+  // TEACHER MANAGEMENT
+  // --------------------------------------------------------------------------
+
+  Future<void> fetchTeachers() async {
+    try {
+      final cloudList = await _repository.fetchTeachers();
+      if (cloudList.isNotEmpty) {
+        _teachers = cloudList;
+      } else {
+        // Check local persisted teachers
+        final stored = await _storage.read(key: 'saved_teachers_cache');
+        if (stored != null) {
+          final List decoded = jsonDecode(stored);
+          _teachers = decoded.map((e) => TeacherModel.fromJson(e)).toList();
+        }
+      }
+    } catch (_) {}
+    notifyListeners();
+  }
+
+  Future<void> addTeacher(TeacherModel teacher) async {
+    _teachers.insert(0, teacher);
+    notifyListeners();
+    try {
+      final jsonList = jsonEncode(_teachers.map((t) => t.toJson()).toList());
+      await _storage.write(key: 'saved_teachers_cache', value: jsonList);
+      await _repository.saveTeacher(teacher);
+    } catch (_) {}
+  }
+
+  Future<void> updateTeacher(TeacherModel teacher) async {
+    final idx = _teachers.indexWhere((t) => t.id == teacher.id);
+    if (idx != -1) {
+      _teachers[idx] = teacher;
+      notifyListeners();
+      try {
+        final jsonList = jsonEncode(_teachers.map((t) => t.toJson()).toList());
+        await _storage.write(key: 'saved_teachers_cache', value: jsonList);
+        await _repository.saveTeacher(teacher);
+      } catch (_) {}
+    }
+  }
+
+  Future<void> deleteTeacher(String teacherId) async {
+    _teachers.removeWhere((t) => t.id == teacherId);
+    notifyListeners();
+    try {
+      final jsonList = jsonEncode(_teachers.map((t) => t.toJson()).toList());
+      await _storage.write(key: 'saved_teachers_cache', value: jsonList);
+      await _repository.deleteTeacher(teacherId);
+    } catch (_) {}
   }
 
   // Dashboard Aggregates

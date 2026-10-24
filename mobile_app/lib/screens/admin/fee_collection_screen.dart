@@ -176,7 +176,7 @@ class _FeeCollectionScreenState extends State<FeeCollectionScreen> {
     final canPop = ModalRoute.of(context)?.canPop ?? false;
 
     return Scaffold(
-      backgroundColor: Colors.transparent,
+      backgroundColor: const Color(0xFFF7F9F6),
       appBar: canPop
           ? AppBar(
               title: const Text('Fee Accounts Ledger'),

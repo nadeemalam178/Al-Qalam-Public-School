@@ -159,7 +159,7 @@ class _AboutSchoolScreenState extends State<AboutSchoolScreen> {
     showDialog(
       context: context,
       builder: (ctx) => Dialog(
-        backgroundColor: Colors.transparent,
+        backgroundColor: const Color(0xFFF7F9F6),
         insetPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
         child: Container(
           decoration: BoxDecoration(
@@ -805,139 +805,6 @@ class _AboutSchoolScreenState extends State<AboutSchoolScreen> {
               ),
             ),
             const SizedBox(height: 28),
-
-            // Admission Enquiry Form
-            Container(
-              padding: const EdgeInsets.all(20),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(20),
-                border: Border.all(color: AppTheme.goldPrimary.withValues(alpha: 0.4)),
-                boxShadow: [
-                  BoxShadow(
-                    color: AppTheme.forestDeep.withValues(alpha: 0.05),
-                    blurRadius: 10,
-                    offset: const Offset(0, 4),
-                  ),
-                ],
-              ),
-              child: Form(
-                key: _formKey,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        Container(
-                          padding: const EdgeInsets.all(8),
-                          decoration: BoxDecoration(
-                            color: AppTheme.forestTint,
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: const Icon(Icons.school, color: AppTheme.forestPrimary),
-                        ),
-                        const SizedBox(width: 12),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Apply for Admission (2026-27)',
-                                style: GoogleFonts.outfit(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                  color: AppTheme.forestDeep,
-                                ),
-                              ),
-                              Text(
-                                'Submit registration inquiry directly to school desk',
-                                style: GoogleFonts.inter(
-                                  fontSize: 11,
-                                  color: AppTheme.textMuted,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 16),
-                    TextFormField(
-                      controller: _studentNameController,
-                      decoration: const InputDecoration(
-                        labelText: 'Child Full Name *',
-                        prefixIcon: Icon(Icons.person_outline, size: 18),
-                      ),
-                      validator: (val) => val == null || val.trim().isEmpty
-                          ? 'Child full name is required'
-                          : null,
-                    ),
-                    const SizedBox(height: 12),
-                    TextFormField(
-                      controller: _parentNameController,
-                      decoration: const InputDecoration(
-                        labelText: 'Parent / Guardian Name *',
-                        prefixIcon: Icon(Icons.family_restroom, size: 18),
-                      ),
-                      validator: (val) => val == null || val.trim().isEmpty
-                          ? 'Parent name is required'
-                          : null,
-                    ),
-                    const SizedBox(height: 12),
-                    TextFormField(
-                      controller: _mobileController,
-                      keyboardType: TextInputType.phone,
-                      decoration: const InputDecoration(
-                        labelText: '10-Digit Mobile Number *',
-                        prefixIcon: Icon(Icons.phone, size: 18),
-                      ),
-                      validator: (val) {
-                        if (val == null || val.trim().isEmpty) {
-                          return 'Mobile number is required';
-                        }
-                        if (val.trim().length < 10) {
-                          return 'Enter valid 10-digit number';
-                        }
-                        return null;
-                      },
-                    ),
-                    const SizedBox(height: 12),
-                    DropdownButtonFormField<String>(
-                      initialValue: _selectedGrade,
-                      decoration: const InputDecoration(
-                        labelText: 'Class Applying For *',
-                        prefixIcon: Icon(Icons.class_outlined, size: 18),
-                      ),
-                      items: _grades
-                          .map((g) => DropdownMenuItem(value: g, child: Text(g)))
-                          .toList(),
-                      onChanged: (val) {
-                        if (val != null) setState(() => _selectedGrade = val);
-                      },
-                    ),
-                    const SizedBox(height: 12),
-                    TextFormField(
-                      controller: _messageController,
-                      maxLines: 2,
-                      decoration: const InputDecoration(
-                        labelText: 'Message or Notes (Optional)',
-                        hintText: 'e.g. Previous school, transport requirement...',
-                      ),
-                    ),
-                    const SizedBox(height: 18),
-                    SizedBox(
-                      width: double.infinity,
-                      child: ElevatedButton.icon(
-                        onPressed: _submitInquiry,
-                        icon: const Icon(Icons.send_rounded, size: 18),
-                        label: const Text('Submit Admission Enquiry'),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            const SizedBox(height: 24),
 
             // Campus Building Landmark Card
             Container(

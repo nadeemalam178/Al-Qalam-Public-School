@@ -24,11 +24,9 @@ import '../teacher/post_homework_screen.dart';
 import '../teacher/student_roster_screen.dart';
 
 // Admin Screens
-import '../admin/admin_dashboard.dart';
-import '../admin/fee_collection_screen.dart';
-import '../admin/post_notice_screen.dart';
 import '../admin/admission_leads_screen.dart';
-import '../admin/student_registry_screen.dart';
+import '../admin/teacher_management_screen.dart';
+import '../admin/class_routine_screen.dart';
 import '../admin/website_management_screen.dart';
 import '../../services/app_update_service.dart';
 
@@ -50,22 +48,14 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      _checkOtaUpdates();
+      AppUpdateService.autoCheckOnLaunch(context);
     });
   }
-
-  Future<void> _checkOtaUpdates() async {
-    final info = await AppUpdateService.checkLatestRelease();
-    if (mounted && info != null && info.hasUpdate) {
-      AppUpdateService.showUpdateDialog(context, info);
-    }
-  }
-
 
   @override
   Widget build(BuildContext context) {
     final auth = Provider.of<AuthProvider>(context);
-    final role = auth.currentRole;
+    final role = auth.currentUser.role;
 
     List<Widget> screens;
     List<NavigationDestination> destinations;
@@ -89,7 +79,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
           NavigationDestination(
             icon: Icon(Icons.calendar_today_outlined),
             selectedIcon:
-                Icon(Icons.calendar_month, color: AppTheme.forestPrimary),
+                Icon(Icons.calendar_today, color: AppTheme.forestPrimary),
             label: 'Attendance',
           ),
           NavigationDestination(
@@ -156,25 +146,12 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
 
       case UserRole.admin:
         screens = [
-          const AdminDashboardScreen(),
-          const FeeCollectionScreen(),
           const AdmissionLeadsScreen(),
-          const StudentRegistryScreen(),
           const NoticesScreen(),
+          const TeacherManagementScreen(),
+          const ClassRoutineScreen(),
         ];
         destinations = const [
-          NavigationDestination(
-            icon: Icon(Icons.analytics_outlined),
-            selectedIcon:
-                Icon(Icons.analytics, color: AppTheme.forestPrimary),
-            label: 'Admin Hub',
-          ),
-          NavigationDestination(
-            icon: Icon(Icons.account_balance_wallet_outlined),
-            selectedIcon: Icon(Icons.account_balance_wallet,
-                color: AppTheme.forestPrimary),
-            label: 'Finance',
-          ),
           NavigationDestination(
             icon: Icon(Icons.person_add_alt_1_outlined),
             selectedIcon: Icon(Icons.person_add_alt_1,
@@ -182,14 +159,19 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
             label: 'Admissions',
           ),
           NavigationDestination(
-            icon: Icon(Icons.badge_outlined),
-            selectedIcon: Icon(Icons.badge, color: AppTheme.forestPrimary),
-            label: 'Registry',
-          ),
-          NavigationDestination(
             icon: Icon(Icons.campaign_outlined),
             selectedIcon: Icon(Icons.campaign, color: AppTheme.forestPrimary),
             label: 'Notices',
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.badge_outlined),
+            selectedIcon: Icon(Icons.badge, color: AppTheme.forestPrimary),
+            label: 'Teachers',
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.schedule_outlined),
+            selectedIcon: Icon(Icons.schedule, color: AppTheme.forestPrimary),
+            label: 'Routine',
           ),
         ];
         screenTitle = _getAdminTitle(_currentIndex);
@@ -202,6 +184,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
     }
 
     return Scaffold(
+      backgroundColor: const Color(0xFFF7F9F6),
       appBar: CustomSchoolAppBar(
         title: screenTitle,
         showProfileBadge: true,
@@ -211,20 +194,20 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
         child: SafeArea(
           bottom: false,
           child: AnimatedSwitcher(
-          duration: const Duration(milliseconds: 250),
-          switchInCurve: Curves.easeOutCubic,
-          switchOutCurve: Curves.easeInCubic,
-          transitionBuilder: (child, animation) {
-            return FadeTransition(
-              opacity: animation,
-              child: child,
-            );
-          },
-          child: KeyedSubtree(
-            key: ValueKey('${role.name}_$_currentIndex'),
-            child: screens[_currentIndex],
+            duration: const Duration(milliseconds: 250),
+            switchInCurve: Curves.easeOutCubic,
+            switchOutCurve: Curves.easeInCubic,
+            transitionBuilder: (child, animation) {
+              return FadeTransition(
+                opacity: animation,
+                child: child,
+              );
+            },
+            child: KeyedSubtree(
+              key: ValueKey('${role.name}_$_currentIndex'),
+              child: screens[_currentIndex],
+            ),
           ),
-        ),
         ),
       ),
       bottomNavigationBar: Container(
@@ -242,27 +225,40 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
         child: ClipRRect(
           borderRadius: BorderRadius.circular(28),
           child: BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: 18, sigmaY: 18),
+            filter: ImageFilter.blur(sigmaX: 16, sigmaY: 16),
             child: Container(
               decoration: BoxDecoration(
-                color: Colors.white.withValues(alpha: 0.82),
+                color: Colors.white.withValues(alpha: 0.85),
                 borderRadius: BorderRadius.circular(28),
                 border: Border.all(
-                  color: Colors.white.withValues(alpha: 0.85),
+                  color: Colors.white.withValues(alpha: 0.6),
                   width: 1.5,
                 ),
               ),
-              child: NavigationBar(
-                selectedIndex: _currentIndex,
-                onDestinationSelected: (index) {
-                  setState(() {
-                    _currentIndex = index;
-                  });
-                },
-                backgroundColor: Colors.transparent,
-                elevation: 0,
-                indicatorColor: AppTheme.forestTint,
-                destinations: destinations,
+              child: NavigationBarTheme(
+                data: NavigationBarThemeData(
+                  indicatorColor: AppTheme.forestTint,
+                  elevation: 0,
+                  backgroundColor: Colors.transparent,
+                  labelTextStyle: WidgetStateProperty.resolveWith((states) {
+                    final selected = states.contains(WidgetState.selected);
+                    return GoogleFonts.inter(
+                      fontSize: 10,
+                      fontWeight: selected ? FontWeight.bold : FontWeight.w500,
+                      color: selected
+                          ? AppTheme.forestPrimary
+                          : AppTheme.textMuted,
+                    );
+                  }),
+                ),
+                child: NavigationBar(
+                  selectedIndex: _currentIndex,
+                  onDestinationSelected: (idx) {
+                    setState(() => _currentIndex = idx);
+                  },
+                  destinations: destinations,
+                  height: 64,
+                ),
               ),
             ),
           ),
@@ -274,15 +270,15 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
   String _getParentTitle(int index) {
     switch (index) {
       case 0:
-        return 'Student Portal';
+        return 'Guardian Portal';
       case 1:
         return 'Attendance Tracker';
       case 2:
-        return 'Fee Receipts & Dues';
+        return 'Fee Receipts';
       case 3:
-        return 'Daily Diary & Homework';
+        return 'Daily Homework';
       case 4:
-        return 'School Notices';
+        return 'School Circulars';
       default:
         return 'Al-Qalam School';
     }
@@ -291,32 +287,30 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
   String _getTeacherTitle(int index) {
     switch (index) {
       case 0:
-        return 'Faculty Workspace';
+        return 'Faculty Desk';
       case 1:
-        return 'Mark Attendance';
+        return 'Roll Call';
       case 2:
-        return 'Assign Homework';
+        return 'Homework Diary';
       case 3:
-        return 'Class Student Roster';
+        return 'Student Directory';
       case 4:
-        return 'Circulars';
+        return 'Staff Notices';
       default:
-        return 'Faculty Portal';
+        return 'Teacher Console';
     }
   }
 
   String _getAdminTitle(int index) {
     switch (index) {
       case 0:
-        return 'Management Dashboard';
-      case 1:
-        return 'Fee Accounts Ledger';
-      case 2:
         return 'Admission Enquiries';
+      case 1:
+        return 'School Notices';
+      case 2:
+        return 'Faculty & Teachers';
       case 3:
-        return 'Student Registry';
-      case 4:
-        return 'Notice Broadcast';
+        return 'Class Routine';
       default:
         return 'Administrator';
     }
@@ -328,27 +322,30 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
       child: Column(
         children: [
           Container(
-            padding: const EdgeInsets.fromLTRB(20, 52, 20, 20),
-            color: AppTheme.forestDeep,
+            padding: const EdgeInsets.fromLTRB(16, 52, 16, 20),
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [
+                  AppTheme.forestDeep,
+                  AppTheme.forestPrimary,
+                ],
+              ),
+            ),
             child: Row(
               children: [
-                Container(
-                  width: 54,
-                  height: 54,
-                  padding: const EdgeInsets.all(4),
-                  decoration: const BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Colors.white,
-                  ),
-                  child: ClipOval(
-                    child: Image.asset(
-                      'assets/images/logo.png',
-                      fit: BoxFit.contain,
-                      errorBuilder: (_, __, ___) => const Icon(
-                        Icons.school,
-                        color: AppTheme.forestPrimary,
-                        size: 32,
-                      ),
+                CircleAvatar(
+                  radius: 26,
+                  backgroundColor: AppTheme.goldPrimary,
+                  child: Text(
+                    auth.currentUser.name.isNotEmpty
+                        ? auth.currentUser.name[0]
+                        : 'A',
+                    style: GoogleFonts.outfit(
+                      fontSize: 22,
+                      fontWeight: FontWeight.bold,
+                      color: AppTheme.forestDeep,
                     ),
                   ),
                 ),
@@ -356,6 +353,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
                     children: [
                       Text(
                         auth.currentUser.name,
@@ -394,62 +392,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
             child: ListView(
               padding: const EdgeInsets.symmetric(vertical: 12),
               children: [
-                ListTile(
-                  leading: const Icon(Icons.school_outlined,
-                      color: AppTheme.forestPrimary),
-                  title: Text('About Al-Qalam Campus',
-                      style: GoogleFonts.inter(fontWeight: FontWeight.w500)),
-                  onTap: () {
-                    Navigator.pop(context);
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (_) => const AboutSchoolScreen()),
-                    );
-                  },
-                ),
-                ListTile(
-                  leading: const Icon(Icons.grade_outlined,
-                      color: AppTheme.forestPrimary),
-                  title: Text('Academic Report Card',
-                      style: GoogleFonts.inter(fontWeight: FontWeight.w500)),
-                  onTap: () {
-                    Navigator.pop(context);
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (_) => const ReportCardScreen()),
-                    );
-                  },
-                ),
-                ListTile(
-                  leading: const Icon(Icons.schedule_outlined,
-                      color: AppTheme.forestPrimary),
-                  title: Text('Weekly Class Timetable',
-                      style: GoogleFonts.inter(fontWeight: FontWeight.w500)),
-                  onTap: () {
-                    Navigator.pop(context);
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (_) => const TimetableScreen()),
-                    );
-                  },
-                ),
                 if (auth.isAdmin) ...[
-                  const Divider(),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-                    child: Text(
-                      'CAMPUS MANAGEMENT',
-                      style: GoogleFonts.inter(
-                        fontSize: 10,
-                        fontWeight: FontWeight.w700,
-                        color: AppTheme.forestPrimary,
-                        letterSpacing: 0.8,
-                      ),
-                    ),
-                  ),
                   ListTile(
                     leading: Container(
                       padding: const EdgeInsets.all(6),
@@ -457,22 +400,24 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
                         color: AppTheme.forestPrimary.withValues(alpha: 0.12),
                         borderRadius: BorderRadius.circular(8),
                       ),
-                      child: const Icon(Icons.language_rounded,
+                      child: const Icon(Icons.add_photo_alternate_rounded,
                           color: AppTheme.forestPrimary, size: 20),
                     ),
                     title: Row(
                       children: [
-                        Text('Website Management (CMS)',
-                            style: GoogleFonts.inter(fontWeight: FontWeight.w600, fontSize: 13)),
+                        Text('Website Gallery (Photos)',
+                            style: GoogleFonts.inter(
+                                fontWeight: FontWeight.w600, fontSize: 13)),
                         const SizedBox(width: 6),
                         Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 1.5),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 5, vertical: 1.5),
                           decoration: BoxDecoration(
                             color: AppTheme.goldPrimary,
                             borderRadius: BorderRadius.circular(4),
                           ),
                           child: Text(
-                            'LIVE',
+                            'SYNC',
                             style: GoogleFonts.inter(
                               fontSize: 8,
                               fontWeight: FontWeight.bold,
@@ -482,8 +427,10 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
                         ),
                       ],
                     ),
-                    subtitle: Text('Sync gallery photos, notices & web inquiries',
-                        style: GoogleFonts.inter(fontSize: 11, color: AppTheme.textMuted)),
+                    subtitle: Text(
+                        'Upload & remove photos on live school website',
+                        style: GoogleFonts.inter(
+                            fontSize: 11, color: AppTheme.textMuted)),
                     onTap: () {
                       Navigator.pop(context);
                       Navigator.push(
@@ -493,123 +440,115 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
                       );
                     },
                   ),
-                ],
-                const Divider(),
-                ListTile(
-                  leading: const Icon(Icons.system_update_rounded,
-                      color: AppTheme.forestPrimary),
-                  title: Text('Check for Updates (OTA)',
-                      style: GoogleFonts.inter(fontWeight: FontWeight.w500)),
-                  subtitle: Text('Current v1.2.2 • Auto-check enabled',
-                      style: GoogleFonts.inter(fontSize: 11, color: AppTheme.textMuted)),
-                  trailing: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                    decoration: BoxDecoration(
-                      color: AppTheme.forestTint,
-                      borderRadius: BorderRadius.circular(6),
-                    ),
-                    child: Text(
-                      'OTA',
-                      style: GoogleFonts.inter(
-                        fontSize: 9,
-                        fontWeight: FontWeight.bold,
-                        color: AppTheme.forestPrimary,
+                  const Divider(),
+                  ListTile(
+                    leading: const Icon(Icons.system_update_rounded,
+                        color: AppTheme.forestPrimary),
+                    title: Text('Check for Updates (OTA)',
+                        style: GoogleFonts.inter(fontWeight: FontWeight.w500)),
+                    subtitle: Text('Current v1.3.0 • Auto-check enabled',
+                        style: GoogleFonts.inter(
+                            fontSize: 11, color: AppTheme.textMuted)),
+                    trailing: Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 6, vertical: 2),
+                      decoration: BoxDecoration(
+                        color: AppTheme.forestTint,
+                        borderRadius: BorderRadius.circular(6),
                       ),
-                    ),
-                  ),
-                  onTap: () {
-                    Navigator.pop(context);
-                    AppUpdateService.checkFromDrawer(context);
-                  },
-                ),
-                const Divider(),
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 16.0, vertical: 8.0),
-                  child: Container(
-                    padding: const EdgeInsets.all(12),
-                    decoration: BoxDecoration(
-                      color: AppTheme.forestTint,
-                      borderRadius: BorderRadius.circular(12),
-                      border: Border.all(
-                        color: AppTheme.forestPrimary.withValues(alpha: 0.15),
-                      ),
-                    ),
-                    child: Row(
-                      children: [
-                        const Icon(
-                          Icons.lock_rounded,
-                          size: 16,
+                      child: Text(
+                        'OTA',
+                        style: GoogleFonts.inter(
+                          fontSize: 9,
+                          fontWeight: FontWeight.bold,
                           color: AppTheme.forestPrimary,
                         ),
-                        const SizedBox(width: 8),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Role: ${auth.currentUser.roleDisplayName}',
-                                style: GoogleFonts.inter(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.bold,
-                                  color: AppTheme.forestDeep,
-                                ),
-                              ),
-                              Text(
-                                'Locked in for security. Sign out to switch.',
-                                style: GoogleFonts.inter(
-                                  fontSize: 10,
-                                  color: AppTheme.textMuted,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
+                      ),
                     ),
+                    onTap: () {
+                      Navigator.pop(context);
+                      AppUpdateService.checkFromDrawer(context);
+                    },
                   ),
-                ),
-                const Divider(),
-                ListTile(
-                  leading: const Icon(Icons.logout_rounded, color: Colors.redAccent),
-                  title: Text(
-                    'Sign Out',
-                    style: GoogleFonts.inter(
-                      fontSize: 13,
-                      fontWeight: FontWeight.w600,
-                      color: Colors.redAccent,
-                    ),
-                  ),
-                  onTap: () async {
-                    Navigator.pop(context);
-                    await auth.signOut();
-                    if (context.mounted) {
-                      Navigator.pushAndRemoveUntil(
+                  const Divider(),
+                  ListTile(
+                    leading: const Icon(Icons.switch_account_outlined,
+                        color: AppTheme.forestPrimary),
+                    title: Text('Switch Role / Re-Login',
+                        style: GoogleFonts.inter(fontWeight: FontWeight.w500)),
+                    subtitle: Text('Switch to Teacher or Parent account',
+                        style: GoogleFonts.inter(
+                            fontSize: 11, color: AppTheme.textMuted)),
+                    onTap: () {
+                      Navigator.pop(context);
+                      Navigator.pushReplacement(
                         context,
-                        MaterialPageRoute(builder: (_) => const LoginScreen()),
-                        (route) => false,
+                        MaterialPageRoute(
+                            builder: (_) => const LoginScreen()),
                       );
-                    }
-                  },
-                ),
-              ],
-            ),
-          ),
-          Container(
-            padding: const EdgeInsets.all(16),
-            color: const Color(0xFFF9FAFB),
-            child: Row(
-              children: [
-                const Icon(Icons.location_on_outlined,
-                    size: 16, color: AppTheme.textMuted),
-                const SizedBox(width: 8),
-                Expanded(
-                  child: Text(
-                    'Gulzarbagh, Patna • Est. 2011',
-                    style: GoogleFonts.inter(
-                        fontSize: 11, color: AppTheme.textMuted),
+                    },
                   ),
-                ),
+                  ListTile(
+                    leading: const Icon(Icons.logout_rounded,
+                        color: Colors.redAccent),
+                    title: Text('Sign Out Administrator',
+                        style: GoogleFonts.inter(
+                            fontWeight: FontWeight.w600,
+                            color: Colors.redAccent)),
+                    onTap: () {
+                      Navigator.pop(context);
+                      auth.signOut();
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                            builder: (_) => const LoginScreen()),
+                      );
+                    },
+                  ),
+                ] else ...[
+                  ListTile(
+                    leading: const Icon(Icons.school_outlined,
+                        color: AppTheme.forestPrimary),
+                    title: Text('About Al-Qalam Campus',
+                        style: GoogleFonts.inter(fontWeight: FontWeight.w500)),
+                    onTap: () {
+                      Navigator.pop(context);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (_) => const AboutSchoolScreen()),
+                      );
+                    },
+                  ),
+                  ListTile(
+                    leading: const Icon(Icons.system_update_rounded,
+                        color: AppTheme.forestPrimary),
+                    title: Text('Check for Updates (OTA)',
+                        style: GoogleFonts.inter(fontWeight: FontWeight.w500)),
+                    onTap: () {
+                      Navigator.pop(context);
+                      AppUpdateService.checkFromDrawer(context);
+                    },
+                  ),
+                  const Divider(),
+                  ListTile(
+                    leading: const Icon(Icons.logout_rounded,
+                        color: Colors.redAccent),
+                    title: Text('Sign Out',
+                        style: GoogleFonts.inter(
+                            fontWeight: FontWeight.w600,
+                            color: Colors.redAccent)),
+                    onTap: () {
+                      Navigator.pop(context);
+                      auth.signOut();
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                            builder: (_) => const LoginScreen()),
+                      );
+                    },
+                  ),
+                ],
               ],
             ),
           ),
