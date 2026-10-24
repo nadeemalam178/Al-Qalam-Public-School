@@ -71,7 +71,7 @@ jobs:
               - Live Photo Gallery Sync (Add/Delete photos)
               - Live Notices Board Sync
               - Online Admission Inquiries Hub with Call / WhatsApp
-              - Configured Primary Administrator: `ALQALAM` / `newapp2026`
+              - Configured Primary Administrator Role & Website CMS
             - **Package**: `Al-Qalam-Public-School-Release.apk`
             - **Target Android**: Android 8.0+
           files: Al-Qalam-Public-School-Release.apk

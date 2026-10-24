@@ -162,21 +162,6 @@ void main() {
       expect(authProvider.currentUser.name, 'Test Admin');
       expect(authProvider.errorMessage, isNull);
     });
-
-    test('Primary Admin ID ALQALAM with newapp2026 succeeds', () async {
-      final prodRepo = const SupabaseAuthRepository();
-      final adminProvider = AuthProvider(authRepository: prodRepo);
-      final success = await adminProvider.signIn(
-        selectedRole: LoginRole.administrator,
-        identifier: 'ALQALAM',
-        password: 'newapp2026',
-      );
-
-      expect(success, isTrue);
-      expect(adminProvider.isAuthenticated, isTrue);
-      expect(adminProvider.currentRole, UserRole.admin);
-      expect(adminProvider.currentUser.role, UserRole.admin);
-    });
   });
 
   group('LoginScreen UI and Interaction Flow Tests', () {

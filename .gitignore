@@ -50,3 +50,11 @@ next-env.d.ts
 /mobile_app/build/
 /mobile_app/windows/flutter/ephemeral/
 *.apk
+
+
+# Sensitive Local Only Credentials (NEVER committed to public repository)
+ADMIN_CREDENTIALS_LOCAL_ONLY.txt
+*CREDENTIALS_LOCAL*
+*.local.md
+*.local.txt
+*.local.env

@@ -265,31 +265,9 @@ Initial debug compilation produced a **219.2 MB APK** because debug mode bundles
 
 ---
 
-## 10. Active Credentials & Test Accounts
+## 10. Authentication Architecture & Security
 
-The following test credentials are baked into the authentication repository and database:
-
-```text
-====================================================================================================
-ROLE           | PRIMARY USER ID | PASSWORD     | ALTERNATIVE IDENTIFIERS      | USER PROFILE
-====================================================================================================
-Administrator  | Alqalam_777     | newappschool | admin                        | Rahat Jahan
-               |                 |              | director@alqalam.edu.in      | (Campus Director)
-               |                 |              | 9308462418                   |
-----------------------------------------------------------------------------------------------------
-Teacher        | teacher_101     | newappschool | teacher                      | Farzana Begum
-               |                 |              | farzana.t@alqalam.edu.in     | (Class 3-A Faculty)
-               |                 |              | 9431056782                   |
-----------------------------------------------------------------------------------------------------
-Parent         | parent_201      | newappschool | parent                       | Mohd. Tariq Alam
-               |                 |              | tariq.alam@gmail.com         | (Parent of Zaid Alam)
-               |                 |              | 9835012450                   |
-====================================================================================================
-```
-*Note: All accounts also accept `alqalam123` as a secondary backup password.*  
-*Full documentation available in:* [CREDENTIALS.md](file:///c:/Users/alamn/Downloads/Antigravity/Al%20Qalam%20Public%20School/CREDENTIALS.md) and [mobile_app/CREDENTIALS.md](file:///c:/Users/alamn/Downloads/Antigravity/Al%20Qalam%20Public%20School/mobile_app/CREDENTIALS.md).
-
----
+All user logins are authenticated through secure Supabase Cloud Auth with PostgreSQL Row-Level Security (RLS). Passwords are never stored in client code or Git repository. For details on managing user accounts and roles, see `docs/CREDENTIALS.md`.
 
 ## 11. Git Commit History & Delivery Status
 
