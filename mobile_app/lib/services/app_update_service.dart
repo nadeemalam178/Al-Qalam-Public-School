@@ -22,8 +22,8 @@ class AppUpdateInfo {
 }
 
 class AppUpdateService {
-  static const String currentVersion = '1.3.0';
-  static const int currentBuildNumber = 6;
+  static const String currentVersion = '1.3.1';
+  static const int currentBuildNumber = 7;
 
   static const String _githubLatestReleaseApi =
       'https://api.github.com/repos/nadeemalam178/Al-Qalam-Public-School/releases/latest';
@@ -94,11 +94,22 @@ class AppUpdateService {
     return false;
   }
 
-  /// Triggers direct OTA APK download & install via Android Package Manager.
+  /// Triggers direct OTA APK download & install via Android Package Manager / Web Browser.
   static Future<void> downloadAndInstallApk(String apkUrl) async {
-    final uri = Uri.parse(apkUrl.isNotEmpty ? apkUrl : directApkFallbackUrl);
-    if (await canLaunchUrl(uri)) {
-      await launchUrl(uri, mode: LaunchMode.externalApplication);
+    final targetUrl = apkUrl.isNotEmpty ? apkUrl : directApkFallbackUrl;
+    final uri = Uri.parse(targetUrl);
+    try {
+      final launched = await launchUrl(uri, mode: LaunchMode.externalApplication);
+      if (!launched) {
+        await launchUrl(uri, mode: LaunchMode.platformDefault);
+      }
+    } catch (e) {
+      debugPrint('[AppUpdateService] External launch failed: ');
+      try {
+        await launchUrl(uri, mode: LaunchMode.platformDefault);
+      } catch (err) {
+        debugPrint('[AppUpdateService] Fallback launch failed: ');
+      }
     }
   }
 
