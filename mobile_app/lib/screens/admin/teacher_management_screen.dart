@@ -1,3 +1,4 @@
+import '../../services/account_management_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -16,6 +17,35 @@ class TeacherManagementScreen extends StatefulWidget {
 
 class _TeacherManagementScreenState extends State<TeacherManagementScreen> {
   String _searchQuery = '';
+
+  Future<void> _shareCredentialsWhatsApp(TeacherModel teacher) async {
+    final digits = teacher.phone.replaceAll(RegExp(r'\D'), '');
+    final cleanPhone = digits.length == 10 ? '91' + digits : digits;
+
+    final msg = Uri.encodeComponent(
+      'Assalamu Alaikum ${teacher.name} Ji,\n\n'
+      'Here are your faculty login credentials for Al-Qalam Public School Mobile Management Portal:\n\n'
+      '📱 Portal Role: Faculty / Teacher\n'
+      '📚 Designation: ${teacher.subject} (${teacher.classAssigned})\n'
+      '👤 Login ID: ${teacher.loginId}\n'
+      '🔑 Password: ${teacher.password}\n\n'
+      '📲 Download Official App: https://alqalampublicschool.vercel.app\n\n'
+      'For any issues, please contact the School Office (+91 93084 62418).\n'
+      '— Al-Qalam Public School Administration',
+    );
+
+    final url = Uri.parse('https://wa.me/' + cleanPhone + '?text=' + msg);
+    try {
+      await launchUrl(url, mode: LaunchMode.externalApplication);
+    } catch (_) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Could not open WhatsApp.')),
+        );
+      }
+    }
+  }
+
   final TextEditingController _searchController = TextEditingController();
 
   @override
@@ -34,6 +64,11 @@ class _TeacherManagementScreenState extends State<TeacherManagementScreen> {
     final emailCtrl = TextEditingController(text: existing?.email ?? '');
     final qualCtrl = TextEditingController(
         text: existing?.qualification ?? 'B.Ed / Trained Graduate');
+    final loginIdCtrl = TextEditingController(
+        text: existing?.loginId ?? '');
+    final passwordCtrl = TextEditingController(
+        text: existing?.password ?? 'alqalam123');
+    bool obscurePass = false;
     final formKey = GlobalKey<FormState>();
 
     final classes = [
@@ -166,6 +201,69 @@ class _TeacherManagementScreenState extends State<TeacherManagementScreen> {
                       prefixIcon: Icon(Icons.school_outlined, size: 18),
                     ),
                   ),
+                  const SizedBox(height: 16),
+
+                  // Login Credentials Box
+                  Container(
+                    padding: const EdgeInsets.all(14),
+                    decoration: BoxDecoration(
+                      color: AppTheme.forestTint,
+                      borderRadius: BorderRadius.circular(16),
+                      border: Border.all(color: AppTheme.forestPrimary.withValues(alpha: 0.2)),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            const Icon(Icons.vpn_key_rounded, size: 16, color: AppTheme.forestPrimary),
+                            const SizedBox(width: 6),
+                            Text(
+                              'Teacher Login Credentials',
+                              style: GoogleFonts.inter(
+                                fontSize: 12,
+                                fontWeight: FontWeight.bold,
+                                color: AppTheme.forestDeep,
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 10),
+                        TextFormField(
+                          controller: loginIdCtrl,
+                          decoration: InputDecoration(
+                            labelText: 'Login ID / Username *',
+                            hintText: 'e.g. 9431056782 or teacher_farzana',
+                            filled: true,
+                            fillColor: Colors.white,
+                            prefixIcon: const Icon(Icons.badge_outlined, size: 18),
+                            helperText: 'Teacher will enter this ID to log in to Faculty Portal',
+                            helperStyle: GoogleFonts.inter(fontSize: 10),
+                          ),
+                          validator: (v) => v == null || v.trim().isEmpty ? 'Login ID is required' : null,
+                        ),
+                        const SizedBox(height: 10),
+                        TextFormField(
+                          controller: passwordCtrl,
+                          obscureText: obscurePass,
+                          decoration: InputDecoration(
+                            labelText: 'Login Password *',
+                            filled: true,
+                            fillColor: Colors.white,
+                            prefixIcon: const Icon(Icons.lock_outline, size: 18),
+                            suffixIcon: IconButton(
+                              icon: Icon(
+                                obscurePass ? Icons.visibility_off : Icons.visibility,
+                                size: 18,
+                              ),
+                              onPressed: () => setDialogState(() => obscurePass = !obscurePass),
+                            ),
+                          ),
+                          validator: (v) => v == null || v.trim().isEmpty ? 'Password is required' : null,
+                        ),
+                      ],
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -181,6 +279,14 @@ class _TeacherManagementScreenState extends State<TeacherManagementScreen> {
                   final school =
                       Provider.of<SchoolProvider>(context, listen: false);
 
+                  final phone = phoneCtrl.text.trim();
+                  final loginId = loginIdCtrl.text.trim().isNotEmpty
+                      ? loginIdCtrl.text.trim()
+                      : phone;
+                  final password = passwordCtrl.text.trim().isNotEmpty
+                      ? passwordCtrl.text.trim()
+                      : 'alqalam123';
+
                   final teacher = TeacherModel(
                     id: isEditing
                         ? existing.id
@@ -188,11 +294,15 @@ class _TeacherManagementScreenState extends State<TeacherManagementScreen> {
                     name: nameCtrl.text.trim(),
                     subject: subjectCtrl.text.trim(),
                     classAssigned: selectedClass,
-                    phone: phoneCtrl.text.trim(),
+                    phone: phone,
                     email: emailCtrl.text.trim(),
                     qualification: qualCtrl.text.trim(),
+                    loginId: loginId,
+                    password: password,
                     isActive: true,
                   );
+
+                  AccountManagementService.saveTeacher(teacher);
 
                   if (isEditing) {
                     school.updateTeacher(teacher);
@@ -626,46 +736,64 @@ class _TeacherManagementScreenState extends State<TeacherManagementScreen> {
                                   ],
                                 ),
                                 const SizedBox(height: 12),
+                                const SizedBox(height: 10),
+                                // Credentials Pill
+                                Container(
+                                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                                  decoration: BoxDecoration(
+                                    color: const Color(0xFFF9FAFB),
+                                    borderRadius: BorderRadius.circular(10),
+                                    border: Border.all(color: Colors.grey.shade200),
+                                  ),
+                                  child: Row(
+                                    children: [
+                                      const Icon(Icons.vpn_key_rounded, size: 13, color: AppTheme.forestPrimary),
+                                      const SizedBox(width: 6),
+                                      Expanded(
+                                        child: Text(
+                                          'ID: ${teacher.loginId}   •   Pass: ${teacher.password}',
+                                          style: GoogleFonts.inter(
+                                            fontSize: 11,
+                                            fontWeight: FontWeight.w600,
+                                            color: AppTheme.forestDeep,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                const SizedBox(height: 10),
                                 const Divider(height: 1),
                                 const SizedBox(height: 8),
                                 Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Row(
-                                      children: [
-                                        const Icon(Icons.phone,
-                                            size: 13, color: Colors.grey),
-                                        const SizedBox(width: 6),
-                                        Text(
-                                          teacher.phone,
-                                          style: GoogleFonts.inter(
-                                            fontSize: 12,
-                                            color: AppTheme.textDark,
-                                            fontWeight: FontWeight.w500,
-                                          ),
+                                    Expanded(
+                                      child: OutlinedButton.icon(
+                                        onPressed: () => _makeCall(teacher.phone),
+                                        icon: const Icon(Icons.phone, size: 14),
+                                        label: const Text('Call'),
+                                        style: OutlinedButton.styleFrom(
+                                          foregroundColor: AppTheme.forestPrimary,
+                                          side: const BorderSide(color: AppTheme.forestPrimary),
+                                          padding: const EdgeInsets.symmetric(vertical: 6),
+                                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                                         ),
-                                      ],
+                                      ),
                                     ),
-                                    Row(
-                                      children: [
-                                        IconButton(
-                                          icon: const Icon(Icons.phone,
-                                              size: 18,
-                                              color: AppTheme.forestPrimary),
-                                          onPressed: () =>
-                                              _makeCall(teacher.phone),
-                                          tooltip: 'Call Teacher',
+                                    const SizedBox(width: 8),
+                                    Expanded(
+                                      flex: 2,
+                                      child: ElevatedButton.icon(
+                                        onPressed: () => _shareCredentialsWhatsApp(teacher),
+                                        icon: const Icon(Icons.share, size: 14),
+                                        label: const Text('WhatsApp Login ID'),
+                                        style: ElevatedButton.styleFrom(
+                                          backgroundColor: const Color(0xFF25D366),
+                                          foregroundColor: Colors.white,
+                                          padding: const EdgeInsets.symmetric(vertical: 6),
+                                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                                         ),
-                                        IconButton(
-                                          icon: const Icon(Icons.chat_bubble,
-                                              size: 18,
-                                              color: Colors.green),
-                                          onPressed: () =>
-                                              _openWhatsApp(teacher.phone),
-                                          tooltip: 'WhatsApp Teacher',
-                                        ),
-                                      ],
+                                      ),
                                     ),
                                   ],
                                 ),

@@ -1,3 +1,4 @@
+import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -28,6 +29,25 @@ class _LoginScreenState extends State<LoginScreen> {
   final _identifierController = TextEditingController();
   final _passwordController = TextEditingController();
   bool _obscurePassword = true;
+
+  Future<void> _callAdmin() async {
+    final url = Uri.parse('tel:9308462418');
+    try {
+      await launchUrl(url);
+    } catch (_) {}
+  }
+
+  Future<void> _whatsAppAdmin() async {
+    final roleName = _selectedRole?.title ?? 'User';
+    final msg = Uri.encodeComponent(
+      'Assalamu Alaikum Admin,\nI need my login ID and password for Al-Qalam Public School Mobile App (' + roleName + ' Portal).\nPlease create and share my account credentials.',
+    );
+    final url = Uri.parse('https://wa.me/919308462418?text=' + msg);
+    try {
+      await launchUrl(url, mode: LaunchMode.externalApplication);
+    } catch (_) {}
+  }
+
 
   @override
   void initState() {
@@ -442,34 +462,82 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
           const SizedBox(height: 28),
 
-          // Error Feedback Banner
+          // Error Feedback Banner & Contact Admin Action
           if (auth.errorMessage != null) ...[
             Container(
-              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+              padding: const EdgeInsets.all(14),
               decoration: BoxDecoration(
                 color: const Color(0xFFFEF2F2),
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(16),
                 border: Border.all(color: const Color(0xFFFCA5A5)),
               ),
-              child: Row(
+              child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Icon(
-                    Icons.error_outline_rounded,
-                    color: Color(0xFFDC2626),
-                    size: 20,
-                  ),
-                  const SizedBox(width: 10),
-                  Expanded(
-                    child: Text(
-                      auth.errorMessage!,
-                      style: GoogleFonts.inter(
-                        fontSize: 13,
-                        color: const Color(0xFFB91C1C),
-                        fontWeight: FontWeight.w500,
-                        height: 1.35,
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Icon(
+                        Icons.error_outline_rounded,
+                        color: Color(0xFFDC2626),
+                        size: 20,
                       ),
+                      const SizedBox(width: 10),
+                      Expanded(
+                        child: Text(
+                          auth.errorMessage!,
+                          style: GoogleFonts.inter(
+                            fontSize: 13,
+                            color: const Color(0xFFB91C1C),
+                            fontWeight: FontWeight.w500,
+                            height: 1.35,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 12),
+                  const Divider(height: 1, color: Color(0xFFFECACA)),
+                  const SizedBox(height: 10),
+                  Text(
+                    'Agar aapka Login ID abhi tak school se nahi mila hai, to Office se sampark karein:',
+                    style: GoogleFonts.inter(
+                      fontSize: 11,
+                      color: const Color(0xFF991B1B),
+                      fontWeight: FontWeight.w600,
                     ),
+                  ),
+                  const SizedBox(height: 8),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: OutlinedButton.icon(
+                          onPressed: _callAdmin,
+                          icon: const Icon(Icons.phone, size: 14),
+                          label: const Text('Call Office'),
+                          style: OutlinedButton.styleFrom(
+                            foregroundColor: const Color(0xFFB91C1C),
+                            side: const BorderSide(color: Color(0xFFFCA5A5)),
+                            padding: const EdgeInsets.symmetric(vertical: 6),
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      Expanded(
+                        child: ElevatedButton.icon(
+                          onPressed: _whatsAppAdmin,
+                          icon: const Icon(Icons.chat, size: 14),
+                          label: const Text('WhatsApp Admin'),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: const Color(0xFF25D366),
+                            foregroundColor: Colors.white,
+                            padding: const EdgeInsets.symmetric(vertical: 6),
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),

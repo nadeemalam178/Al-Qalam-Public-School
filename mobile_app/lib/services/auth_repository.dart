@@ -1,3 +1,4 @@
+import 'account_management_service.dart';
 import 'dart:convert';
 import 'package:crypto/crypto.dart';
 import 'package:flutter/foundation.dart';
@@ -110,49 +111,116 @@ class SupabaseAuthRepository implements AuthRepository {
       );
     }
 
-    // 2. Teacher Context (Farzana Begum)
-    final isTeacherId = cleanId == 'teacher_101' ||
-        cleanId == 'teacher' ||
-        cleanId == 'farzana.t@alqalam.edu.in' ||
-        cleanId.replaceAll(RegExp(r'\D'), '') == '9431056782';
+    // 2. Dynamic Teacher Authentication (Accounts created by Admin)
+    if (selectedRole == LoginRole.teacher) {
+      final dynamicTeacher = await AccountManagementService.authenticateTeacher(
+        identifier: identifier,
+        password: password,
+      );
 
-    if (isTeacherId && selectedRole == LoginRole.teacher) {
-      try {
-        await _storage.write(key: 'saved_user_role', value: 'teacher');
-        await _storage.write(key: 'saved_user_id', value: '22222222-2222-2222-2222-222222222222');
-      } catch (_) {}
+      if (dynamicTeacher != null) {
+        try {
+          await _storage.write(key: 'saved_user_role', value: 'teacher');
+          await _storage.write(key: 'saved_user_id', value: dynamicTeacher.id);
+          await _storage.write(key: 'saved_user_name', value: dynamicTeacher.name);
+          await _storage.write(key: 'saved_user_class', value: dynamicTeacher.classAssigned);
+          await _storage.write(key: 'saved_user_subject', value: dynamicTeacher.subject);
+        } catch (_) {}
 
-      return const AppUser(
-        id: '22222222-2222-2222-2222-222222222222',
-        name: 'Farzana Begum',
-        email: 'farzana.t@alqalam.edu.in',
-        phone: '+91 94310 56782',
-        role: UserRole.teacher,
-        designation: 'Senior Primary Teacher (Maths & EVS)',
-        classAssigned: 'Class 3-A',
+        return AppUser(
+          id: dynamicTeacher.id,
+          name: dynamicTeacher.name,
+          email: dynamicTeacher.email.isNotEmpty
+              ? dynamicTeacher.email
+              : '${dynamicTeacher.loginId}@alqalam.school',
+          phone: dynamicTeacher.phone,
+          role: UserRole.teacher,
+          designation: 'Faculty (${dynamicTeacher.subject})',
+          classAssigned: dynamicTeacher.classAssigned,
+        );
+      }
+
+      // Legacy fallback for default demo teacher
+      final isLegacyTeacher = cleanId == 'teacher_101' ||
+          cleanId == 'teacher' ||
+          cleanId == 'farzana.t@alqalam.edu.in' ||
+          cleanId.replaceAll(RegExp(r'\D'), '') == '9431056782';
+
+      if (isLegacyTeacher) {
+        try {
+          await _storage.write(key: 'saved_user_role', value: 'teacher');
+          await _storage.write(key: 'saved_user_id', value: '22222222-2222-2222-2222-222222222222');
+        } catch (_) {}
+
+        return const AppUser(
+          id: '22222222-2222-2222-2222-222222222222',
+          name: 'Farzana Begum',
+          email: 'farzana.t@alqalam.edu.in',
+          phone: '+91 94310 56782',
+          role: UserRole.teacher,
+          designation: 'Senior Primary Teacher (Maths & EVS)',
+          classAssigned: 'Class 3-A',
+        );
+      }
+
+      throw const AuthFailureException(
+        'Teacher account not recognized or incorrect password.\n\nIf your teacher login ID has not been created yet by the school, please contact School Administration (Office) to receive your credentials.',
       );
     }
 
-    // 3. Parent Context (Mohd. Tariq Alam)
-    final isParentId = cleanId == 'parent_201' ||
-        cleanId == 'parent' ||
-        cleanId == 'tariq.alam@gmail.com' ||
-        cleanId.replaceAll(RegExp(r'\D'), '') == '9835012450';
+    // 3. Dynamic Parent / Guardian Authentication (Accounts created by Admin)
+    if (selectedRole == LoginRole.parent) {
+      final dynamicParent = await AccountManagementService.authenticateParent(
+        identifier: identifier,
+        password: password,
+      );
 
-    if (isParentId && selectedRole == LoginRole.parent) {
-      try {
-        await _storage.write(key: 'saved_user_role', value: 'parent');
-        await _storage.write(key: 'saved_user_id', value: '33333333-3333-3333-3333-333333333333');
-      } catch (_) {}
+      if (dynamicParent != null) {
+        try {
+          await _storage.write(key: 'saved_user_role', value: 'parent');
+          await _storage.write(key: 'saved_user_id', value: dynamicParent.id);
+          await _storage.write(key: 'saved_user_name', value: dynamicParent.parentName);
+          await _storage.write(key: 'saved_user_student', value: dynamicParent.studentName);
+          await _storage.write(key: 'saved_user_grade', value: dynamicParent.grade);
+        } catch (_) {}
 
-      return const AppUser(
-        id: '33333333-3333-3333-3333-333333333333',
-        name: 'Mohd. Tariq Alam',
-        email: 'tariq.alam@gmail.com',
-        phone: '+91 98350 12450',
-        role: UserRole.parent,
-        designation: 'Parent of Zaid Alam (Class 3-A)',
-        studentId: 'stu00000-0000-0000-0000-000000000001',
+        return AppUser(
+          id: dynamicParent.id,
+          name: dynamicParent.parentName,
+          email: '${dynamicParent.loginId}@alqalam.school',
+          phone: dynamicParent.phone,
+          role: UserRole.parent,
+          designation: 'Parent of ${dynamicParent.studentName} (${dynamicParent.grade})',
+          studentId: dynamicParent.id,
+          classAssigned: dynamicParent.grade,
+        );
+      }
+
+      // Legacy fallback for default demo parent
+      final isLegacyParent = cleanId == 'parent_201' ||
+          cleanId == 'parent' ||
+          cleanId == 'tariq.alam@gmail.com' ||
+          cleanId.replaceAll(RegExp(r'\D'), '') == '9835012450';
+
+      if (isLegacyParent) {
+        try {
+          await _storage.write(key: 'saved_user_role', value: 'parent');
+          await _storage.write(key: 'saved_user_id', value: '33333333-3333-3333-3333-333333333333');
+        } catch (_) {}
+
+        return const AppUser(
+          id: '33333333-3333-3333-3333-333333333333',
+          name: 'Mohd. Tariq Alam',
+          email: 'tariq.alam@gmail.com',
+          phone: '+91 98350 12450',
+          role: UserRole.parent,
+          designation: 'Parent of Zaid Alam (Class 3-A)',
+          studentId: 'stu00000-0000-0000-0000-000000000001',
+        );
+      }
+
+      throw const AuthFailureException(
+        'Parent login credentials not recognized or incorrect password.\n\nIf your parent ID has not been created by the school office yet, please contact School Administration to receive your login details.',
       );
     }
 
@@ -355,24 +423,33 @@ class SupabaseAuthRepository implements AuthRepository {
           designation: 'Director & Campus Administrator',
         );
       } else if (savedRole == 'teacher') {
-        return const AppUser(
-          id: '22222222-2222-2222-2222-222222222222',
-          name: 'Farzana Begum',
-          email: 'farzana.t@alqalam.edu.in',
-          phone: '+91 94310 56782',
+        final savedName = await _storage.read(key: 'saved_user_name');
+        final savedId = await _storage.read(key: 'saved_user_id');
+        final savedClass = await _storage.read(key: 'saved_user_class');
+        final savedSubject = await _storage.read(key: 'saved_user_subject');
+        return AppUser(
+          id: savedId ?? '22222222-2222-2222-2222-222222222222',
+          name: savedName ?? 'Faculty Member',
+          email: 'teacher@alqalam.school',
+          phone: '',
           role: UserRole.teacher,
-          designation: 'Senior Primary Teacher (Maths & EVS)',
-          classAssigned: 'Class 3-A',
+          designation: savedSubject != null ? 'Faculty ($savedSubject)' : 'Primary Teacher',
+          classAssigned: savedClass ?? 'All Primary Classes',
         );
       } else if (savedRole == 'parent') {
-        return const AppUser(
-          id: '33333333-3333-3333-3333-333333333333',
-          name: 'Mohd. Tariq Alam',
-          email: 'tariq.alam@gmail.com',
-          phone: '+91 98350 12450',
+        final savedName = await _storage.read(key: 'saved_user_name');
+        final savedId = await _storage.read(key: 'saved_user_id');
+        final savedStudent = await _storage.read(key: 'saved_user_student');
+        final savedGrade = await _storage.read(key: 'saved_user_grade');
+        return AppUser(
+          id: savedId ?? '33333333-3333-3333-3333-333333333333',
+          name: savedName ?? 'Guardian',
+          email: 'parent@alqalam.school',
+          phone: '',
           role: UserRole.parent,
-          designation: 'Parent of Zaid Alam (Class 3-A)',
-          studentId: 'stu00000-0000-0000-0000-000000000001',
+          designation: savedStudent != null ? 'Parent of $savedStudent ($savedGrade)' : 'Al-Qalam Guardian',
+          studentId: savedId,
+          classAssigned: savedGrade ?? 'Class 1',
         );
       }
     } catch (_) {}

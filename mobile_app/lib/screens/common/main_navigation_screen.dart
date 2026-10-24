@@ -28,6 +28,7 @@ import '../admin/admission_leads_screen.dart';
 import '../admin/teacher_management_screen.dart';
 import '../admin/class_routine_screen.dart';
 import '../admin/website_management_screen.dart';
+import '../admin/parent_management_screen.dart';
 import '../../services/app_update_service.dart';
 
 // Common Screens
@@ -437,6 +438,54 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
                         context,
                         MaterialPageRoute(
                             builder: (_) => const WebsiteManagementScreen()),
+                      );
+                    },
+                  ),
+                  const Divider(),
+                  ListTile(
+                    leading: Container(
+                      padding: const EdgeInsets.all(7),
+                      decoration: BoxDecoration(
+                        color: AppTheme.forestPrimary.withValues(alpha: 0.12),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: const Icon(Icons.family_restroom_rounded,
+                          color: AppTheme.forestPrimary, size: 20),
+                    ),
+                    title: Row(
+                      children: [
+                        Text('Parent & Guardian Logins',
+                            style: GoogleFonts.inter(
+                                fontWeight: FontWeight.w600, fontSize: 13)),
+                        const SizedBox(width: 6),
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 5, vertical: 1.5),
+                          decoration: BoxDecoration(
+                            color: const Color(0xFF25D366),
+                            borderRadius: BorderRadius.circular(4),
+                          ),
+                          child: Text(
+                            'PORTAL',
+                            style: GoogleFonts.inter(
+                              fontSize: 8,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    subtitle: Text(
+                        'Create guardian login IDs, passwords & WhatsApp sharing',
+                        style: GoogleFonts.inter(
+                            fontSize: 11, color: AppTheme.textMuted)),
+                    onTap: () {
+                      Navigator.pop(context);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (_) => const ParentManagementScreen()),
                       );
                     },
                   ),
