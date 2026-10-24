@@ -6,7 +6,7 @@ const nextConfig: NextConfig = {
       {
         source: "/Al-Qalam-Public-School-Release.apk",
         destination:
-          "https://github.com/nadeemalam178/Al-Qalam-Public-School/releases/download/v1.1.0/Al-Qalam-Public-School-Release.apk",
+          "https://github.com/nadeemalam178/Al-Qalam-Public-School/releases/latest/download/Al-Qalam-Public-School-Release.apk",
         permanent: false,
       },
     ];

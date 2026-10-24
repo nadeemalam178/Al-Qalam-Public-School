@@ -52,7 +52,7 @@ jobs:
       - name: Upload APK Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: Al-Qalam-Public-School-Release-APK-v1.2.1
+          name: Al-Qalam-Public-School-Release-APK-v1.2.2
           path: Al-Qalam-Public-School-Release.apk
           if-no-files-found: error
           retention-days: 30
@@ -61,10 +61,10 @@ jobs:
         uses: softprops/action-gh-release@v2
         if: github.ref == 'refs/heads/main'
         with:
-          tag_name: v1.2.1
-          name: Al-Qalam Mobile Suite v1.2.1
+          tag_name: v1.2.2
+          name: Al-Qalam Mobile Suite v1.2.2
           body: |
-            ### 🏫 Al-Qalam Public School Mobile Management Suite v1.2.1
+            ### 🏫 Al-Qalam Public School Mobile Management Suite v1.2.2
             - **Session**: 2026-27
             - **Release Updates**:
               - 🚀 **Over-The-Air (OTA) Updates**: In-app automatic update notification and 1-tap download & install directly via Android Package Manager.

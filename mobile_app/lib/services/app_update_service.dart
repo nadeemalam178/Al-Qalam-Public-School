@@ -22,14 +22,14 @@ class AppUpdateInfo {
 }
 
 class AppUpdateService {
-  static const String currentVersion = '1.2.1';
-  static const int currentBuildNumber = 4;
+  static const String currentVersion = '1.2.2';
+  static const int currentBuildNumber = 5;
 
   static const String _githubLatestReleaseApi =
       'https://api.github.com/repos/nadeemalam178/Al-Qalam-Public-School/releases/latest';
 
   static const String directApkFallbackUrl =
-      'https://github.com/nadeemalam178/Al-Qalam-Public-School/releases/download/v1.2.1/Al-Qalam-Public-School-Release.apk';
+      'https://github.com/nadeemalam178/Al-Qalam-Public-School/releases/latest/download/Al-Qalam-Public-School-Release.apk';
 
   /// Checks GitHub releases API for newer APK builds using Dart's native HttpClient.
   static Future<AppUpdateInfo?> checkLatestRelease() async {

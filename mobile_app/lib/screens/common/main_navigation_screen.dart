@@ -500,7 +500,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
                       color: AppTheme.forestPrimary),
                   title: Text('Check for Updates (OTA)',
                       style: GoogleFonts.inter(fontWeight: FontWeight.w500)),
-                  subtitle: Text('Current v1.2.1 • Auto-check enabled',
+                  subtitle: Text('Current v1.2.2 • Auto-check enabled',
                       style: GoogleFonts.inter(fontSize: 11, color: AppTheme.textMuted)),
                   trailing: Container(
                     padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
