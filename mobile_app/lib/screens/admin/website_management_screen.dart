@@ -17,12 +17,59 @@ class WebsiteManagementScreen extends StatefulWidget {
 class _WebsiteManagementScreenState extends State<WebsiteManagementScreen> {
   String _selectedCategory = 'All';
 
+  Widget _buildGalleryThumbnail(String src, {double? height, BoxFit fit = BoxFit.cover}) {
+    if (src.startsWith('http://') || src.startsWith('https://')) {
+      return Image.network(
+        src,
+        height: height,
+        fit: fit,
+        errorBuilder: (_, __, ___) => _fallbackPlaceholder(height: height),
+      );
+    }
+
+    final filename = src.split('/').last;
+    final localRealAsset = 'assets/real/' + filename;
+    final localImageAsset = 'assets/images/' + filename;
+    final webUrl = src.startsWith('/')
+        ? 'https://alqalampublicschool.vercel.app' + src
+        : 'https://alqalampublicschool.vercel.app/' + src;
+
+    return Image.asset(
+      localRealAsset,
+      height: height,
+      fit: fit,
+      errorBuilder: (_, __, ___) => Image.asset(
+        localImageAsset,
+        height: height,
+        fit: fit,
+        errorBuilder: (_, __, ___) => Image.network(
+          webUrl,
+          height: height,
+          fit: fit,
+          errorBuilder: (_, __, ___) => _fallbackPlaceholder(height: height),
+        ),
+      ),
+    );
+  }
+
+  Widget _fallbackPlaceholder({double? height}) {
+    return Container(
+      height: height,
+      color: AppTheme.forestTint,
+      child: const Center(
+        child: Icon(Icons.photo_outlined, color: AppTheme.forestPrimary, size: 28),
+      ),
+    );
+  }
+
+
   final List<String> _categories = [
     'All',
     'Campus',
     'Activities',
     'Classroom',
     'Achievements',
+    'Events',
   ];
 
   void _showAddPhotoDialog() {
@@ -221,27 +268,7 @@ class _WebsiteManagementScreenState extends State<WebsiteManagementScreen> {
           children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(16),
-              child: item.src.startsWith('http')
-                  ? Image.network(
-                      item.src,
-                      fit: BoxFit.cover,
-                      errorBuilder: (_, __, ___) => Container(
-                        height: 200,
-                        color: Colors.grey[200],
-                        child: const Center(child: Icon(Icons.broken_image)),
-                      ),
-                    )
-                  : Image.asset(
-                      item.src.startsWith('/')
-                          ? item.src.substring(1)
-                          : item.src,
-                      fit: BoxFit.cover,
-                      errorBuilder: (_, __, ___) => Container(
-                        height: 200,
-                        color: Colors.grey[200],
-                        child: const Center(child: Icon(Icons.broken_image)),
-                      ),
-                    ),
+              child: _buildGalleryThumbnail(item.src, height: 220, fit: BoxFit.cover),
             ),
             const SizedBox(height: 10),
             Container(
@@ -500,41 +527,7 @@ class _WebsiteManagementScreenState extends State<WebsiteManagementScreen> {
                                           borderRadius:
                                               const BorderRadius.vertical(
                                                   top: Radius.circular(16)),
-                                          child: item.src.startsWith('http')
-                                              ? Image.network(
-                                                  item.src,
-                                                  fit: BoxFit.cover,
-                                                  errorBuilder:
-                                                      (_, __, ___) =>
-                                                          Container(
-                                                    color: AppTheme.forestTint,
-                                                    child: const Center(
-                                                      child: Icon(
-                                                        Icons.image,
-                                                        color: AppTheme
-                                                            .forestPrimary,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                )
-                                              : Image.asset(
-                                                  item.src.startsWith('/')
-                                                      ? item.src.substring(1)
-                                                      : item.src,
-                                                  fit: BoxFit.cover,
-                                                  errorBuilder:
-                                                      (_, __, ___) =>
-                                                          Container(
-                                                    color: AppTheme.forestTint,
-                                                    child: const Center(
-                                                      child: Icon(
-                                                        Icons.image,
-                                                        color: AppTheme
-                                                            .forestPrimary,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
+                                          child: _buildGalleryThumbnail(item.src, fit: BoxFit.cover),
                                         ),
                                       ),
                                       Positioned(
