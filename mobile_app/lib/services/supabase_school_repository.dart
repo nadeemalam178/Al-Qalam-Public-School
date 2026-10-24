@@ -45,26 +45,7 @@ class SupabaseSchoolRepository {
   Future<List<Student>> fetchLinkedChildren(String guardianId) async {
     final client = SupabaseService.client;
     if (client == null || !SupabaseService.isInitialized) {
-      // In offline/demo mode, return demo sibling pair (Zaid & Zoya)
-      return [
-        SchoolDataRepository.initialStudents.first,
-        const Student(
-          id: 'STU-002-ZOYA',
-          admissionNo: 'AQPS-2025-031',
-          name: 'Zoya Alam',
-          grade: 'Class 1',
-          section: 'A',
-          rollNo: 6,
-          fatherName: 'Mohd. Tariq Alam',
-          motherName: 'Shabana Khatoon',
-          phone: '+91 98350 12450',
-          address: 'Gulzarbagh Main Bazar, Patna - 800007',
-          dob: '20-Nov-2019',
-          bloodGroup: 'O+',
-          attendanceRate: 98.0,
-          pendingFees: 0.0,
-        ),
-      ];
+      return [];
     }
 
     try {
@@ -80,13 +61,10 @@ class SupabaseSchoolRepository {
         }
       }
 
-      if (children.isNotEmpty) return children;
-
-      // Fallback to initial student list if newly signed up
-      return [SchoolDataRepository.initialStudents.first];
+      return children;
     } catch (e) {
       debugPrint('[SupabaseSchoolRepository] fetchLinkedChildren fallback: $e');
-      return [SchoolDataRepository.initialStudents.first];
+      return [];
     }
   }
 
