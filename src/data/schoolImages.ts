@@ -98,6 +98,15 @@ export const schoolImages = {
     height: 896,
   },
 
+  // School Building Landmark - Real campus building (Hashmi Manzil)
+  building: {
+    src: "/images/school/campus/school-building.png",
+    alt: "Al-Qalam Public School campus building - Hashmi Manzil in Loharwa Ghat Lane, Alamganj, Patna",
+    caption: "Al-Qalam Public School building (Hashmi Manzil) in Loharwa Ghat Lane, Alamganj, Patna",
+    width: 566,
+    height: 625,
+    isPlaceholder: false,
+  },
   // Admission enquiry desk - Real school entrance gate
   admission: {
     src: "/images/school/campus/school-gate-entrance-banner.jpg",

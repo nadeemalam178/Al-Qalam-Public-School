@@ -35,6 +35,14 @@ class _AboutSchoolScreenState extends State<AboutSchoolScreen> {
 
   final List<Map<String, String>> _galleryItems = [
     {
+      'image': 'assets/real/school_building.png',
+      'title': 'School Building (Hashmi Manzil)',
+      'category': 'Campus Landmark',
+      'description':
+          'Al-Qalam Public School primary building located at Loharwa Ghat Lane, opposite Jashn Palace Marriage Hall, Alamganj, Patna-7.',
+    },
+
+    {
       'image': 'assets/real/rotary-shiksha-ratna-award.jpg',
       'title': 'Rotary Shiksha Ratna State Honor',
       'category': 'State Honor',
@@ -930,6 +938,93 @@ class _AboutSchoolScreenState extends State<AboutSchoolScreen> {
               ),
             ),
             const SizedBox(height: 24),
+
+            // Campus Building Landmark Card
+            Container(
+              margin: const EdgeInsets.only(bottom: 16),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(16),
+                border: Border.all(color: const Color(0xFFECEFF1)),
+                boxShadow: [
+                  BoxShadow(
+                    color: AppTheme.forestDeep.withValues(alpha: 0.05),
+                    blurRadius: 10,
+                    offset: const Offset(0, 4),
+                  ),
+                ],
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      height: 160,
+                      width: double.infinity,
+                      child: Stack(
+                        fit: StackFit.expand,
+                        children: [
+                          Image.asset(
+                            'assets/real/school_building.png',
+                            fit: BoxFit.cover,
+                            alignment: Alignment.center,
+                            errorBuilder: (_, __, ___) => Container(
+                              color: AppTheme.forestTint,
+                              child: const Icon(Icons.apartment, size: 48, color: AppTheme.forestPrimary),
+                            ),
+                          ),
+                          Positioned(
+                            top: 10,
+                            left: 10,
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                              decoration: BoxDecoration(
+                                color: AppTheme.forestPrimary,
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              child: Text(
+                                'Campus Building',
+                                style: GoogleFonts.inter(
+                                  color: Colors.white,
+                                  fontSize: 10,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(14),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Hashmi Manzil • Primary Learning Wing',
+                            style: GoogleFonts.outfit(
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                              color: AppTheme.forestDeep,
+                            ),
+                          ),
+                          const SizedBox(height: 4),
+                          Text(
+                            'Loharwa Ghat Lane, Opposite Jashn Palace, Alamganj, Patna. Look for this building with the Al-Qalam board when visiting campus.',
+                            style: GoogleFonts.inter(
+                              fontSize: 11,
+                              color: AppTheme.textMuted,
+                              height: 1.4,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
 
             // Contact & Campus Details Card
             Container(

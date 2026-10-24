@@ -214,6 +214,22 @@ export const GALLERY_ITEMS: GalleryItem[] = [
     sourceUrl: "https://www.facebook.com/p/Al-Qalam-Public-School-100066841958743/",
   },
   {
+    id: "school-building-hashmi-manzil",
+    src: "/images/school/campus/school-building.png",
+    altSrcs: [
+      "/images/school/campus/school-campus-exterior.jpg",
+      "/images/school/campus/school-gate-entrance-banner.jpg",
+    ],
+    title: "School Building & Entrance (Hashmi Manzil)",
+    category: "Campus",
+    tag: "Campus Landmark",
+    description:
+      "Exterior view of Al-Qalam Public School primary campus building (Hashmi Manzil) in Loharwa Ghat Lane, Alamganj, Patna-7.",
+    isReal: true,
+    source: "Campus Archive",
+    sourceUrl: "https://www.facebook.com/p/Al-Qalam-Public-School-100066841958743/",
+  },
+  {
     id: "school-campus-exterior",
     src: "/images/school/campus/school-campus-exterior.jpg",
     altSrcs: [

@@ -258,6 +258,38 @@ export default function AboutPage() {
             </p>
           </div>
 
+          {/* Campus Facility & Building Landmark */}
+          <div className="max-w-5xl mx-auto mb-10 bg-white rounded-2xl border border-stone-200 overflow-hidden shadow-xs">
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-0 items-center">
+              <div className="md:col-span-5 relative h-64 sm:h-72 md:h-full min-h-[280px] bg-stone-100">
+                <Image
+                  src="/images/school/campus/school-building.png"
+                  alt="Al-Qalam Public School Building - Hashmi Manzil in Loharwa Ghat Lane, Alamganj, Patna"
+                  fill
+                  className="object-cover object-center"
+                  sizes="(max-width: 768px) 100vw, 40vw"
+                />
+                <div className="absolute top-3 left-3 bg-[#14532D] text-white text-[11px] font-bold px-3 py-1 rounded-full shadow-xs">
+                  Primary Campus
+                </div>
+              </div>
+              <div className="md:col-span-7 p-6 sm:p-8 space-y-3">
+                <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-[#E8F3EA] text-[#14532D] text-xs font-bold uppercase tracking-wider">
+                  <span>Campus Infrastructure</span>
+                </div>
+                <h3 className="font-heading font-bold text-xl sm:text-2xl text-stone-900">
+                  Focused Primary Learning Facility
+                </h3>
+                <p className="text-stone-600 text-xs sm:text-sm leading-relaxed">
+                  Housed in Hashmi Manzil on Loharwa Ghat Lane, our campus provides a monitored, safe, and community-rooted primary learning environment. Rather than vast impersonal complexes, our building allows teachers and administration to maintain close personal oversight of every child.
+                </p>
+                <div className="pt-2 text-xs text-stone-500 font-medium">
+                  📍 Opposite Jashn Palace Marriage Hall, Ashok Rajpath Rd, Alamganj, Patna-7
+                </div>
+              </div>
+            </div>
+          </div>
+
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto text-xs text-stone-700">
             <div className="p-5 bg-white rounded-xl border border-stone-200/90 shadow-xs space-y-2">
               <h3 className="font-heading font-bold text-sm text-stone-900">Supervised Gates</h3>

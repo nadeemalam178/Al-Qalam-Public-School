@@ -1,5 +1,6 @@
 import React from "react";
 import type { Metadata } from "next";
+import Image from "next/image";
 import { MapPin, Navigation, ShieldCheck } from "lucide-react";
 import ContactSection from "@/components/ContactSection";
 import { SCHOOL_DATA } from "@/data/schoolData";
@@ -42,6 +43,50 @@ export default function ContactPage() {
           </div>
 
           <ContactSection />
+
+          {/* Campus Building Landmark Card */}
+          <div className="mt-12 bg-white rounded-2xl border border-stone-200 overflow-hidden shadow-xs">
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-0 items-center">
+              <div className="md:col-span-5 relative h-72 sm:h-80 md:h-full min-h-[300px] bg-stone-100">
+                <Image
+                  src="/images/school/campus/school-building.png"
+                  alt="Al-Qalam Public School Building - Hashmi Manzil in Loharwa Ghat Lane"
+                  fill
+                  className="object-cover object-center"
+                  sizes="(max-width: 768px) 100vw, 40vw"
+                />
+                <div className="absolute top-3 left-3 bg-[#14532D] text-white text-[11px] font-bold px-3 py-1 rounded-full shadow-xs">
+                  Campus Landmark
+                </div>
+              </div>
+              <div className="md:col-span-7 p-6 sm:p-8 space-y-4">
+                <div className="space-y-1">
+                  <span className="text-xs font-bold uppercase tracking-wider text-[#14532D]">
+                    How to Recognize Our Building
+                  </span>
+                  <h3 className="font-heading font-bold text-xl sm:text-2xl text-stone-900">
+                    Hashmi Manzil • Primary Learning Wing
+                  </h3>
+                  <p className="text-xs text-stone-500">
+                    Loharwa Ghat Lane, Alamganj, Patna – 800007
+                  </p>
+                </div>
+                <p className="text-stone-600 text-xs sm:text-sm leading-relaxed">
+                  Our school operates from this multi-story building located inside Loharwa Ghat Lane. When walking or driving down from Ashok Rajpath Road (directly opposite Jashn Palace Marriage Hall), look for this distinctive building featuring the yellow <strong>Al-Qalam Public School</strong> board.
+                </p>
+                <div className="grid grid-cols-2 gap-3 pt-2">
+                  <div className="p-3 rounded-lg bg-stone-50 border border-stone-200/80 text-xs text-stone-700">
+                    <span className="font-bold block text-stone-900 mb-0.5">Building Name</span>
+                    <span>Hashmi Manzil</span>
+                  </div>
+                  <div className="p-3 rounded-lg bg-stone-50 border border-stone-200/80 text-xs text-stone-700">
+                    <span className="font-bold block text-stone-900 mb-0.5">Main Landmark</span>
+                    <span>Opp. Jashn Palace</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
 
           {/* Detailed Transit, Landmark, and Visitor Cards */}
           <div className="mt-14 bg-stone-50/70 border border-stone-200 rounded-xl p-6 sm:p-8">
