@@ -267,6 +267,7 @@ class _MarkAttendanceScreenState extends State<MarkAttendanceScreen> {
           ),
         ],
       ),
+      ),
     );
   }
 

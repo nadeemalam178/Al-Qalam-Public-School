@@ -354,6 +354,7 @@ class _NoticesScreenState extends State<NoticesScreen> {
           ),
         ],
       ),
+      ),
     );
   }
 }
