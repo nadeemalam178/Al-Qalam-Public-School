@@ -81,7 +81,7 @@ export default function ApkDownloadSection() {
                 {/* Action Buttons */}
                 <div className="pt-2 flex flex-wrap items-center gap-4">
                   <a
-                    href="/Al-Qalam-Public-School-Release.apk"
+                    href="https://github.com/nadeemalam178/Al-Qalam-Public-School/releases/latest/download/Al-Qalam-Public-School-Release.apk"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="px-6 py-3.5 rounded-xl font-bold text-sm bg-amber-400 hover:bg-amber-300 text-stone-900 shadow-lg hover:shadow-xl transition-all flex items-center gap-2.5 active:scale-95"
