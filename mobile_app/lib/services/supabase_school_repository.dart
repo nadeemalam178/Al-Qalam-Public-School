@@ -1,3 +1,4 @@
+import '../models/gallery_item_model.dart';
 import 'package:flutter/foundation.dart';
 import '../models/student_model.dart';
 import '../models/attendance_model.dart';
@@ -269,6 +270,24 @@ class SupabaseSchoolRepository {
       }
     }
   }
+
+  /// Deletes or deactivates a notice in Supabase.
+  Future<void> deleteNotice(String id) async {
+    final client = SupabaseService.client;
+    if (client != null && SupabaseService.isInitialized) {
+      try {
+        await client.from('notices').update({'is_active': false}).eq('id', id);
+        await SupabaseService.logAudit(
+          action: 'DELETE_NOTICE',
+          entityType: 'notices',
+          entityId: id,
+        );
+      } catch (e) {
+        debugPrint('[SupabaseSchoolRepository] deleteNotice error: $e');
+      }
+    }
+  }
+
 
   // --------------------------------------------------------------------------
   // FEES & PAYMENTS
@@ -548,4 +567,111 @@ class SupabaseSchoolRepository {
       room: (row['room_no'] ?? 'Room 301') as String,
     );
   }
+
+  // --------------------------------------------------------------------------
+  // WEBSITE PHOTO GALLERY (Syncs directly with Next.js Website)
+  // --------------------------------------------------------------------------
+
+  static const List<SchoolGalleryItem> defaultGalleryItems = [
+    SchoolGalleryItem(
+      id: 'gal-rotary-shiksha-ratna',
+      title: 'Rotary Shiksha Ratna Samman Recognition',
+      category: 'Achievements',
+      src: '/images/school/achievements/rotary-shiksha-ratna-award.jpg',
+      tag: 'State Honor',
+      description: 'Director Rahat Jahan receiving the Rotary Shiksha Ratna Samman from Hon\'ble Chief Minister of Bihar Nitish Kumar.',
+    ),
+    SchoolGalleryItem(
+      id: 'gal-merit-awards',
+      title: 'Annual Examination Merit Awards Ceremony',
+      category: 'Achievements',
+      src: '/images/school/achievements/annual-exam-merit-shield.jpg',
+      tag: 'Merit Shield',
+      description: 'Annual examination toppers recognized with academic merit shields and certificates.',
+    ),
+    SchoolGalleryItem(
+      id: 'gal-quiz-competition',
+      title: 'Annual Quiz & Computer Competition',
+      category: 'Activities',
+      src: '/images/school/activities/annual-quiz-competition.jpg',
+      tag: 'STEM & Logic',
+      description: 'Students competing in inter-house mental arithmetic, Islamic studies, and IT rounds.',
+    ),
+    SchoolGalleryItem(
+      id: 'gal-classroom-learning',
+      title: 'Classroom Learning & Interactive Pedagogy',
+      category: 'Classroom',
+      src: '/images/school/classroom/classroom-learning.jpg',
+      tag: 'Smart Class',
+      description: 'Engaging, child-centered classroom sessions focusing on Urdu, English, Mathematics and Science.',
+    ),
+  ];
+
+  /// Fetches live gallery photos from Supabase `gallery_items`.
+  Future<List<SchoolGalleryItem>> fetchGalleryItems() async {
+    final client = SupabaseService.client;
+    if (client == null || !SupabaseService.isInitialized) {
+      return defaultGalleryItems;
+    }
+
+    try {
+      final response = await client
+          .from('gallery_items')
+          .select()
+          .eq('is_active', true)
+          .order('created_at', ascending: false);
+
+      final list = (response as List)
+          .map((row) => SchoolGalleryItem.fromJson(row as Map<String, dynamic>))
+          .toList();
+      return list.isNotEmpty ? list : defaultGalleryItems;
+    } catch (e) {
+      debugPrint('[SupabaseSchoolRepository] fetchGalleryItems fallback: $e');
+      return defaultGalleryItems;
+    }
+  }
+
+  /// Adds a new photo into Supabase `gallery_items` (instantly appears on website).
+  Future<void> addGalleryItem(SchoolGalleryItem item) async {
+    final client = SupabaseService.client;
+    if (client != null && SupabaseService.isInitialized) {
+      try {
+        await client.from('gallery_items').insert({
+          'title': item.title,
+          'category': item.category,
+          'src': item.src,
+          'tag': item.tag,
+          'description': item.description,
+          'is_active': true,
+        });
+
+        await SupabaseService.logAudit(
+          action: 'ADD_GALLERY_PHOTO',
+          entityType: 'gallery_items',
+          metadata: {'title': item.title, 'category': item.category},
+        );
+      } catch (e) {
+        debugPrint('[SupabaseSchoolRepository] addGalleryItem error: $e');
+      }
+    }
+  }
+
+  /// Deletes a photo from Supabase `gallery_items` (instantly removed from website).
+  Future<void> deleteGalleryItem(String id) async {
+    final client = SupabaseService.client;
+    if (client != null && SupabaseService.isInitialized) {
+      try {
+        await client.from('gallery_items').update({'is_active': false}).eq('id', id);
+
+        await SupabaseService.logAudit(
+          action: 'DELETE_GALLERY_PHOTO',
+          entityType: 'gallery_items',
+          entityId: id,
+        );
+      } catch (e) {
+        debugPrint('[SupabaseSchoolRepository] deleteGalleryItem error: $e');
+      }
+    }
+  }
+
 }

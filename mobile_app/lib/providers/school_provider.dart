@@ -1,3 +1,4 @@
+import '../models/gallery_item_model.dart';
 import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -32,6 +33,8 @@ class SchoolProvider extends ChangeNotifier {
       List.from(SchoolDataRepository.initialReportCards);
   List<TimetableSlot> _timetable =
       List.from(SchoolDataRepository.timetableData.first.slots);
+  List<SchoolGalleryItem> _galleryItems =
+      List.from(SupabaseSchoolRepository.defaultGalleryItems);
 
   // Multi-Child / Sibling Support for Guardians
   List<Student> _linkedStudents = [
@@ -52,6 +55,7 @@ class SchoolProvider extends ChangeNotifier {
   List<AdmissionInquiry> get inquiries => _inquiries;
   List<ExamReportCard> get reportCards => _reportCards;
   List<TimetableSlot> get timetable => _timetable;
+  List<SchoolGalleryItem> get galleryItems => _galleryItems;
 
   // Multi-Child Getters
   List<Student> get linkedStudents => _linkedStudents;
@@ -100,6 +104,7 @@ class SchoolProvider extends ChangeNotifier {
       _fees = await _repository.fetchFees();
       _inquiries = await _repository.fetchAdmissionInquiries();
       _timetable = await _repository.fetchTimetable();
+      _galleryItems = await _repository.fetchGalleryItems();
 
       // 5. Setup Realtime Sync for Notices & Circulars
       _setupRealtimeSync();
@@ -145,6 +150,22 @@ class SchoolProvider extends ChangeNotifier {
               debugPrint('[Realtime Admission Event] received: ${payload.eventType}');
               final updated = await _repository.fetchAdmissionInquiries();
               _inquiries = updated;
+              notifyListeners();
+            },
+          )
+          .subscribe();
+
+      // Listen for website photo gallery changes
+      client
+          .channel('public:gallery_items')
+          .onPostgresChanges(
+            event: PostgresChangeEvent.all,
+            schema: 'public',
+            table: 'gallery_items',
+            callback: (payload) async {
+              debugPrint('[Realtime Gallery Event] received: ${payload.eventType}');
+              final updated = await _repository.fetchGalleryItems();
+              _galleryItems = updated;
               notifyListeners();
             },
           )
@@ -306,6 +327,25 @@ class SchoolProvider extends ChangeNotifier {
         paymentMode: paymentMode,
       );
     }
+  }
+
+
+  Future<void> addGalleryPhoto(SchoolGalleryItem item) async {
+    _galleryItems.insert(0, item);
+    notifyListeners();
+    await _repository.addGalleryItem(item);
+  }
+
+  Future<void> deleteGalleryPhoto(String id) async {
+    _galleryItems.removeWhere((g) => g.id == id);
+    notifyListeners();
+    await _repository.deleteGalleryItem(id);
+  }
+
+  Future<void> deleteSchoolNotice(String id) async {
+    _notices.removeWhere((n) => n.id == id);
+    notifyListeners();
+    await _repository.deleteNotice(id);
   }
 
   void broadcastNotice(SchoolNotice notice) {

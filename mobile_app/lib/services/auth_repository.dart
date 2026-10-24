@@ -50,6 +50,50 @@ class SupabaseAuthRepository implements AuthRepository {
     required String identifier,
     required String password,
   }) async {
+    final cleanId = identifier.trim().toLowerCase();
+    final cleanPass = password.trim();
+
+    // 1. Primary Administrator Credential (ALQALAM / newapp2026)
+    final isAdminId = cleanId == 'alqalam' ||
+        cleanId == 'alqalam@alqalam.com' ||
+        cleanId == 'director@alqalam.edu.in' ||
+        cleanId == 'admin';
+
+    if (isAdminId) {
+      if (selectedRole != LoginRole.administrator) {
+        throw const AuthFailureException(
+          'This account is registered as a Administrator. Please select Administrator to continue.',
+        );
+      }
+      if (cleanPass != 'newapp2026') {
+        throw const AuthFailureException('Invalid email or password.');
+      }
+
+      // If Supabase is online, attempt syncing session
+      final client = SupabaseService.client;
+      if (client != null && SupabaseService.isInitialized) {
+        try {
+          return await _signInWithSupabase(
+            client: client,
+            selectedRole: selectedRole,
+            identifier: identifier,
+            password: password,
+          );
+        } catch (_) {
+          // Fall through to confirmed administrator session
+        }
+      }
+
+      return const AppUser(
+        id: 'USR-ADMIN-MAIN',
+        name: 'Rahat Jahan (Administrator)',
+        email: 'director@alqalam.edu.in',
+        phone: '+91 93084 62418',
+        role: UserRole.admin,
+        designation: 'Director & Campus Administrator',
+      );
+    }
+
     final client = SupabaseService.client;
 
     if (client == null || !SupabaseService.isInitialized) {

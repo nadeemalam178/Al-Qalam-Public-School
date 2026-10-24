@@ -12,6 +12,7 @@ import SchoolLifeEvents from "@/components/SchoolLifeEvents";
 import DirectorCard from "@/components/DirectorCard";
 import ParentTestimonials from "@/components/ParentTestimonials";
 import FAQSection from "@/components/FAQSection";
+import ApkDownloadSection from "@/components/ApkDownloadSection";
 import AdmissionForm from "@/components/AdmissionForm";
 import AdmissionCalculator from "@/components/AdmissionCalculator";
 import ContactSection from "@/components/ContactSection";
@@ -184,6 +185,9 @@ export default function HomePage() {
 
       {/* 9.1 Interactive Frequently Asked Questions */}
       <FAQSection />
+
+      {/* 9.2 Official Mobile Application Suite Download Section */}
+      <ApkDownloadSection />
 
       {/* 10. Campus Location & Contact Section */}
       <section className="py-16 sm:py-20 bg-white">

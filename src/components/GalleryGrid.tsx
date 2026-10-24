@@ -246,6 +246,7 @@ function DynamicGalleryCard({
 }
 
 export default function GalleryGrid() {
+  const [items, setItems] = useState<GalleryItem[]>(GALLERY_ITEMS);
   const [activeCategory, setActiveCategory] = useState<string>("All");
   const [selectedIdx, setSelectedIdx] = useState<number | null>(null);
   const [lightboxSubIdx, setLightboxSubIdx] = useState<number>(0);
@@ -254,7 +255,23 @@ export default function GalleryGrid() {
   const closeBtnRef = useRef<HTMLButtonElement>(null);
   const previousFocusRef = useRef<HTMLElement | null>(null);
 
-  const filteredItems = GALLERY_ITEMS.filter((item) => {
+  // Sync dynamic gallery items from Supabase (Mobile App CMS)
+  useEffect(() => {
+    let mounted = true;
+    fetch("/api/gallery")
+      .then((res) => res.json())
+      .then((data) => {
+        if (mounted && data?.success && Array.isArray(data.items) && data.items.length > 0) {
+          setItems(data.items);
+        }
+      })
+      .catch((err) => console.warn("[Gallery Live Sync Fallback]", err));
+    return () => {
+      mounted = false;
+    };
+  }, []);
+
+  const filteredItems = items.filter((item) => {
     if (activeCategory === "All") return true;
     if (activeCategory === "Campus" || activeCategory === "Facilities") {
       return item.category === "Campus" || item.category === "Facilities";

@@ -151,3 +151,54 @@ export async function fetchLiveNotices(): Promise<NoticeItem[]> {
     return [];
   }
 }
+
+
+/**
+ * Fetches published gallery photographs from Supabase gallery_items table.
+ * Live sync with Mobile App CMS where Admin adds/removes photos.
+ */
+export async function fetchLiveGallery(): Promise<Array<{
+  id: string;
+  src: string;
+  title: string;
+  category: "Classroom" | "Activities" | "Events" | "Achievements" | "Campus" | "Facilities";
+  tag: string;
+  description: string;
+  isReal: boolean;
+}>> {
+  try {
+    const client = getSupabaseClient();
+    const { data, error } = await client
+      .from("gallery_items")
+      .select("*")
+      .eq("is_active", true)
+      .order("created_at", { ascending: false });
+
+    if (error || !data) {
+      return [];
+    }
+
+    return data.map((item: Record<string, unknown>) => {
+      let category: "Classroom" | "Activities" | "Events" | "Achievements" | "Campus" | "Facilities" = "Campus";
+      const cat = String(item.category || "").toLowerCase();
+      if (cat.includes("achieve")) category = "Achievements";
+      else if (cat.includes("activ")) category = "Activities";
+      else if (cat.includes("class")) category = "Classroom";
+      else if (cat.includes("event")) category = "Events";
+      else if (cat.includes("facil")) category = "Facilities";
+
+      return {
+        id: String(item.id || Math.random()),
+        src: String(item.src || "/images/school/classroom/classroom-learning.jpg"),
+        title: String(item.title || "School Life"),
+        category,
+        tag: String(item.tag || "Campus Life"),
+        description: String(item.description || ""),
+        isReal: true,
+      };
+    });
+  } catch (err) {
+    console.error("[Supabase fetchLiveGallery Exception]", err);
+    return [];
+  }
+}
