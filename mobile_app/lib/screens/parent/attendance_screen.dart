@@ -270,8 +270,8 @@ class _ParentAttendanceScreenState extends State<ParentAttendanceScreen> {
 
             // Attendance Records Timeline
             ...filteredRecords.map((rec) {
-              Color statusColor;
-              IconData statusIcon;
+              Color statusColor = const Color(0xFF10B981);
+              IconData statusIcon = Icons.check_circle_rounded;
 
               switch (rec.status) {
                 case AttendanceStatus.present:

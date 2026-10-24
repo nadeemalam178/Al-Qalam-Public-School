@@ -192,6 +192,18 @@ class SchoolProvider extends ChangeNotifier {
     }
   }
 
+  List<AttendanceRecord> getAttendanceForStudent(String studentId) {
+    return _attendance.where((a) => a.studentId == studentId).toList();
+  }
+
+  List<FeeReceipt> getFeesForStudent(String studentId) {
+    return _fees.where((f) => f.studentId == studentId).toList();
+  }
+
+  List<HomeworkItem> getHomeworkForGrade(String grade) {
+    return _homework.where((h) => h.grade.contains(grade)).toList();
+  }
+
   ExamReportCard? getReportCardForStudent(String studentId) {
     try {
       return _reportCards.firstWhere((r) => r.studentId == studentId);
