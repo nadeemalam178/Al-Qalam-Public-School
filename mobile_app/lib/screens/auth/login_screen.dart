@@ -58,29 +58,6 @@ class _LoginScreenState extends State<LoginScreen> {
     context.read<AuthProvider>().clearError();
   }
 
-  void _quickFillRoleCredentials(LoginRole role) {
-    setState(() {
-      _selectedRole = role;
-      if (role == LoginRole.parent) {
-        _identifierController.text = 'parent_201';
-      } else if (role == LoginRole.teacher) {
-        _identifierController.text = 'teacher_101';
-      } else {
-        _identifierController.text = 'alqalam_777';
-      }
-      _passwordController.text = 'newappschool';
-    });
-    context.read<AuthProvider>().clearError();
-  }
-
-  Future<void> _quickLoginDirect(LoginRole role) async {
-    _quickFillRoleCredentials(role);
-    await Future.delayed(const Duration(milliseconds: 120));
-    if (mounted) {
-      await _handleLogin();
-    }
-  }
-
   Future<void> _handleLogin() async {
     if (_selectedRole == null) return;
     if (!_formKey.currentState!.validate()) return;
@@ -319,57 +296,36 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
         const SizedBox(height: 24),
 
-        // Quick One-Tap Demo Testing Box
+        // Secure Campus Portal Information Notice
         GlassCard(
-          accentColor: AppTheme.goldPrimary,
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          accentColor: AppTheme.forestPrimary,
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+          child: Row(
             children: [
-              Row(
-                children: [
-                  const Icon(Icons.bolt_rounded, size: 20, color: AppTheme.goldPrimary),
-                  const SizedBox(width: 8),
-                  Text(
-                    'Instant Demo Login (1-Tap)',
-                    style: GoogleFonts.inter(
-                      fontSize: 13,
-                      fontWeight: FontWeight.bold,
-                      color: isDark ? Colors.white : AppTheme.forestDeep,
+              const Icon(Icons.verified_user_rounded, size: 24, color: AppTheme.forestPrimary),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Official Campus Portal',
+                      style: GoogleFonts.inter(
+                        fontSize: 13,
+                        fontWeight: FontWeight.bold,
+                        color: isDark ? Colors.white : AppTheme.forestDeep,
+                      ),
                     ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 12),
-              Row(
-                children: [
-                  Expanded(
-                    child: _buildQuickDemoPill(
-                      label: 'Parent',
-                      sublabel: 'Zaid Alam',
-                      icon: Icons.family_restroom,
-                      onTap: () => _quickLoginDirect(LoginRole.parent),
+                    const SizedBox(height: 2),
+                    Text(
+                      'Please enter your registered School ID / Email and secure password to sign in.',
+                      style: GoogleFonts.inter(
+                        fontSize: 11,
+                        color: isDark ? Colors.white60 : AppTheme.textMuted,
+                      ),
                     ),
-                  ),
-                  const SizedBox(width: 8),
-                  Expanded(
-                    child: _buildQuickDemoPill(
-                      label: 'Teacher',
-                      sublabel: 'Farzana B.',
-                      icon: Icons.school,
-                      onTap: () => _quickLoginDirect(LoginRole.teacher),
-                    ),
-                  ),
-                  const SizedBox(width: 8),
-                  Expanded(
-                    child: _buildQuickDemoPill(
-                      label: 'Admin',
-                      sublabel: 'Rahat J.',
-                      icon: Icons.admin_panel_settings,
-                      onTap: () => _quickLoginDirect(LoginRole.administrator),
-                    ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ],
           ),
@@ -707,46 +663,4 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  Widget _buildQuickDemoPill({
-    required String label,
-    required String sublabel,
-    required IconData icon,
-    required VoidCallback onTap,
-  }) {
-    return GlassContainer(
-      onTap: onTap,
-      borderRadius: BorderRadius.circular(14),
-      blur: 10,
-      opacity: 0.65,
-      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 10),
-      borderColor: AppTheme.forestPrimary.withValues(alpha: 0.25),
-      child: Column(
-        children: [
-          Icon(icon, size: 20, color: AppTheme.forestPrimary),
-          const SizedBox(height: 5),
-          Text(
-            label,
-            style: GoogleFonts.inter(
-              fontSize: 11,
-              fontWeight: FontWeight.bold,
-              color: AppTheme.forestDeep,
-            ),
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-          ),
-          const SizedBox(height: 1),
-          Text(
-            sublabel,
-            style: GoogleFonts.inter(
-              fontSize: 9,
-              fontWeight: FontWeight.w500,
-              color: AppTheme.textMuted,
-            ),
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-          ),
-        ],
-      ),
-    );
-  }
 }

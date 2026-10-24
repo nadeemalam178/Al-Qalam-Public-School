@@ -6,8 +6,65 @@ import 'package:al_qalam_school/models/user_model.dart';
 import 'package:al_qalam_school/providers/auth_provider.dart';
 import 'package:al_qalam_school/providers/school_provider.dart';
 import 'package:al_qalam_school/screens/auth/login_screen.dart';
+import 'package:al_qalam_school/services/auth_repository.dart';
 import 'package:al_qalam_school/theme/app_theme.dart';
 import 'package:al_qalam_school/widgets/role_card.dart';
+
+/// Test mock implementation of [AuthRepository]
+class MockAuthRepository implements AuthRepository {
+  @override
+  Future<AppUser> signIn({
+    required LoginRole selectedRole,
+    required String identifier,
+    required String password,
+  }) async {
+    final cleanId = identifier.trim().toLowerCase();
+
+    if (password != 'secure_test_password') {
+      throw const AuthFailureException('Invalid email or password.');
+    }
+
+    if (cleanId == 'parent@example.com' || cleanId == 'parent_201') {
+      if (selectedRole != LoginRole.parent) {
+        throw const AuthFailureException(
+          'This account is registered as a Parent. Please select Parent to continue.',
+        );
+      }
+      return const AppUser(
+        id: 'USR-PARENT-TEST',
+        name: 'Test Parent',
+        email: 'parent@example.com',
+        phone: '+91 98000 00000',
+        role: UserRole.parent,
+        designation: 'Parent of Test Student',
+      );
+    }
+
+    if (cleanId == 'admin@example.com' || cleanId == 'admin_777') {
+      if (selectedRole != LoginRole.administrator) {
+        throw const AuthFailureException(
+          'This account is registered as a Administrator. Please select Administrator to continue.',
+        );
+      }
+      return const AppUser(
+        id: 'USR-ADMIN-TEST',
+        name: 'Test Admin',
+        email: 'admin@example.com',
+        phone: '+91 99000 00000',
+        role: UserRole.admin,
+        designation: 'Director',
+      );
+    }
+
+    throw const AuthFailureException('Invalid email or password.');
+  }
+
+  @override
+  Future<AppUser?> restoreSession() async => null;
+
+  @override
+  Future<void> signOut() async {}
+}
 
 void main() {
   group('LoginRole and Database Mapping Tests', () {
@@ -35,15 +92,14 @@ void main() {
     late AuthProvider authProvider;
 
     setUp(() {
-      authProvider = AuthProvider();
+      authProvider = AuthProvider(authRepository: MockAuthRepository());
     });
 
     test('Selecting Administrator but using Parent credentials rejects with role error', () async {
-      // Parent demo credentials: tariq.alam@gmail.com
       final success = await authProvider.signIn(
         selectedRole: LoginRole.administrator,
-        identifier: 'tariq.alam@gmail.com',
-        password: 'password123',
+        identifier: 'parent@example.com',
+        password: 'secure_test_password',
       );
 
       expect(success, isFalse);
@@ -55,11 +111,10 @@ void main() {
     });
 
     test('Selecting Teacher but using Administrator credentials rejects with role error', () async {
-      // Administrator demo credentials: director@alqalam.edu.in
       final success = await authProvider.signIn(
         selectedRole: LoginRole.teacher,
-        identifier: 'director@alqalam.edu.in',
-        password: 'password123',
+        identifier: 'admin@example.com',
+        password: 'secure_test_password',
       );
 
       expect(success, isFalse);
@@ -84,8 +139,8 @@ void main() {
     test('Matching credentials and role succeeds', () async {
       final success = await authProvider.signIn(
         selectedRole: LoginRole.parent,
-        identifier: 'tariq.alam@gmail.com',
-        password: 'correctpassword',
+        identifier: 'parent@example.com',
+        password: 'secure_test_password',
       );
 
       expect(success, isTrue);
@@ -94,45 +149,18 @@ void main() {
       expect(authProvider.errorMessage, isNull);
     });
 
-    test('Alqalam_777 with newappschool logs in as Administrator successfully', () async {
+    test('Administrator login succeeds with correct credentials', () async {
       final success = await authProvider.signIn(
         selectedRole: LoginRole.administrator,
-        identifier: 'Alqalam_777',
-        password: 'newappschool',
+        identifier: 'admin@example.com',
+        password: 'secure_test_password',
       );
 
       expect(success, isTrue);
       expect(authProvider.isAuthenticated, isTrue);
       expect(authProvider.currentRole, UserRole.admin);
-      expect(authProvider.currentUser.name, 'Rahat Jahan');
+      expect(authProvider.currentUser.name, 'Test Admin');
       expect(authProvider.errorMessage, isNull);
-    });
-
-    test('Alqalam_777 under Teacher role is rejected with role mismatch error', () async {
-      final success = await authProvider.signIn(
-        selectedRole: LoginRole.teacher,
-        identifier: 'Alqalam_777',
-        password: 'newappschool',
-      );
-
-      expect(success, isFalse);
-      expect(authProvider.isAuthenticated, isFalse);
-      expect(
-        authProvider.errorMessage,
-        'This account is registered as a Administrator. Please select Administrator to continue.',
-      );
-    });
-
-    test('Alqalam_777 with wrong password is rejected', () async {
-      final success = await authProvider.signIn(
-        selectedRole: LoginRole.administrator,
-        identifier: 'Alqalam_777',
-        password: 'wrong_password',
-      );
-
-      expect(success, isFalse);
-      expect(authProvider.isAuthenticated, isFalse);
-      expect(authProvider.errorMessage, 'Invalid email or password.');
     });
   });
 
@@ -141,7 +169,7 @@ void main() {
       return MultiProvider(
         providers: [
           ChangeNotifierProvider<AuthProvider>(
-            create: (_) => auth ?? AuthProvider(),
+            create: (_) => auth ?? AuthProvider(authRepository: MockAuthRepository()),
           ),
           ChangeNotifierProvider<SchoolProvider>(
             create: (_) => SchoolProvider(),

@@ -1,77 +1,38 @@
-# 🏫 Al-Qalam Public School - Login Credentials
+# 🏫 Al-Qalam Public School - Authentication & Access Guide
 
-Official test and demonstration credentials for all 3 account roles in the **Al-Qalam Public School Mobile App**.
-
----
-
-## 📌 Screen Login Flow
-1. Open the App.
-2. Select your **Account Type** (Administrator, Teacher, or Parent).
-3. Enter the corresponding **ID / Phone / Email** and **Password**.
-4. Tap **Sign In**.
-5. Once logged in, your session is securely locked to that role. To switch to another account, tap the lock badge at the top right and select **Sign Out**.
+This document describes how authentication and access management work for the **Al-Qalam Public School Mobile App** and web services.
 
 ---
 
-## 1️⃣ Administrator Portal
+## 🔒 Security Architecture
 
-| Field | Value |
+1. **Supabase Cloud Authentication**:
+   - All logins are authenticated directly through Supabase Auth using industry-standard JWT tokens with PKCE flow.
+   - Passwords are never hardcoded in client source code or mobile APK packages.
+   - All passwords in Supabase Auth are salted and hashed using bcrypt.
+
+2. **Row-Level Security (RLS)**:
+   - PostgreSQL policies strictly separate Administrator, Teacher, and Parent accounts.
+   - A Parent can only view fee invoices, attendance, and homework corresponding to their linked children.
+   - A Teacher can record attendance and post assignments for their designated class.
+   - An Administrator has full oversight over school statistics, enrollments, and fees.
+
+---
+
+## 📌 Roles & Access
+
+| Role | Access Scope |
 | :--- | :--- |
-| **Select Account Type** | **Administrator** |
-| **Primary User ID** | `Alqalam_777` |
-| **Alternative User ID** | `admin` |
-| **Email ID** | `director@alqalam.edu.in` |
-| **Phone Number** | `9308462418` |
-| **Password** | `newappschool` |
-| **Name** | Rahat Jahan |
-| **Designation** | Director & Campus Administrator |
-| **Access Rights** | Full Campus Oversight, Fee Collections, Teacher Management, Circulars & Analytics |
+| **Administrator** | Full Campus Oversight, Fee Collections, Faculty Management, Circulars & Analytics |
+| **Teacher** | Daily Attendance Marking, Homework Assigning, Class Timetables, Student Rosters |
+| **Parent / Guardian** | Linked Student ID Card, Fee Dues & Receipts, Homework, Timetable, School Notices |
 
 ---
 
-## 2️⃣ Teacher Portal
+## 🚀 Setting Up Users in Supabase
 
-| Field | Value |
-| :--- | :--- |
-| **Select Account Type** | **Teacher** |
-| **Primary User ID** | `teacher_101` |
-| **Alternative User ID** | `teacher` |
-| **Email ID** | `farzana.t@alqalam.edu.in` |
-| **Phone Number** | `9431056782` |
-| **Password** | `newappschool` |
-| **Name** | Farzana Begum |
-| **Designation** | Senior Primary Teacher (Maths & EVS) |
-| **Assigned Class** | Class 3-A |
-| **Access Rights** | Daily Attendance Marking, Homework Assigning, Class Timetable, Student Marks Entry |
-
----
-
-## 3️⃣ Parent / Guardian Portal
-
-| Field | Value |
-| :--- | :--- |
-| **Select Account Type** | **Parent** |
-| **Primary User ID** | `parent_201` |
-| **Alternative User ID** | `parent` |
-| **Email ID** | `tariq.alam@gmail.com` |
-| **Phone Number** | `9835012450` |
-| **Password** | `newappschool` |
-| **Name** | Mohd. Tariq Alam |
-| **Student Linked** | Zaid Alam (Class 3-A, Roll #12) |
-| **Access Rights** | Student ID Card, Fee Dues & Receipts, Daily Diary/Homework, Report Cards, Timetable, School Notices |
-
----
-
-## 🔑 Quick Reference Card
-
-```text
-======================================================================
-ROLE           | USER ID        | PASSWORD        | ACCESS
-======================================================================
-Administrator  | Alqalam_777    | newappschool    | Director / Admin
-Teacher        | teacher_101    | newappschool    | Faculty (Class 3-A)
-Parent         | parent_201     | newappschool    | Student (Zaid Alam)
-======================================================================
-```
-
-*Note: All passwords also accept `alqalam123` as a secondary backup password.*
+To add staff or parents:
+1. Open your **Supabase Dashboard**: [https://supabase.com/dashboard/project/zarvozaaexpblrhjsfzq](https://supabase.com/dashboard/project/zarvozaaexpblrhjsfzq)
+2. Go to **Authentication** -> **Users** -> Click **Add User** -> **Create User**.
+3. Enter their email address and a strong temporary password.
+4. Go to Table Editor -> `public.profiles` to ensure their `role` matches (`admin`, `teacher`, or `guardian`).
