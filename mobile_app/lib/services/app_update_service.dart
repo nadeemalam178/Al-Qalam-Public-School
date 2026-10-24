@@ -263,6 +263,17 @@ class AppUpdateService {
     );
   }
 
+  /// Silently checks for updates in background on app launch and notifies only if update exists.
+  static Future<void> autoCheckOnLaunch(BuildContext context) async {
+    try {
+      final info = await checkLatestRelease();
+      if (!context.mounted) return;
+      if (info != null && info.hasUpdate) {
+        showUpdateDialog(context, info);
+      }
+    } catch (_) {}
+  }
+
   /// Manually checks for updates from the side panel drawer.
   static Future<void> checkFromDrawer(BuildContext context) async {
     ScaffoldMessenger.of(context).showSnackBar(
