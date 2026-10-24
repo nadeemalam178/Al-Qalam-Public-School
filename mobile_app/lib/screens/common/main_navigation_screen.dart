@@ -29,6 +29,8 @@ import '../admin/fee_collection_screen.dart';
 import '../admin/post_notice_screen.dart';
 import '../admin/admission_leads_screen.dart';
 import '../admin/student_registry_screen.dart';
+import '../admin/website_management_screen.dart';
+import '../../services/app_update_service.dart';
 
 // Common Screens
 import 'notices_screen.dart';
@@ -43,6 +45,22 @@ class MainNavigationScreen extends StatefulWidget {
 
 class _MainNavigationScreenState extends State<MainNavigationScreen> {
   int _currentIndex = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _checkOtaUpdates();
+    });
+  }
+
+  Future<void> _checkOtaUpdates() async {
+    final info = await AppUpdateService.checkLatestRelease();
+    if (mounted && info != null && info.hasUpdate) {
+      AppUpdateService.showUpdateDialog(context, info);
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -190,7 +208,9 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
       ),
       drawer: _buildAppDrawer(context, auth),
       body: AmbientGlassBackground(
-        child: AnimatedSwitcher(
+        child: SafeArea(
+          bottom: false,
+          child: AnimatedSwitcher(
           duration: const Duration(milliseconds: 250),
           switchInCurve: Curves.easeOutCubic,
           switchOutCurve: Curves.easeInCubic,
@@ -204,6 +224,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
             key: ValueKey('${role.name}_$_currentIndex'),
             child: screens[_currentIndex],
           ),
+        ),
         ),
       ),
       bottomNavigationBar: Container(
@@ -415,35 +436,92 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
                     );
                   },
                 ),
-                ListTile(
-                  leading: const Icon(Icons.campaign_outlined,
-                      color: AppTheme.forestPrimary),
-                  title: Text('Notices & Circulars',
-                      style: GoogleFonts.inter(fontWeight: FontWeight.w500)),
-                  onTap: () {
-                    Navigator.pop(context);
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (_) => const NoticesScreen()),
-                    );
-                  },
-                ),
-                if (auth.isAdmin)
+                if (auth.isAdmin) ...[
+                  const Divider(),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+                    child: Text(
+                      'CAMPUS MANAGEMENT',
+                      style: GoogleFonts.inter(
+                        fontSize: 10,
+                        fontWeight: FontWeight.w700,
+                        color: AppTheme.forestPrimary,
+                        letterSpacing: 0.8,
+                      ),
+                    ),
+                  ),
                   ListTile(
-                    leading: const Icon(Icons.post_add_rounded,
-                        color: AppTheme.forestPrimary),
-                    title: Text('Broadcast New Notice',
-                        style: GoogleFonts.inter(fontWeight: FontWeight.w500)),
+                    leading: Container(
+                      padding: const EdgeInsets.all(6),
+                      decoration: BoxDecoration(
+                        color: AppTheme.forestPrimary.withValues(alpha: 0.12),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: const Icon(Icons.language_rounded,
+                          color: AppTheme.forestPrimary, size: 20),
+                    ),
+                    title: Row(
+                      children: [
+                        Text('Website Management (CMS)',
+                            style: GoogleFonts.inter(fontWeight: FontWeight.w600, fontSize: 13)),
+                        const SizedBox(width: 6),
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 1.5),
+                          decoration: BoxDecoration(
+                            color: AppTheme.goldPrimary,
+                            borderRadius: BorderRadius.circular(4),
+                          ),
+                          child: Text(
+                            'LIVE',
+                            style: GoogleFonts.inter(
+                              fontSize: 8,
+                              fontWeight: FontWeight.bold,
+                              color: AppTheme.forestDeep,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    subtitle: Text('Sync gallery photos, notices & web inquiries',
+                        style: GoogleFonts.inter(fontSize: 11, color: AppTheme.textMuted)),
                     onTap: () {
                       Navigator.pop(context);
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (_) => const PostNoticeScreen()),
+                            builder: (_) => const WebsiteManagementScreen()),
                       );
                     },
                   ),
+                ],
+                const Divider(),
+                ListTile(
+                  leading: const Icon(Icons.system_update_rounded,
+                      color: AppTheme.forestPrimary),
+                  title: Text('Check for Updates (OTA)',
+                      style: GoogleFonts.inter(fontWeight: FontWeight.w500)),
+                  subtitle: Text('Current v1.2.0 • Auto-check enabled',
+                      style: GoogleFonts.inter(fontSize: 11, color: AppTheme.textMuted)),
+                  trailing: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                    decoration: BoxDecoration(
+                      color: AppTheme.forestTint,
+                      borderRadius: BorderRadius.circular(6),
+                    ),
+                    child: Text(
+                      'OTA',
+                      style: GoogleFonts.inter(
+                        fontSize: 9,
+                        fontWeight: FontWeight.bold,
+                        color: AppTheme.forestPrimary,
+                      ),
+                    ),
+                  ),
+                  onTap: () {
+                    Navigator.pop(context);
+                    AppUpdateService.checkFromDrawer(context);
+                  },
+                ),
                 const Divider(),
                 Padding(
                   padding: const EdgeInsets.symmetric(

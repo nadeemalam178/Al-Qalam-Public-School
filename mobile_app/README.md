@@ -34,7 +34,7 @@ A cross-platform Flutter application (Android, iOS, Windows Desktop, Web) crafte
 Tap the **"Switch"** button in the top right of the App Bar or open the Navigation Drawer to instantly switch between:
 1. **Parent View**: *Mohd. Tariq Alam* (Father of Zaid Alam, Class 3-A, Roll #12)
 2. **Teacher View**: *Farzana Begum* (Class 3-A Class Teacher & Mathematics Instructor)
-3. **Admin View**: *Rahat Jahan* (Director & Founder, Al-Qalam Public School)
+3. **Admin View**: *Kausar Jahan* (Director & Founder, Al-Qalam Public School)
 
 ---
 

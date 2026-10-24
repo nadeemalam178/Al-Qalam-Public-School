@@ -49,7 +49,7 @@ export const SCHOOL_DATA = {
   affiliationStatus: "Independent Primary Institution",
 
   director: {
-    name: "Rahat Jahan",
+    name: "Kausar Jahan",
     title: "Director",
     roleDescription: "Executive leadership and administrative stewardship.",
     // Note: No personal quote is fabricated. Component uses institutional description.

@@ -142,7 +142,16 @@ class _NoticesScreenState extends State<NoticesScreen> {
       return n.category == _selectedCategory;
     }).toList();
 
+    final canPop = ModalRoute.of(context)?.canPop ?? false;
+
     return Scaffold(
+      backgroundColor: Colors.transparent,
+      appBar: canPop
+          ? AppBar(
+              title: const Text('School Notices & Circulars'),
+              backgroundColor: AppTheme.forestDeep,
+            )
+          : null,
       floatingActionButton: auth.isAdmin
           ? FloatingActionButton.extended(
               onPressed: () => Navigator.push(
@@ -160,7 +169,10 @@ class _NoticesScreenState extends State<NoticesScreen> {
               ),
             )
           : null,
-      body: Column(
+      body: SafeArea(
+        top: !canPop,
+        bottom: true,
+        child: Column(
         children: [
           // Filter Row
           Container(
@@ -220,8 +232,7 @@ class _NoticesScreenState extends State<NoticesScreen> {
                   )
                 : ListView.builder(
                     physics: const BouncingScrollPhysics(),
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 16, vertical: 14),
+                    padding: const EdgeInsets.fromLTRB(16, 14, 16, 88),
                     itemCount: notices.length,
                     itemBuilder: (context, index) {
                       final notice = notices[index];

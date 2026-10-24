@@ -268,7 +268,7 @@ export default function SchoolLifeEvents() {
                 >
                   <Image
                     src={src}
-                    alt={`Director Rahat Jahan State Honor - Photo ${idx + 1}`}
+                    alt={`Director Kausar Jahan State Honor - Photo ${idx + 1}`}
                     fill
                     sizes="(max-width: 1024px) 100vw, 40vw"
                     priority
@@ -321,7 +321,7 @@ export default function SchoolLifeEvents() {
               </h3>
 
               <p className="text-stone-700 text-sm sm:text-base leading-relaxed">
-                Director Rahat Jahan was conferred with the prestigious <strong>Rotary Shiksha Ratna Samman</strong> by <strong>Shri Nitish Kumar</strong>, Hon&apos;ble Chief Minister of Bihar, organized by Rotary Club Patna City on the occasion of Teachers&apos; Day. This honor formally acknowledged Al-Qalam Public School&apos;s devoted service to primary and foundational education in the Gulzarbagh and Patna City region.
+                Director Kausar Jahan was conferred with the prestigious <strong>Rotary Shiksha Ratna Samman</strong> by <strong>Shri Nitish Kumar</strong>, Hon&apos;ble Chief Minister of Bihar, organized by Rotary Club Patna City on the occasion of Teachers&apos; Day. This honor formally acknowledged Al-Qalam Public School&apos;s devoted service to primary and foundational education in the Gulzarbagh and Patna City region.
               </p>
 
               <div className="pt-2 flex flex-wrap items-center justify-between gap-4 text-xs text-stone-500">

@@ -17,7 +17,7 @@ class SchoolDataRepository {
       'Dr. Fateullah Colony, Near Water Tank, Gulzarbagh, Patna - 800007, Bihar';
   static const String schoolPhone = '+91 93084 62418';
   static const String schoolEmail = 'info@alqalam.edu.in';
-  static const String directorName = 'Rahat Jahan';
+  static const String directorName = 'Kausar Jahan';
   static const String directorTitle = 'Director & Founder';
 
   // Demo Users
@@ -42,7 +42,7 @@ class SchoolDataRepository {
     ),
     const AppUser(
       id: 'USR-ADMIN-01',
-      name: 'Rahat Jahan',
+      name: 'Kausar Jahan',
       email: 'director@alqalam.edu.in',
       phone: '+91 93084 62418',
       role: UserRole.admin,

@@ -579,7 +579,7 @@ class SupabaseSchoolRepository {
       category: 'Achievements',
       src: '/images/school/achievements/rotary-shiksha-ratna-award.jpg',
       tag: 'State Honor',
-      description: 'Director Rahat Jahan receiving the Rotary Shiksha Ratna Samman from Hon\'ble Chief Minister of Bihar Nitish Kumar.',
+      description: 'Director Kausar Jahan receiving the Rotary Shiksha Ratna Samman from Hon\'ble Chief Minister of Bihar Nitish Kumar.',
     ),
     SchoolGalleryItem(
       id: 'gal-merit-awards',

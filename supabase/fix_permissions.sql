@@ -229,7 +229,7 @@ WITH CHECK (true);
 -- 6. SEED INITIAL GALLERY PHOTOS (if empty)
 INSERT INTO public.gallery_items (id, title, category, tag, src, description, is_active)
 VALUES
-  ('a1b2c3d4-0001-4000-8000-000000000001', 'Rotary Shiksha Ratna Samman Recognition', 'Achievements', 'State Honor', '/images/school/achievements/rotary-shiksha-ratna-award.jpg', 'Director Rahat Jahan receiving the Rotary Shiksha Ratna Samman from Hon''ble Chief Minister of Bihar Nitish Kumar.', true),
+  ('a1b2c3d4-0001-4000-8000-000000000001', 'Rotary Shiksha Ratna Samman Recognition', 'Achievements', 'State Honor', '/images/school/achievements/rotary-shiksha-ratna-award.jpg', 'Director Kausar Jahan receiving the Rotary Shiksha Ratna Samman from Hon''ble Chief Minister of Bihar Nitish Kumar.', true),
   ('a1b2c3d4-0002-4000-8000-000000000002', 'Annual Examination Merit Awards Ceremony', 'Achievements', 'Merit Shield', '/images/school/achievements/annual-exam-merit-shield.jpg', 'Annual examination toppers recognized with academic merit shields and certificates.', true),
   ('a1b2c3d4-0003-4000-8000-000000000003', 'Annual Quiz & Computer Competition', 'Activities', 'STEM & Logic', '/images/school/activities/annual-quiz-competition.jpg', 'Students competing in inter-house mental arithmetic, Islamic studies, and IT rounds.', true),
   ('a1b2c3d4-0004-4000-8000-000000000004', 'Classroom Learning & Interactive Pedagogy', 'Classroom', 'Smart Class', '/images/school/classroom/classroom-learning.jpg', 'Engaging, child-centered classroom sessions focusing on Urdu, English, Mathematics and Science.', true)

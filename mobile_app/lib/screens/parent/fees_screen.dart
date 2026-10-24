@@ -525,8 +525,20 @@ class ParentFeesScreen extends StatelessWidget {
       orElse: () => feeRecords.first,
     );
 
+    final canPop = ModalRoute.of(context)?.canPop ?? false;
+
     return Scaffold(
-      body: SingleChildScrollView(
+      backgroundColor: Colors.transparent,
+      appBar: canPop
+          ? AppBar(
+              title: const Text('Fee Receipts & Dues'),
+              backgroundColor: AppTheme.forestDeep,
+            )
+          : null,
+      body: SafeArea(
+        top: !canPop,
+        bottom: true,
+        child: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
         child: Column(
@@ -730,9 +742,10 @@ class ParentFeesScreen extends StatelessWidget {
                 ),
               );
             }),
-            const SizedBox(height: 24),
+            const SizedBox(height: 80),
           ],
         ),
+      ),
       ),
     );
   }

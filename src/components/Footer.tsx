@@ -125,7 +125,7 @@ export default function Footer() {
               </div>
               <div className="flex items-center gap-2">
                 <ShieldCheck className="w-4 h-4 text-[#E5A93C] shrink-0" />
-                <span>Director: Rahat Jahan</span>
+                <span>Director: Kausar Jahan</span>
               </div>
             </div>
           </div>

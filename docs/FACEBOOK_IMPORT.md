@@ -12,7 +12,7 @@ Official Facebook Page Reference:
 | **Identity** | School Name | Al-Qalam Public School | Al-Qalam Public School | **Confirmed** | Verified across all official school banners and Facebook profile |
 | **Locality** | City & State | Gulzarbagh, Patna, Bihar | Patna, Bihar | **Confirmed** | Page categorized under School in Patna region |
 | **Address** | Street & Landmark | Ashok Rajpath Rd, Opp. Jashn Palace Marriage Hall, Loharwa Ghat | Listed as School | **Website-only** | Physical address confirmed on school banners & government registration |
-| **Leadership** | Director | Rahat Jahan | Rahat Jahan | **Confirmed** | Validated by Teachers' Day state citation certificate |
+| **Leadership** | Director | Kausar Jahan | Kausar Jahan | **Confirmed** | Validated by Teachers' Day state citation certificate |
 | **State Honors** | Rotary Shiksha Ratna | Recognized in 2014 | Conferred by CM Nitish Kumar on 5 Sept 2014 | **Confirmed & Enhanced** | Verified photograph & certificate showing Chief Minister Nitish Kumar |
 | **Academics** | Annual Quiz Competition | Pre-primary & Primary | Annual Quiz Competition (Computer & GK) | **Confirmed** | 9 August post with photos of quiz teams |
 | **Excursions** | Educational Study Tours | Excursion trips | Tour to Bapu Tower & Eco Park (16 Nov) | **Confirmed** | Real photo documentation of student excursion |
@@ -33,7 +33,7 @@ The following authentic photographs were imported directly from public posts on 
 - **Resolution**: 2048 × 1360 px
 - **Date**: 5 September 2014 (Teachers' Day)
 - **Website Location**: Director Leadership Desk, Homepage Events Section, Gallery (Achievements)
-- **Caption**: Director Rahat Jahan receiving the Rotary Shiksha Ratna Samman from Shri Nitish Kumar (Chief Minister of Bihar) organized by Rotary Club Patna City.
+- **Caption**: Director Kausar Jahan receiving the Rotary Shiksha Ratna Samman from Shri Nitish Kumar (Chief Minister of Bihar) organized by Rotary Club Patna City.
 
 ### Image 02: Annual Computer & Knowledge Quiz
 - **Local Path**: `public/images/school/activities/annual-quiz-competition.jpg`

@@ -67,7 +67,7 @@ The school website was built from scratch and progressively elevated into a mode
    - Quick stat badges: CCTV 24x7 Monitored Campus, Qualified Faculty, Pre-Nursery to Class 5.
    - Dual Call-to-Actions (CTAs) for Online Admissions and Mobile App download.
 3. **About & Leadership Section:**
-   - Director’s Welcome Message from **Mrs. Rahat Jahan** (Director & Campus Administrator).
+   - Director’s Welcome Message from **Mrs. Kausar Jahan** (Director & Campus Administrator).
    - School history in Gulzarbagh, pedagogical ethos, and mission statement.
 4. **Academic Curriculum:**
    - Modular breakdown of learning milestones from Pre-Nursery, Nursery, LKG, UKG up to Class 5.

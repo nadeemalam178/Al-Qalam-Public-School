@@ -73,8 +73,20 @@ class _PostHomeworkScreenState extends State<PostHomeworkScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final canPop = ModalRoute.of(context)?.canPop ?? false;
+
     return Scaffold(
-      body: SingleChildScrollView(
+      backgroundColor: Colors.transparent,
+      appBar: canPop
+          ? AppBar(
+              title: const Text('Assign Homework & Tasks'),
+              backgroundColor: AppTheme.forestDeep,
+            )
+          : null,
+      body: SafeArea(
+        top: !canPop,
+        bottom: true,
+        child: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
         child: Form(
@@ -223,10 +235,11 @@ class _PostHomeworkScreenState extends State<PostHomeworkScreen> {
                   label: const Text('Publish Assignment to Class Diary'),
                 ),
               ),
-              const SizedBox(height: 24),
+              const SizedBox(height: 80),
             ],
           ),
         ),
+      ),
       ),
     );
   }

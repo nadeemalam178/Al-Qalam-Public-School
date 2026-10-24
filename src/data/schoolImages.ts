@@ -107,10 +107,10 @@ export const schoolImages = {
     height: 896,
   },
 
-  // Director Rahat Jahan desk presentation - Real award ceremony
+  // Director Kausar Jahan desk presentation - Real award ceremony
   director: {
     src: "/images/school/achievements/rotary-shiksha-ratna-award.jpg",
-    alt: "Director Rahat Jahan receiving Rotary Shiksha Ratna honor",
+    alt: "Director Kausar Jahan receiving Rotary Shiksha Ratna honor",
     caption: "Directorate of Al-Qalam Public School",
     width: 1200,
     height: 896,

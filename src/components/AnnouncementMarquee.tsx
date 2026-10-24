@@ -7,7 +7,7 @@ import { Award, Sparkles, BookOpen, MapPin, Compass } from "lucide-react";
 const announcements = [
   {
     icon: Award,
-    text: "Rotary Shiksha Ratna Samman conferred upon Director Rahat Jahan by Hon'ble CM Nitish Kumar",
+    text: "Rotary Shiksha Ratna Samman conferred upon Director Kausar Jahan by Hon'ble CM Nitish Kumar",
     link: "/gallery",
   },
   {

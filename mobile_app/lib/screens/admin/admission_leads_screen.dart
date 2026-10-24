@@ -98,8 +98,20 @@ class AdmissionLeadsScreen extends StatelessWidget {
     final school = Provider.of<SchoolProvider>(context);
     final inquiries = school.inquiries;
 
+    final canPop = ModalRoute.of(context)?.canPop ?? false;
+
     return Scaffold(
-      body: Column(
+      backgroundColor: Colors.transparent,
+      appBar: canPop
+          ? AppBar(
+              title: const Text('Admission Enquiries'),
+              backgroundColor: AppTheme.forestDeep,
+            )
+          : null,
+      body: SafeArea(
+        top: !canPop,
+        bottom: true,
+        child: Column(
         children: [
           // Header summary
           Container(
@@ -161,7 +173,7 @@ class AdmissionLeadsScreen extends StatelessWidget {
           Expanded(
             child: ListView.builder(
               physics: const BouncingScrollPhysics(),
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+              padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
               itemCount: inquiries.length,
               itemBuilder: (context, index) {
                 final inq = inquiries[index];
@@ -329,6 +341,7 @@ class AdmissionLeadsScreen extends StatelessWidget {
             ),
           ),
         ],
+      ),
       ),
     );
   }

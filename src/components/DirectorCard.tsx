@@ -61,7 +61,7 @@ export default function DirectorCard() {
                 <span>Rotary Shiksha Ratna Samman Conferred by Chief Minister Nitish Kumar</span>
               </p>
               <p className="leading-relaxed">
-                Director Rahat Jahan was honored with the Rotary Shiksha Ratna Samman by Shri Nitish Kumar, Chief Minister of Bihar, organized by Rotary Club Patna City on Teachers&apos; Day, acknowledging dedicated service to primary schooling in Patna.
+                Director Kausar Jahan was honored with the Rotary Shiksha Ratna Samman by Shri Nitish Kumar, Chief Minister of Bihar, organized by Rotary Club Patna City on Teachers&apos; Day, acknowledging dedicated service to primary schooling in Patna.
               </p>
             </div>
           </div>

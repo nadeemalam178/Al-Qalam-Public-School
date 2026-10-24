@@ -25,7 +25,7 @@ export const GALLERY_ITEMS: GalleryItem[] = [
     category: "Achievements",
     tag: "State Honor",
     description:
-      "Director Rahat Jahan receiving the Rotary Shiksha Ratna Samman from Shri Nitish Kumar (Hon'ble Chief Minister of Bihar) organized by Rotary Club Patna City on Teachers' Day, recognizing dedicated contributions to foundational education.",
+      "Director Kausar Jahan receiving the Rotary Shiksha Ratna Samman from Shri Nitish Kumar (Hon'ble Chief Minister of Bihar) organized by Rotary Club Patna City on Teachers' Day, recognizing dedicated contributions to foundational education.",
     isReal: true,
     source: "Official Facebook Page",
     sourceUrl: "https://www.facebook.com/photo/?fbid=306944074876989",
@@ -460,7 +460,7 @@ export const VERIFIED_SCHOOL_EVENTS: SchoolEventItem[] = [
       "/images/school/achievements/star-student-trophy-ceremony.jpg",
     ],
     description:
-      "Director Rahat Jahan was honored with the Rotary Shiksha Ratna Samman by Shri Nitish Kumar (Chief Minister of Bihar) at a grand ceremony organized by Rotary Club Patna City on Teachers' Day, acknowledging impactful foundational education.",
+      "Director Kausar Jahan was honored with the Rotary Shiksha Ratna Samman by Shri Nitish Kumar (Chief Minister of Bihar) at a grand ceremony organized by Rotary Club Patna City on Teachers' Day, acknowledging impactful foundational education.",
     highlight: true,
     citation: "Teachers' Day State Felicitation, Patna City",
   },

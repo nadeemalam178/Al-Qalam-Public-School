@@ -37,31 +37,55 @@ class _ParentHomeworkScreenState extends State<ParentHomeworkScreen>
     final pendingList = allHomework.where((h) => !h.isCompleted).toList();
     final completedList = allHomework.where((h) => h.isCompleted).toList();
 
+    final canPop = ModalRoute.of(context)?.canPop ?? false;
+
     return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(48),
-        child: Container(
-          color: Colors.white,
-          child: TabBar(
-            controller: _tabController,
-            indicatorColor: AppTheme.forestPrimary,
-            indicatorWeight: 3,
-            labelColor: AppTheme.forestPrimary,
-            unselectedLabelColor: AppTheme.textMuted,
-            labelStyle: GoogleFonts.inter(fontWeight: FontWeight.bold),
-            tabs: [
-              Tab(text: 'Pending (${pendingList.length})'),
-              Tab(text: 'Completed (${completedList.length})'),
-            ],
-          ),
-        ),
-      ),
-      body: TabBarView(
+      backgroundColor: Colors.transparent,
+      appBar: canPop
+          ? AppBar(
+              title: const Text('Daily Diary & Homework'),
+              backgroundColor: AppTheme.forestDeep,
+              bottom: TabBar(
+                controller: _tabController,
+                indicatorColor: AppTheme.goldPrimary,
+                indicatorWeight: 3,
+                labelColor: Colors.white,
+                unselectedLabelColor: Colors.white70,
+                labelStyle: GoogleFonts.inter(fontWeight: FontWeight.bold),
+                tabs: [
+                  Tab(text: 'Pending (${pendingList.length})'),
+                  Tab(text: 'Completed (${completedList.length})'),
+                ],
+              ),
+            )
+          : PreferredSize(
+              preferredSize: const Size.fromHeight(48),
+              child: Container(
+                color: Colors.white,
+                child: TabBar(
+                  controller: _tabController,
+                  indicatorColor: AppTheme.forestPrimary,
+                  indicatorWeight: 3,
+                  labelColor: AppTheme.forestPrimary,
+                  unselectedLabelColor: AppTheme.textMuted,
+                  labelStyle: GoogleFonts.inter(fontWeight: FontWeight.bold),
+                  tabs: [
+                    Tab(text: 'Pending (${pendingList.length})'),
+                    Tab(text: 'Completed (${completedList.length})'),
+                  ],
+                ),
+              ),
+            ),
+      body: SafeArea(
+        top: !canPop,
+        bottom: true,
+        child: TabBarView(
         controller: _tabController,
         children: [
           _buildHomeworkListView(school, pendingList, isPending: true),
           _buildHomeworkListView(school, completedList, isPending: false),
         ],
+      ),
       ),
     );
   }
@@ -113,7 +137,7 @@ class _ParentHomeworkScreenState extends State<ParentHomeworkScreen>
 
     return ListView.builder(
       physics: const BouncingScrollPhysics(),
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+      padding: const EdgeInsets.fromLTRB(16, 14, 16, 88),
       itemCount: items.length,
       itemBuilder: (context, index) {
         final hw = items[index];

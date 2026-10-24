@@ -166,8 +166,20 @@ class _StudentRegistryScreenState extends State<StudentRegistryScreen> {
           s.rollNo.toString().contains(q);
     }).toList();
 
+    final canPop = ModalRoute.of(context)?.canPop ?? false;
+
     return Scaffold(
-      body: Column(
+      backgroundColor: Colors.transparent,
+      appBar: canPop
+          ? AppBar(
+              title: const Text('Student Registry'),
+              backgroundColor: AppTheme.forestDeep,
+            )
+          : null,
+      body: SafeArea(
+        top: !canPop,
+        bottom: true,
+        child: Column(
         children: [
           // Search & Filter Bar
           Padding(
@@ -221,7 +233,7 @@ class _StudentRegistryScreenState extends State<StudentRegistryScreen> {
           Expanded(
             child: ListView.builder(
               physics: const BouncingScrollPhysics(),
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              padding: const EdgeInsets.fromLTRB(16, 8, 16, 88),
               itemCount: students.length,
               itemBuilder: (context, index) {
                 final student = students[index];
@@ -285,6 +297,7 @@ class _StudentRegistryScreenState extends State<StudentRegistryScreen> {
             ),
           ),
         ],
+      ),
       ),
     );
   }

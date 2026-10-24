@@ -39,7 +39,7 @@ class _AboutSchoolScreenState extends State<AboutSchoolScreen> {
       'title': 'Rotary Shiksha Ratna State Honor',
       'category': 'State Honor',
       'description':
-          'Director Rahat Jahan receiving the prestigious Rotary Shiksha Ratna Award conferred by Hon\'ble Chief Minister Nitish Kumar for selfless service to grassroots child education in Patna.',
+          'Director Kausar Jahan receiving the prestigious Rotary Shiksha Ratna Award conferred by Hon\'ble Chief Minister Nitish Kumar for selfless service to grassroots child education in Patna.',
     },
     {
       'image': 'assets/real/interactive-classroom-session.jpg',
@@ -624,7 +624,7 @@ class _AboutSchoolScreenState extends State<AboutSchoolScreen> {
                           ),
                           const SizedBox(height: 8),
                           Text(
-                            'Director Rahat Jahan received this prestigious state honor for exemplary grassroots educational service, nurturing foundational excellence and ethical character in young students.',
+                            'Director Kausar Jahan received this prestigious state honor for exemplary grassroots educational service, nurturing foundational excellence and ethical character in young students.',
                             style: GoogleFonts.inter(
                               fontSize: 12,
                               color: Colors.white.withValues(alpha: 0.85),

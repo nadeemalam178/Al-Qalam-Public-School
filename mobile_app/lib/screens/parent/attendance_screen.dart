@@ -127,8 +127,20 @@ class _ParentAttendanceScreenState extends State<ParentAttendanceScreen> {
       return true;
     }).toList();
 
+    final canPop = ModalRoute.of(context)?.canPop ?? false;
+
     return Scaffold(
-      body: SingleChildScrollView(
+      backgroundColor: Colors.transparent,
+      appBar: canPop
+          ? AppBar(
+              title: const Text('Attendance Tracker'),
+              backgroundColor: AppTheme.forestDeep,
+            )
+          : null,
+      body: SafeArea(
+        top: !canPop,
+        bottom: true,
+        child: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
         child: Column(
@@ -339,9 +351,10 @@ class _ParentAttendanceScreenState extends State<ParentAttendanceScreen> {
                 ),
               );
             }),
-            const SizedBox(height: 24),
+            const SizedBox(height: 80),
           ],
         ),
+      ),
       ),
     );
   }

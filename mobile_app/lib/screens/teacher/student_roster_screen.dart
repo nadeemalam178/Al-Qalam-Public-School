@@ -165,8 +165,20 @@ class _StudentRosterScreenState extends State<StudentRosterScreen> {
           s.rollNo.toString().contains(q);
     }).toList();
 
+    final canPop = ModalRoute.of(context)?.canPop ?? false;
+
     return Scaffold(
-      body: Column(
+      backgroundColor: Colors.transparent,
+      appBar: canPop
+          ? AppBar(
+              title: const Text('Class Student Roster'),
+              backgroundColor: AppTheme.forestDeep,
+            )
+          : null,
+      body: SafeArea(
+        top: !canPop,
+        bottom: true,
+        child: Column(
         children: [
           // Search Bar
           Padding(
@@ -193,7 +205,7 @@ class _StudentRosterScreenState extends State<StudentRosterScreen> {
 
           // Students Count Bar
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+            padding: const EdgeInsets.fromLTRB(16, 6, 16, 88),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -225,7 +237,7 @@ class _StudentRosterScreenState extends State<StudentRosterScreen> {
           Expanded(
             child: ListView.builder(
               physics: const BouncingScrollPhysics(),
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+              padding: const EdgeInsets.fromLTRB(16, 6, 16, 88),
               itemCount: students.length,
               itemBuilder: (context, index) {
                 final student = students[index];
@@ -292,6 +304,7 @@ class _StudentRosterScreenState extends State<StudentRosterScreen> {
             ),
           ),
         ],
+      ),
       ),
     );
   }

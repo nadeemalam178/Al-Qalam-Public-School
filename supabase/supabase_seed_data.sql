@@ -42,7 +42,7 @@ ON CONFLICT (class_id, name) DO NOTHING;
 -- Note: When users sign up via Supabase Auth, trigger handles their UUID.
 -- These UUIDs provide immediate offline/online demo alignment.
 INSERT INTO public.profiles (id, role, full_name, email, phone, designation) VALUES
-  ('11111111-1111-1111-1111-111111111111', 'admin', 'Rahat Jahan', 'director@alqalam.edu.in', '+91 93084 62418', 'Director & Campus Administrator'),
+  ('11111111-1111-1111-1111-111111111111', 'admin', 'Kausar Jahan', 'director@alqalam.edu.in', '+91 93084 62418', 'Director & Campus Administrator'),
   ('22222222-2222-2222-2222-222222222222', 'teacher', 'Farzana Begum', 'farzana.t@alqalam.edu.in', '+91 94310 56782', 'Senior Primary Teacher (Maths & EVS)'),
   ('33333333-3333-3333-3333-333333333333', 'guardian', 'Mohd. Tariq Alam', 'tariq.alam@gmail.com', '+91 98350 12450', 'Parent of Zaid & Zoya Alam')
 ON CONFLICT (id) DO UPDATE SET

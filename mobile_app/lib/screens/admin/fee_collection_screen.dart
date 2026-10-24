@@ -173,8 +173,20 @@ class _FeeCollectionScreenState extends State<FeeCollectionScreen> {
     final displayStudents =
         _filter == 'Pending' ? pendingStudents : allStudents;
 
+    final canPop = ModalRoute.of(context)?.canPop ?? false;
+
     return Scaffold(
-      body: Column(
+      backgroundColor: Colors.transparent,
+      appBar: canPop
+          ? AppBar(
+              title: const Text('Fee Accounts Ledger'),
+              backgroundColor: AppTheme.forestDeep,
+            )
+          : null,
+      body: SafeArea(
+        top: !canPop,
+        bottom: true,
+        child: Column(
         children: [
           // Total Dues Header
           Container(
@@ -252,7 +264,7 @@ class _FeeCollectionScreenState extends State<FeeCollectionScreen> {
           Expanded(
             child: ListView.builder(
               physics: const BouncingScrollPhysics(),
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+              padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
               itemCount: displayStudents.length,
               itemBuilder: (context, index) {
                 final student = displayStudents[index];
@@ -348,6 +360,7 @@ class _FeeCollectionScreenState extends State<FeeCollectionScreen> {
             ),
           ),
         ],
+      ),
       ),
     );
   }

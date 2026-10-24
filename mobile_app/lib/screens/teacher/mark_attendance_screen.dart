@@ -49,8 +49,20 @@ class _MarkAttendanceScreenState extends State<MarkAttendanceScreen> {
     final lateCount =
         _attendanceMap.values.where((s) => s == AttendanceStatus.late).length;
 
+    final canPop = ModalRoute.of(context)?.canPop ?? false;
+
     return Scaffold(
-      body: Column(
+      backgroundColor: Colors.transparent,
+      appBar: canPop
+          ? AppBar(
+              title: const Text('Mark Class Attendance'),
+              backgroundColor: AppTheme.forestDeep,
+            )
+          : null,
+      body: SafeArea(
+        top: !canPop,
+        bottom: true,
+        child: Column(
         children: [
           // Class & Date Header
           Container(
