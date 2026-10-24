@@ -392,7 +392,7 @@ class _WebsiteManagementScreenState extends State<WebsiteManagementScreen>
                               child: Container(
                                 width: 75,
                                 height: 75,
-                                color: Colors.stone.shade200,
+                                color: Colors.grey.shade200,
                                 child: p.src.startsWith('http')
                                     ? Image.network(
                                         p.src,
@@ -721,7 +721,7 @@ class _WebsiteManagementScreenState extends State<WebsiteManagementScreen>
                   Container(
                     padding: const EdgeInsets.all(8),
                     decoration: BoxDecoration(
-                      color: Colors.stone.shade100,
+                      color: Colors.grey.shade100,
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: Text(
@@ -729,7 +729,7 @@ class _WebsiteManagementScreenState extends State<WebsiteManagementScreen>
                       style: GoogleFonts.inter(
                         fontSize: 11,
                         fontStyle: FontStyle.italic,
-                        color: Colors.stone.shade700,
+                        color: Colors.grey.shade700,
                       ),
                     ),
                   ),
